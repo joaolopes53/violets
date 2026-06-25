@@ -81,30 +81,41 @@
 
 .info-block a:hover { color: var(--gold); }
 
-/* Form */
+/* Form Container */
 .contacto__form-wrap {
   border: 1px solid var(--border);
   padding: 48px;
+  background: var(--bg);
+  border-radius: var(--radius);
 }
 
-.form { display: flex; flex-direction: column; gap: 24px; }
+.form { display: flex; flex-direction: column; gap: 36px; }
 
-.form__row { display: flex; flex-direction: column; gap: 24px; }
+.form__row { display: flex; flex-direction: column; gap: 36px; }
 .form__row--2 { flex-direction: row; }
 
+/* Floating Label Fields */
 .form__field {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
   flex: 1;
 }
 
 .form__field label {
-  font-size: 10px;
+  position: absolute;
+  left: 0;
+  top: 14px;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-muted);
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              font-size 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: left top;
 }
 
 .form__field label span { color: var(--gold); margin-left: 2px; }
@@ -112,59 +123,84 @@
 .form__field input,
 .form__field select,
 .form__field textarea {
-  background: var(--bg-2);
-  border: 1px solid var(--border);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
   color: var(--text);
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 300;
-  padding: 13px 16px;
-  border-radius: var(--radius);
+  padding: 14px 0 8px 0;
+  border-radius: 0;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   width: 100%;
-  resize: vertical;
+  resize: none;
   -webkit-appearance: none;
 }
 
 .form__field select {
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7672' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b6420' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 36px;
+  background-position: right 4px center;
+  padding-right: 24px;
 }
 
-.form__field select option { background: var(--bg-2); }
+.form__field select option { background: var(--bg); color: var(--text); }
 
 .form__field input:focus,
 .form__field select:focus,
 .form__field textarea:focus {
-  border-color: var(--gold-dim);
+  border-color: var(--gold);
 }
 
-.form__field input::placeholder,
-.form__field textarea::placeholder {
-  color: #b8a88e;
+/* Floating label trigger */
+.form__field input:focus ~ label,
+.form__field--has-value input ~ label,
+.form__field select:focus ~ label,
+.form__field--has-value select ~ label,
+.form__field textarea:focus ~ label,
+.form__field--has-value textarea ~ label {
+  transform: translateY(-20px) scale(0.85);
+  color: var(--gold);
 }
 
+/* Error States */
 .form__field--error input,
 .form__field--error textarea {
   border-color: #c0706a;
 }
 
+.form__field--error label {
+  color: #c0706a;
+}
+
 .form__error {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
   font-size: 11px;
   color: #b05050;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
+}
+
+/* Textarea Field */
+.form__field--textarea {
+  margin-top: 8px;
+}
+.form__field--textarea textarea {
+  padding-top: 14px;
+  line-height: 1.6;
 }
 
 /* Submit */
 .form__submit {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
   flex-wrap: wrap;
+  margin-top: 12px;
 }
 
 .form__note {
@@ -180,20 +216,59 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 16px;
-  padding: 80px 40px;
+  gap: 20px;
+  padding: 60px 20px;
 }
 
-.form-success__icon {
-  font-size: 32px;
+.form-success__icon-wrap {
   width: 64px;
   height: 64px;
-  border: 1px solid var(--gold-dim);
+  margin-bottom: 8px;
+}
+
+.form-success__checkmark {
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold);
+  display: block;
+  stroke-width: 2;
+  stroke: var(--gold);
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px var(--gold);
+  animation: fillCheckmark .4s ease-in-out .4s forwards, scaleCheckmark .3s ease-in-out .9s forwards;
+}
+
+.form-success__checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: var(--gold);
+  fill: none;
+  animation: strokeCircle .6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.form-success__checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: var(--gold);
+  stroke-linecap: round;
+  animation: strokeCheck 0.35s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+@keyframes strokeCircle {
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes strokeCheck {
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes fillCheckmark {
+  100% { box-shadow: inset 0px 0px 0px 40px rgba(139, 100, 32, 0.05); }
+}
+@keyframes scaleCheckmark {
+  0%, 100% { transform: none; }
+  50% { transform: scale3d(1.08, 1.08, 1); }
 }
 
 .form-success h3 {
@@ -203,22 +278,20 @@
 
 .form-success p {
   color: var(--text-muted);
-  font-size: 14px;
-  max-width: 300px;
+  font-size: 14.5px;
+  max-width: 380px;
+  line-height: 1.7;
 }
 
-/* Btn shared */
+/* Btn shared active scale override */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 28px;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  border-radius: var(--radius);
-  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              color 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.15s ease;
+}
+.btn:active {
+  transform: scale(0.97);
 }
 .btn--primary { background: var(--gold); color: #f2ebe0; }
 .btn--primary:hover { background: var(--gold-dim); color: #f2ebe0; }
@@ -242,6 +315,9 @@
 
 @media (max-width: 600px) {
   .contacto__info { grid-template-columns: 1fr; }
-  .form__row--2 { flex-direction: column; }
-  .contacto__form-wrap { padding: 24px 20px; }
+  .form__row--2 { flex-direction: column; gap: 36px; }
+  .contacto__form-wrap { padding: 32px 24px; }
+  .form__submit { flex-direction: column; align-items: stretch; gap: 16px; }
+  .form__submit .btn { justify-content: center; }
+  .form__submit p { text-align: center; }
 }

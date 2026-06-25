@@ -1,10 +1,15 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { images, categories } from '../data/gallery'
 import './Galeria.css'
 
 export default function Galeria() {
   const [active, setActive] = useState('todos')
   const [lightbox, setLightbox] = useState(null)
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 })
+  
+  const buttonsRef = useRef({})
+  const touchStart = useRef(0)
+  const touchEnd = useRef(0)
 
   const filtered = active === 'todos' ? images : images.filter(i => i.cat === active)
 
@@ -18,6 +23,52 @@ export default function Galeria() {
     if (e.key === 'ArrowLeft') prev()
     if (e.key === 'ArrowRight') next()
   }, [closeLightbox, prev, next])
+
+  // Slide Indicator logic
+  useEffect(() => {
+    const updateIndicator = () => {
+      const activeBtn = buttonsRef.current[active]
+      if (activeBtn) {
+        setIndicatorStyle({
+          left: activeBtn.offsetLeft,
+          width: activeBtn.offsetWidth
+        })
+      }
+    }
+    
+    // Tiny delay to ensure styles and layouts are resolved
+    const timer = setTimeout(updateIndicator, 50)
+    window.addEventListener('resize', updateIndicator)
+    
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('resize', updateIndicator)
+    }
+  }, [active])
+
+  // Swipe Gestures
+  const handleTouchStart = (e) => {
+    touchStart.current = e.targetTouches[0].clientX
+  }
+
+  const handleTouchMove = (e) => {
+    touchEnd.current = e.targetTouches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart.current || !touchEnd.current) return
+    const diff = touchStart.current - touchEnd.current
+    const minSwipeDistance = 50
+
+    if (diff > minSwipeDistance) {
+      next()
+    } else if (diff < -minSwipeDistance) {
+      prev()
+    }
+
+    touchStart.current = 0
+    touchEnd.current = 0
+  }
 
   return (
     <div className="galeria" onKeyDown={handleKey} tabIndex={-1}>
@@ -36,6 +87,7 @@ export default function Galeria() {
           {categories.map(cat => (
             <button
               key={cat.id}
+              ref={el => buttonsRef.current[cat.id] = el}
               className={`filter-btn${active === cat.id ? ' filter-btn--active' : ''}`}
               onClick={() => setActive(cat.id)}
             >
@@ -45,6 +97,13 @@ export default function Galeria() {
               </span>
             </button>
           ))}
+          <div 
+            className="filter-indicator" 
+            style={{
+              left: `${indicatorStyle.left}px`,
+              width: `${indicatorStyle.width}px`
+            }}
+          />
         </div>
       </div>
 
@@ -71,7 +130,13 @@ export default function Galeria() {
         <div className="lightbox" onClick={closeLightbox}>
           <button className="lightbox__close" onClick={closeLightbox} aria-label="Fechar">✕</button>
           <button className="lightbox__prev" onClick={e => { e.stopPropagation(); prev() }} aria-label="Anterior">‹</button>
-          <div className="lightbox__img-wrap" onClick={e => e.stopPropagation()}>
+          <div 
+            className="lightbox__img-wrap" 
+            onClick={e => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <img src={filtered[lightbox].src} alt={filtered[lightbox].alt} />
             <p className="lightbox__caption">{filtered[lightbox].alt}</p>
           </div>

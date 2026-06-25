@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer__inner">
         <div className="footer__brand">
-          <span className="footer__mark">V</span>
+          <img src="/logo.png" alt="Violets Logo" className="footer__brand-logo" />
           <div>
             <p className="footer__name">VIOLETS</p>
             <p className="footer__sub">Decoração Imobiliário</p>

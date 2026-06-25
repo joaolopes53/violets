@@ -21,7 +21,7 @@ export default function Navbar() {
     <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
       <div className="navbar__inner">
         <Link to="/" className="navbar__brand" onClick={() => setOpen(false)}>
-          <span className="navbar__brand-mark">V</span>
+          <img src="/logo.png" alt="Violets Logo" className="navbar__brand-logo" />
           <span className="navbar__brand-text">
             <span className="navbar__brand-name">VIOLETS</span>
             <span className="navbar__brand-sub">Decoração Imobiliário</span>

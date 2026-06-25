@@ -75,9 +75,14 @@ export default function Contacto() {
           <div className="contacto__form-wrap">
             {sent ? (
               <div className="form-success">
-                <span className="form-success__icon">✓</span>
+                <div className="form-success__icon-wrap">
+                  <svg className="form-success__checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle className="form-success__checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                    <path className="form-success__checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                  </svg>
+                </div>
                 <h3>Mensagem enviada</h3>
-                <p>Obrigado pelo seu contacto. Responderemos brevemente.</p>
+                <p>Obrigado pelo seu contacto. Responderemos brevemente com uma proposta personalizada.</p>
                 <button className="btn btn--ghost" onClick={() => setSent(false)}>
                   Enviar outra mensagem
                 </button>
@@ -85,26 +90,26 @@ export default function Contacto() {
             ) : (
               <form className="form" onSubmit={onSubmit} noValidate>
                 <div className="form__row form__row--2">
-                  <div className={`form__field${errors.nome ? ' form__field--error' : ''}`}>
+                  <div className={`form__field${errors.nome ? ' form__field--error' : ''}${form.nome ? ' form__field--has-value' : ''}`}>
+                    <input name="nome" value={form.nome} onChange={onChange} placeholder=" " />
                     <label>Nome <span>*</span></label>
-                    <input name="nome" value={form.nome} onChange={onChange} placeholder="O seu nome" />
                     {errors.nome && <span className="form__error">{errors.nome}</span>}
                   </div>
-                  <div className={`form__field${errors.email ? ' form__field--error' : ''}`}>
+                  <div className={`form__field${errors.email ? ' form__field--error' : ''}${form.email ? ' form__field--has-value' : ''}`}>
+                    <input name="email" type="email" value={form.email} onChange={onChange} placeholder=" " />
                     <label>Email <span>*</span></label>
-                    <input name="email" type="email" value={form.email} onChange={onChange} placeholder="email@exemplo.pt" />
                     {errors.email && <span className="form__error">{errors.email}</span>}
                   </div>
                 </div>
+                
                 <div className="form__row form__row--2">
-                  <div className="form__field">
+                  <div className={`form__field${form.telefone ? ' form__field--has-value' : ''}`}>
+                    <input name="telefone" type="tel" value={form.telefone} onChange={onChange} placeholder=" " />
                     <label>Telefone</label>
-                    <input name="telefone" type="tel" value={form.telefone} onChange={onChange} placeholder="+351 9xx xxx xxx" />
                   </div>
-                  <div className="form__field">
-                    <label>Assunto</label>
+                  <div className={`form__field${form.assunto ? ' form__field--has-value' : ''}`}>
                     <select name="assunto" value={form.assunto} onChange={onChange}>
-                      <option value="">Selecionar assunto</option>
+                      <option value="" disabled hidden></option>
                       <option value="cozinhas">Cozinhas</option>
                       <option value="roupeiros">Roupeiros</option>
                       <option value="portas">Portas</option>
@@ -113,13 +118,16 @@ export default function Contacto() {
                       <option value="vinil">Vinil</option>
                       <option value="outro">Outro</option>
                     </select>
+                    <label>Assunto</label>
                   </div>
                 </div>
-                <div className={`form__field${errors.mensagem ? ' form__field--error' : ''}`}>
+
+                <div className={`form__field form__field--textarea${errors.mensagem ? ' form__field--error' : ''}${form.mensagem ? ' form__field--has-value' : ''}`}>
+                  <textarea name="mensagem" rows={5} value={form.mensagem} onChange={onChange} placeholder=" " />
                   <label>Mensagem <span>*</span></label>
-                  <textarea name="mensagem" rows={6} value={form.mensagem} onChange={onChange} placeholder="Descreva o seu projeto ou dúvida..." />
                   {errors.mensagem && <span className="form__error">{errors.mensagem}</span>}
                 </div>
+
                 <div className="form__submit">
                   <button type="submit" className="btn btn--primary">Enviar mensagem</button>
                   <p className="form__note">Os campos marcados com <span>*</span> são obrigatórios</p>

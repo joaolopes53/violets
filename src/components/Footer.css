@@ -16,15 +16,14 @@
 .footer__brand {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 10px;
 }
 
-.footer__mark {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 48px;
-  font-weight: 400;
-  color: var(--gold);
-  line-height: 0.9;
+.footer__brand-logo {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(41%) sepia(35%) saturate(1542%) hue-rotate(6deg) brightness(95%) contrast(89%);
 }
 
 .footer__name {
