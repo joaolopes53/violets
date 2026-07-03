@@ -13,17 +13,18 @@ const services = [
       </svg>
     ),
     title: 'Cozinhas',
-    desc: 'Projetos à medida com materiais premium e acabamentos impecáveis.'
+    desc: 'Projetos à medida com materiais premium e acabamentos impecáveis.',
+    image: '/gallery/cozinhas/COZINHA 1.jpeg'
   },
   {
     icon: (
       <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="4" y="2" width="16" height="20" rx="2" />
-        <path d="M12 2v20M9 10h2M13 10h2" />
+        <path d="M4 4c0 8 4 12 8 12s8-4 8-12M4 4v16M20 4v16M12 16v4" />
       </svg>
     ),
-    title: 'Roupeiros',
-    desc: 'Soluções de arrumação personalizadas para cada espaço.'
+    title: 'Decoração',
+    desc: 'Cortinados, estores, papel de parede e têxteis para o lar.',
+    image: '/gallery/decoracao/103514716_1596011003908635_5885864849083847190_n.jpg'
   },
   {
     icon: (
@@ -33,7 +34,8 @@ const services = [
       </svg>
     ),
     title: 'Portas',
-    desc: 'Portas interiores de design com diversas opções de acabamento.'
+    desc: 'Portas interiores de design com diversas opções de acabamento.',
+    image: '/gallery/portas/1.jpeg'
   },
   {
     icon: (
@@ -42,7 +44,8 @@ const services = [
       </svg>
     ),
     title: 'Escadarias',
-    desc: 'Escadarias únicas que combinam função e elegância estrutural.'
+    desc: 'Escadarias únicas que combinam função e elegância estrutural.',
+    image: '/gallery/escadarias/3.jpeg'
   },
   {
     icon: (
@@ -53,16 +56,19 @@ const services = [
       </svg>
     ),
     title: 'Vinil',
-    desc: 'Revestimentos em vinil de alta durabilidade e design contemporâneo.'
+    desc: 'Revestimentos em vinil de alta durabilidade e design contemporâneo.',
+    image: '/gallery/vinil/2.jpeg'
   },
   {
     icon: (
       <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 4c0 8 4 12 8 12s8-4 8-12M4 4v16M20 4v16M12 16v4" />
+        <rect x="4" y="2" width="16" height="20" rx="2" />
+        <path d="M12 2v20M9 10h2M13 10h2" />
       </svg>
     ),
-    title: 'Decoração',
-    desc: 'Cortinados, estores, papel de parede e têxteis para o lar.'
+    title: 'Roupeiros',
+    desc: 'Soluções de arrumação personalizadas para cada espaço.',
+    image: '/gallery/roupeiros/2.jpeg'
   }
 ]
 
@@ -260,9 +266,14 @@ export default function Home() {
             <div ref={trackRef} className="services__carousel-track">
               {services.map(s => (
                 <div className="service-card" key={s.title}>
-                  <span className="service-card__icon">{s.icon}</span>
-                  <h3>{s.title}</h3>
-                  <p>{s.desc}</p>
+                  <div className="service-card__img-wrap">
+                    <img src={s.image} alt={s.title} className="service-card__img" loading="lazy" />
+                  </div>
+                  <div className="service-card__body">
+                    <span className="service-card__icon">{s.icon}</span>
+                    <h3>{s.title}</h3>
+                    <p>{s.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>

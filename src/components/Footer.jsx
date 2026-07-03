@@ -22,7 +22,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="footer__desc">
-            Desde 2011, transformamos espaços com paixão, elegância e atenção ao detalhe. 
+            Desde 2011, transformamos espaços com paixão, elegância e atenção ao detalhe.
             Especialistas em design de interiores e mobiliário por medida na Madeira.
           </p>
           <div className="footer__socials">
@@ -100,7 +100,7 @@ export default function Footer() {
       </div>
 
       <div className="footer__bottom">
-        <p>© {new Date().getFullYear()} Violets Decoração Imobiliários Unipessoal Lda — NIF 509938159</p>
+        <p>© {new Date().getFullYear()} Violets Decoração Imobiliários. Todos os direitos reservados.</p>
       </div>
     </footer>
   )
