@@ -21,8 +21,8 @@
 }
 
 .navbar:not(.navbar--scrolled):not(.navbar--open) .navbar__brand-sub {
-  color: rgba(255, 255, 255, 0.75);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .navbar:not(.navbar--scrolled):not(.navbar--open) .navbar__nav a {
@@ -103,10 +103,10 @@
 
 .navbar__brand-sub {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 17px;
-  font-weight: 300;
+  font-size: 16.5px;
+  font-weight: 600;
   letter-spacing: 0.12em;
-  color: var(--text-muted);
+  color: var(--text);
   transition: color 0.4s ease;
 }
 
