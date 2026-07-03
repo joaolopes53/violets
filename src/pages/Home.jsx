@@ -83,7 +83,7 @@ export default function Home() {
   const handleScroll = () => {
     if (!trackRef.current) return
     const track = trackRef.current
-    
+
     // Update active dot index
     const children = track.children
     if (children.length > 0) {
@@ -113,10 +113,10 @@ export default function Home() {
       track.addEventListener('scroll', handleScroll, { passive: true })
       // Initial check
       handleScroll()
-      
+
       // Re-run on resize
       window.addEventListener('resize', handleScroll)
-      
+
       return () => {
         track.removeEventListener('scroll', handleScroll)
         window.removeEventListener('resize', handleScroll)
@@ -163,9 +163,8 @@ export default function Home() {
       {/* Hero */}
       <section className="hero">
         <div className="hero__bg" aria-hidden="true" />
-        
+
         <div className="hero__content">
-          <p className="hero__eyebrow">Desde 2011 — Caniço, Madeira</p>
           <h1 className="hero__title">
             Decoração<br />
             <em>com identidade</em>
@@ -236,9 +235,9 @@ export default function Home() {
               <h2>Serviços <em>especializados</em></h2>
             </div>
             <div className="services__carousel-controls">
-              <button 
-                onClick={scrollPrev} 
-                className="services__carousel-btn" 
+              <button
+                onClick={scrollPrev}
+                className="services__carousel-btn"
                 aria-label="Anterior"
                 disabled={isAtStart}
               >
@@ -247,9 +246,9 @@ export default function Home() {
                   <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
               </button>
-              <button 
-                onClick={scrollNext} 
-                className="services__carousel-btn" 
+              <button
+                onClick={scrollNext}
+                className="services__carousel-btn"
                 aria-label="Seguinte"
                 disabled={isAtEnd}
               >

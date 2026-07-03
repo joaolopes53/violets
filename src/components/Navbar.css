@@ -79,7 +79,7 @@
 }
 
 .navbar__brand-logo {
-  height: 56px;
+  height: 64px;
   width: auto;
   object-fit: contain;
   filter: brightness(0) saturate(100%) invert(41%) sepia(35%) saturate(1542%) hue-rotate(6deg) brightness(95%) contrast(89%);
@@ -94,7 +94,7 @@
 
 .navbar__brand-name {
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 500;
   letter-spacing: 0.22em;
   color: var(--text);
@@ -103,7 +103,7 @@
 
 .navbar__brand-sub {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 13.5px;
+  font-size: 17px;
   font-weight: 300;
   letter-spacing: 0.12em;
   color: var(--text-muted);
@@ -119,9 +119,8 @@
 
 .navbar__nav a {
   font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   color: var(--text-muted);
   transition: color 0.4s ease;
   position: relative;
