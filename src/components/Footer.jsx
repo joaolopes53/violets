@@ -50,7 +50,7 @@ export default function Footer() {
         <div className="footer__col">
           <p className="footer__col-title">Links Rápidos</p>
           <div className="footer__links">
-            <Link to="/">Início</Link>
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Início</Link>
             <Link to="/galeria">Galeria</Link>
             <Link to="/contacto">Contacto</Link>
           </div>
