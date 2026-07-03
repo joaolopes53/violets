@@ -220,7 +220,7 @@ export default function Home() {
                 <span className="stat__label">Anos de experiência</span>
               </div>
               <div className="stat">
-                <span className="stat__num">∞</span>
+                <span className="stat__num">+100</span>
                 <span className="stat__label">Projetos realizados</span>
               </div>
               <div className="stat">
