@@ -80,7 +80,7 @@ export default function Galeria() {
               key={cat.id}
               ref={el => buttonsRef.current[cat.id] = el}
               className={`filter-btn${active === cat.id ? ' filter-btn--active' : ''}`}
-              onClick={() => setActive(cat.id)}
+              onClick={() => { setActive(cat.id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
             >
               {cat.label}
               <span className="filter-btn__count">
