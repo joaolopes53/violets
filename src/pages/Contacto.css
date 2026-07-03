@@ -299,26 +299,148 @@
 .btn--ghost { color: var(--text); border: 1px solid var(--border); }
 .btn--ghost:hover { border-color: var(--gold-dim); color: var(--gold); }
 
-/* Responsive */
+/* Responsive — Tablet */
 @media (max-width: 900px) {
+  .contacto__header {
+    padding: 56px 24px 40px;
+  }
+  .contacto__body {
+    padding: 48px 24px 80px;
+  }
   .contacto__inner {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 40px;
   }
   .contacto__info {
     position: static;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+    gap: 24px;
   }
   .contacto__form-wrap { padding: 32px; }
 }
 
+/* Responsive — Mobile */
 @media (max-width: 600px) {
-  .contacto__info { grid-template-columns: 1fr; }
-  .form__row--2 { flex-direction: column; gap: 36px; }
-  .contacto__form-wrap { padding: 32px 24px; }
-  .form__submit { flex-direction: column; align-items: stretch; gap: 16px; }
-  .form__submit .btn { justify-content: center; }
-  .form__submit p { text-align: center; }
+  .contacto__header {
+    padding: 40px 20px 32px;
+  }
+
+  .contacto__header h1 {
+    font-size: clamp(32px, 9vw, 48px);
+    margin-bottom: 12px;
+  }
+
+  .contacto__header p {
+    font-size: 14px;
+  }
+
+  .contacto__body {
+    padding: 32px 20px 80px;
+  }
+
+  .contacto__inner {
+    gap: 32px;
+  }
+
+  /* Form first, info below on mobile */
+  .contacto__form-wrap { order: -1; }
+
+  /* Info blocks — single column with divider lines */
+  .contacto__info {
+    grid-template-columns: 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .info-block {
+    padding: 20px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .info-block:last-child {
+    border-bottom: none;
+  }
+
+  .info-block__label {
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+
+  .info-block p,
+  .info-block a {
+    font-size: 13.5px;
+  }
+
+  /* Contact links — make them easy to tap */
+  .info-block a {
+    display: inline-block;
+    padding: 2px 0;
+    min-height: 28px;
+    line-height: 28px;
+  }
+
+  /* Form */
+  .contacto__form-wrap {
+    padding: 28px 20px 32px;
+    border-radius: calc(var(--radius) * 0.8);
+  }
+
+  .form {
+    gap: 28px;
+  }
+
+  .form__row--2 {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  /* Bigger hit area for inputs on mobile */
+  .form__field input,
+  .form__field select,
+  .form__field textarea {
+    font-size: 16px; /* prevents iOS zoom on focus */
+    padding: 16px 0 10px 0;
+  }
+
+  .form__field label {
+    font-size: 10.5px;
+    top: 16px;
+  }
+
+  /* Submit row — stacked, full-width */
+  .form__submit {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  .form__submit .btn {
+    justify-content: center;
+    width: 100%;
+    padding: 15px 24px;
+    font-size: 14px;
+  }
+
+  .form__submit p {
+    text-align: center;
+    font-size: 11px;
+  }
+
+  /* Success state */
+  .form-success {
+    padding: 40px 12px;
+    gap: 16px;
+  }
+
+  .form-success h3 {
+    font-size: 22px;
+  }
+
+  .form-success p {
+    font-size: 13.5px;
+  }
 }
