@@ -9,37 +9,37 @@
   border-bottom: 1px solid transparent;
 }
 
-/* Transparent Top Navigation State */
-.navbar:not(.navbar--scrolled):not(.navbar--open) {
+/* Transparent Top Navigation State — only on Home page */
+.navbar--home:not(.navbar--scrolled):not(.navbar--open) {
   background: transparent;
   border-bottom: 1px solid transparent;
 }
 
-.navbar:not(.navbar--scrolled):not(.navbar--open) .navbar__brand-name {
+.navbar--home:not(.navbar--scrolled):not(.navbar--open) .navbar__brand-name {
   color: #ffffff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
-.navbar:not(.navbar--scrolled):not(.navbar--open) .navbar__brand-sub {
+.navbar--home:not(.navbar--scrolled):not(.navbar--open) .navbar__brand-sub {
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.navbar:not(.navbar--scrolled):not(.navbar--open) .navbar__nav a {
+.navbar--home:not(.navbar--scrolled):not(.navbar--open) .navbar__nav a {
   color: rgba(255, 255, 255, 0.85);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
-.navbar:not(.navbar--scrolled):not(.navbar--open) .navbar__nav a:hover,
-.navbar:not(.navbar--scrolled):not(.navbar--open) .navbar__nav a.active {
+.navbar--home:not(.navbar--scrolled):not(.navbar--open) .navbar__nav a:hover,
+.navbar--home:not(.navbar--scrolled):not(.navbar--open) .navbar__nav a.active {
   color: #ffffff;
 }
 
-.navbar:not(.navbar--scrolled):not(.navbar--open) .navbar__brand-logo {
+.navbar--home:not(.navbar--scrolled):not(.navbar--open) .navbar__brand-logo {
   filter: brightness(0) invert(1);
 }
 
-.navbar:not(.navbar--scrolled):not(.navbar--open) .navbar__burger span {
+.navbar--home:not(.navbar--scrolled):not(.navbar--open) .navbar__burger span {
   background: #ffffff;
 }
 
