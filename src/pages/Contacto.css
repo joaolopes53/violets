@@ -30,7 +30,8 @@
 
 .section-label {
   display: block;
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: 500;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--gold);
@@ -63,7 +64,7 @@
 .info-block { display: flex; flex-direction: column; gap: 4px; }
 
 .info-block__label {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.28em;
   text-transform: uppercase;
