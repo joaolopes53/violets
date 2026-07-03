@@ -199,7 +199,7 @@
 
 .hero__scroll-hint {
   position: absolute;
-  bottom: 36px;
+  bottom: 60px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -209,24 +209,38 @@
 }
 
 .hero__scroll-hint span {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, transparent, var(--gold-dim));
-  animation: scrollPulse 2s ease-in-out infinite;
+  display: none;
 }
 
-@keyframes scrollPulse {
+/* ── Hero logo reveal animation ── */
+.hero__logo-reveal {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  overflow: hidden;
+  animation: hero-logo-reveal 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+  animation-delay: 0.4s;
+}
 
-  0%,
-  100% {
-    opacity: 0;
-    transform: scaleY(0.5);
-    transform-origin: top;
-  }
+.hero__logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
 
-  50% {
+@keyframes hero-logo-reveal {
+  0% {
     opacity: 1;
-    transform: scaleY(1);
+    clip-path: inset(100% 0 0 0);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0% 0 0 0);
   }
 }
 

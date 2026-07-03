@@ -185,7 +185,10 @@ export default function Home() {
           </div>
         </div>
         <div className="hero__scroll-hint" aria-hidden="true">
-          <span />
+          {/* Real Violets logo revealed with a clipPath animation */}
+          <div className="hero__logo-reveal">
+            <img src="/logo.svg" alt="Violets Logo" className="hero__logo-img" />
+          </div>
         </div>
       </section>
 
