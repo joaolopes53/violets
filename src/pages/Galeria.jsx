@@ -72,15 +72,6 @@ export default function Galeria() {
 
   return (
     <div className="galeria" onKeyDown={handleKey} tabIndex={-1}>
-      {/* Header */}
-      <div className="galeria__header">
-        <div className="galeria__header-inner">
-          <span className="section-label">Portfólio</span>
-          <h1>O nosso <em>trabalho</em></h1>
-          <p>Cada projeto conta uma história. Descubra os espaços que transformámos.</p>
-        </div>
-      </div>
-
       {/* Filters */}
       <div className="galeria__filters">
         <div className="galeria__filters-inner">
