@@ -178,9 +178,6 @@ export default function Home() {
             <Link to="/contacto" className="btn btn--ghost">Fale Connosco</Link>
           </div>
         </div>
-        <div className="hero__logo-seal">
-          <img src="/logo.png" alt="Violets logo" />
-        </div>
         <div className="hero__scroll-hint" aria-hidden="true">
           <span />
         </div>
