@@ -79,7 +79,7 @@
 }
 
 .navbar__brand-logo {
-  height: 64px;
+  height: 52px;
   width: auto;
   object-fit: contain;
   filter: brightness(0) saturate(100%) invert(41%) sepia(35%) saturate(1542%) hue-rotate(6deg) brightness(95%) contrast(89%);
@@ -94,7 +94,7 @@
 
 .navbar__brand-name {
   font-family: 'Inter', sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.22em;
   color: var(--text);
