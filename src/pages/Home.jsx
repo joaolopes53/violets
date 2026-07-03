@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useReveal } from '../hooks/useReveal'
 import { images } from '../data/gallery'
@@ -12,8 +13,7 @@ const services = [
       </svg>
     ),
     title: 'Cozinhas',
-    desc: 'Projetos à medida com materiais premium e acabamentos impecáveis.',
-    size: 'large' // Bento grid size class
+    desc: 'Projetos à medida com materiais premium e acabamentos impecáveis.'
   },
   {
     icon: (
@@ -23,8 +23,7 @@ const services = [
       </svg>
     ),
     title: 'Roupeiros',
-    desc: 'Soluções de arrumação personalizadas para cada espaço.',
-    size: 'medium'
+    desc: 'Soluções de arrumação personalizadas para cada espaço.'
   },
   {
     icon: (
@@ -34,8 +33,7 @@ const services = [
       </svg>
     ),
     title: 'Portas',
-    desc: 'Portas interiores de design com diversas opções de acabamento.',
-    size: 'small'
+    desc: 'Portas interiores de design com diversas opções de acabamento.'
   },
   {
     icon: (
@@ -44,8 +42,7 @@ const services = [
       </svg>
     ),
     title: 'Escadarias',
-    desc: 'Escadarias únicas que combinam função e elegância estrutural.',
-    size: 'small'
+    desc: 'Escadarias únicas que combinam função e elegância estrutural.'
   },
   {
     icon: (
@@ -56,8 +53,7 @@ const services = [
       </svg>
     ),
     title: 'Vinil',
-    desc: 'Revestimentos em vinil de alta durabilidade e design contemporâneo.',
-    size: 'small'
+    desc: 'Revestimentos em vinil de alta durabilidade e design contemporâneo.'
   },
   {
     icon: (
@@ -66,8 +62,7 @@ const services = [
       </svg>
     ),
     title: 'Decoração',
-    desc: 'Cortinados, estores, papel de parede e têxteis para o lar.',
-    size: 'full'
+    desc: 'Cortinados, estores, papel de parede e têxteis para o lar.'
   }
 ]
 
@@ -79,6 +74,89 @@ export default function Home() {
   const [servicesRef, servicesVisible] = useReveal()
   const [previewRef, previewVisible] = useReveal()
   const [ctaRef, ctaVisible] = useReveal()
+
+  const trackRef = useRef(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isAtStart, setIsAtStart] = useState(true)
+  const [isAtEnd, setIsAtEnd] = useState(false)
+
+  const handleScroll = () => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+    
+    // Update active dot index
+    const children = track.children
+    if (children.length > 0) {
+      let closestIndex = 0
+      let minDiff = Infinity
+      const trackLeft = track.getBoundingClientRect().left
+
+      for (let i = 0; i < children.length; i++) {
+        const childLeft = children[i].getBoundingClientRect().left
+        const diff = Math.abs(childLeft - trackLeft)
+        if (diff < minDiff) {
+          minDiff = diff
+          closestIndex = i
+        }
+      }
+      setActiveIndex(closestIndex)
+    }
+
+    // Update boundary states
+    setIsAtStart(track.scrollLeft <= 5)
+    setIsAtEnd(track.scrollLeft + track.clientWidth >= track.scrollWidth - 5)
+  }
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (track) {
+      track.addEventListener('scroll', handleScroll, { passive: true })
+      // Initial check
+      handleScroll()
+      
+      // Re-run on resize
+      window.addEventListener('resize', handleScroll)
+      
+      return () => {
+        track.removeEventListener('scroll', handleScroll)
+        window.removeEventListener('resize', handleScroll)
+      }
+    }
+  }, [])
+
+  const scrollToCard = (index) => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+    const child = track.children[index]
+    if (child) {
+      track.scrollTo({
+        left: child.offsetLeft - track.offsetLeft,
+        behavior: 'smooth'
+      })
+    }
+  }
+
+  const scrollPrev = () => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+    const cardWidth = track.children[0]?.offsetWidth || track.offsetWidth
+    const gap = 24
+    track.scrollBy({
+      left: -(cardWidth + gap),
+      behavior: 'smooth'
+    })
+  }
+
+  const scrollNext = () => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+    const cardWidth = track.children[0]?.offsetWidth || track.offsetWidth
+    const gap = 24
+    track.scrollBy({
+      left: cardWidth + gap,
+      behavior: 'smooth'
+    })
+  }
 
   return (
     <div className="home">
@@ -152,18 +230,56 @@ export default function Home() {
       {/* Services */}
       <section ref={servicesRef} className={`services reveal ${servicesVisible ? 'reveal--visible' : ''}`}>
         <div className="services__inner">
-          <div className="section-header">
-            <span className="section-label">O Que Fazemos</span>
-            <h2>Serviços <em>especializados</em></h2>
+          <div className="section-header services__header">
+            <div>
+              <span className="section-label">O Que Fazemos</span>
+              <h2>Serviços <em>especializados</em></h2>
+            </div>
+            <div className="services__carousel-controls">
+              <button 
+                onClick={scrollPrev} 
+                className="services__carousel-btn" 
+                aria-label="Anterior"
+                disabled={isAtStart}
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+              <button 
+                onClick={scrollNext} 
+                className="services__carousel-btn" 
+                aria-label="Seguinte"
+                disabled={isAtEnd}
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
           </div>
-          <div className="services__bento">
-            {services.map(s => (
-              <div className={`service-card service-card--${s.size}`} key={s.title}>
-                <span className="service-card__icon">{s.icon}</span>
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
-              </div>
-            ))}
+          <div className="services__carousel">
+            <div ref={trackRef} className="services__carousel-track">
+              {services.map(s => (
+                <div className="service-card" key={s.title}>
+                  <span className="service-card__icon">{s.icon}</span>
+                  <h3>{s.title}</h3>
+                  <p>{s.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="services__carousel-dots">
+              {services.map((_, idx) => (
+                <button
+                  key={idx}
+                  className={`services__carousel-dot ${idx === activeIndex ? 'services__carousel-dot--active' : ''}`}
+                  onClick={() => scrollToCard(idx)}
+                  aria-label={`Ir para slide ${idx + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

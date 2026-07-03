@@ -18,7 +18,7 @@ export default function Navbar() {
   }, [open])
 
   return (
-    <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
+    <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}${open ? ' navbar--open' : ''}`}>
       <div className="navbar__inner">
         <Link to="/" className="navbar__brand" onClick={() => setOpen(false)}>
           <img src="/logo.png" alt="Violets Logo" className="navbar__brand-logo" />

@@ -70,6 +70,8 @@
   min-height: 100svh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   padding: calc(var(--nav-h) + 40px) clamp(20px, 5vw, 48px) 80px;
   overflow: hidden;
 }
@@ -77,19 +79,22 @@
 .hero__bg {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 70% 50% at 65% 50%, rgba(139,100,32,0.07) 0%, transparent 70%),
-    linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 100%);
+  background: 
+    linear-gradient(to bottom, rgba(30, 20, 8, 0.75) 0%, rgba(30, 20, 8, 0.45) 50%, rgba(30, 20, 8, 0.75) 100%),
+    url('/gallery/cozinhas/COZINHA 5.jpeg') no-repeat center center;
+  background-size: cover;
   z-index: 0;
 }
 
 .hero__content {
   position: relative;
   z-index: 4;
-  max-width: var(--max-w);
+  max-width: 720px;
   margin: 0 auto;
   width: 100%;
-  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero__eyebrow {
@@ -98,15 +103,17 @@
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 24px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
 .hero__title {
-  font-size: clamp(52px, 9vw, 112px);
+  font-size: clamp(48px, 8vw, 96px);
   font-weight: 300;
   line-height: 0.98;
   letter-spacing: -0.01em;
   margin-bottom: 28px;
-  color: var(--text);
+  color: #ffffff;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
 }
 .hero__title em {
   font-style: italic;
@@ -115,17 +122,42 @@
 }
 
 .hero__desc {
-  max-width: 440px;
-  color: var(--text-muted);
-  font-size: 15px;
+  max-width: 520px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
   line-height: 1.75;
   margin-bottom: 40px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .hero__actions {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hero__actions .btn--primary {
+  background: var(--gold);
+  color: #ffffff;
+  border: 1px solid var(--gold);
+}
+.hero__actions .btn--primary:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold-dim);
+}
+
+.hero__actions .btn--ghost {
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.hero__actions .btn--ghost:hover {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 .hero__logo-seal {
@@ -243,7 +275,7 @@
   margin-top: 6px;
 }
 
-/* ─── Services (Bento Grid) ─── */
+/* ─── Services (Carousel Grid) ─── */
 .services {
   padding: 120px clamp(20px, 5vw, 48px);
   background: var(--bg-2);
@@ -253,10 +285,63 @@
 
 .services__inner { max-width: var(--max-w); margin: 0 auto; }
 
-.services__bento {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+.services__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+.services__carousel-controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.services__carousel-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.services__carousel-btn:hover:not(:disabled) {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(139, 100, 32, 0.04);
+}
+.services__carousel-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+.services__carousel-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  color: var(--text-muted);
+}
+
+.services__carousel {
+  position: relative;
+  width: 100%;
+}
+
+.services__carousel-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 12px 4px 28px;
+  margin: -12px -4px 0;
+}
+.services__carousel-track::-webkit-scrollbar {
+  display: none;
 }
 
 .service-card {
@@ -270,6 +355,8 @@
               box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
+  flex: 0 0 calc(33.333% - 16px);
+  scroll-snap-align: start;
 }
 .service-card:hover {
   background: var(--bg-3);
@@ -303,23 +390,31 @@
   line-height: 1.7;
 }
 
-/* Bento Sizes */
-.service-card--large {
-  grid-column: span 2;
+.services__carousel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
 }
 
-.service-card--full {
-  grid-column: span 3;
-  flex-direction: row;
-  align-items: center;
-  gap: 40px;
+.services__carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.service-card--full .service-card__icon {
-  margin-bottom: 0;
-  flex-shrink: 0;
+.services__carousel-dot:hover {
+  background: var(--gold-dim);
 }
-.service-card--full p {
-  max-width: 680px;
+.services__carousel-dot--active {
+  background: var(--gold);
+  width: 24px;
+  border-radius: 4px;
 }
 
 /* ─── Preview ─── */
@@ -391,21 +486,8 @@
   }
   .stat { flex: 1 1 calc(33% - 20px); }
 
-  .services__bento {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-  .service-card--large {
-    grid-column: span 2;
-  }
-  .service-card--full {
-    grid-column: span 2;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-  .service-card--full .service-card__icon {
-    margin-bottom: 12px;
+  .service-card {
+    flex: 0 0 calc(50% - 12px);
   }
   
   .preview__grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
@@ -415,12 +497,16 @@
 @media (max-width: 600px) {
   .about, .services, .preview, .cta-banner { padding: 80px clamp(20px, 5vw, 48px); }
   
-  .services__bento {
-    grid-template-columns: 1fr;
+  .services__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
   }
-  .service-card--large,
-  .service-card--full {
-    grid-column: span 1;
+  .services__carousel-controls {
+    margin-bottom: 24px;
+  }
+  .service-card {
+    flex: 0 0 100%;
   }
   
   .preview__grid { grid-template-columns: repeat(2, 1fr); }
