@@ -43,31 +43,39 @@
 .footer__brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  text-decoration: none;
 }
 
 .footer__brand-logo {
-  height: 48px;
+  height: 64px;
   width: auto;
   object-fit: contain;
   /* Filter to convert black to cream #f2ebe0 */
   filter: brightness(0) saturate(100%) invert(98%) sepia(2%) saturate(1637%) hue-rotate(323deg) brightness(101%) contrast(90%);
 }
 
-.footer__name {
+.footer__brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.footer__brand-name {
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
   letter-spacing: 0.22em;
   color: #ffffff;
 }
 
-.footer__sub {
+.footer__brand-sub {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 13.5px;
-  color: rgba(242, 235, 224, 0.7);
-  letter-spacing: 0.08em;
-  margin-top: 2px;
+  font-size: 16.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(242, 235, 224, 0.9);
 }
 
 .footer__desc {
@@ -235,6 +243,11 @@
 
   .footer__brand {
     justify-content: center;
+  }
+
+  .footer__brand-sub {
+    font-size: 12px;
+    letter-spacing: 0.08em;
   }
 
   .footer__desc {

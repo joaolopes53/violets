@@ -14,31 +14,31 @@ export default function Footer() {
       <div className="footer__inner">
         {/* Column 1: Brand, Description & Socials */}
         <div className="footer__brand-section">
-          <div className="footer__brand">
+          <Link to="/" className="footer__brand">
             <img src="/logo.png" alt="Violets Logo" className="footer__brand-logo" />
-            <div>
-              <p className="footer__name">VIOLETS</p>
-              <p className="footer__sub">Decoração Imobiliário</p>
-            </div>
-          </div>
+            <span className="footer__brand-text">
+              <span className="footer__brand-name">VIOLETS</span>
+              <span className="footer__brand-sub">Decoração Imobiliário</span>
+            </span>
+          </Link>
           <p className="footer__desc">
             Desde 2011, transformamos espaços com paixão, elegância e atenção ao detalhe.
             Especialistas em design de interiores e mobiliário por medida na Madeira.
           </p>
           <div className="footer__socials">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer__social-btn" aria-label="Instagram">
+            <a href="https://www.instagram.com/violets_decor?igsh=MWNyNnZyMml1NGdwMQ==" target="_blank" rel="noopener noreferrer" className="footer__social-btn" aria-label="Instagram">
               <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
               </svg>
             </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer__social-btn" aria-label="Facebook">
+            <a href="https://www.facebook.com/share/1XwyGfTokq/" target="_blank" rel="noopener noreferrer" className="footer__social-btn" aria-label="Facebook">
               <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 2h-3a5 5 0 0 0 -5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
               </svg>
             </a>
-            <a href="https://wa.me/351291000000" target="_blank" rel="noopener noreferrer" className="footer__social-btn" aria-label="WhatsApp">
+            <a href="https://wa.me/351910008669" target="_blank" rel="noopener noreferrer" className="footer__social-btn" aria-label="WhatsApp">
               <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
               </svg>
@@ -91,8 +91,8 @@ export default function Footer() {
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
               </span>
-              <a href="tel:+351291000000" className="footer__contact-text footer__contact-link">
-                +351 291 000 000
+              <a href="tel:+351910008669" className="footer__contact-text footer__contact-link">
+                +351 910 008 669
               </a>
             </div>
           </div>

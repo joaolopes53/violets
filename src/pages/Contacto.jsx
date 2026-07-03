@@ -61,7 +61,7 @@ export default function Contacto() {
             </div>
             <div className="info-block">
               <span className="info-block__label">Contacto</span>
-              <a href="tel:+351291000000">+351 291 000 000</a>
+              <a href="tel:+351910008669">+351 910 008 669</a>
               <a href="mailto:geral@violets.pt">geral@violets.pt</a>
             </div>
             <div className="info-block">
