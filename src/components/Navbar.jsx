@@ -23,7 +23,7 @@ export default function Navbar() {
     <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}${open ? ' navbar--open' : ''}${isHome ? ' navbar--home' : ''}`}>
       <div className="navbar__inner">
         <Link to="/" className="navbar__brand" onClick={() => setOpen(false)}>
-          <img src="/logo.png" alt="Violets Logo" className="navbar__brand-logo" />
+          <img src="/logo.svg" alt="Violets Logo" className="navbar__brand-logo" />
           <span className="navbar__brand-text">
             <span className="navbar__brand-name">VIOLETS</span>
             <span className="navbar__brand-sub">Decoração Imobiliário</span>

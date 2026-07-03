@@ -82,7 +82,7 @@
   height: 52px;
   width: auto;
   object-fit: contain;
-  filter: brightness(0) saturate(100%) invert(41%) sepia(35%) saturate(1542%) hue-rotate(6deg) brightness(95%) contrast(89%);
+  /* Color comes directly from logo.svg (#e5c184) — no filter needed */
   transition: filter 0.4s ease;
 }
 
