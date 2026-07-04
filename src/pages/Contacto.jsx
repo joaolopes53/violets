@@ -1,38 +1,8 @@
-import { useState } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
 import './Contacto.css'
 
-const INITIAL = { nome: '', email: '', telefone: '', assunto: '', mensagem: '' }
-
 export default function Contacto() {
   const { t } = useLanguage()
-  const [form, setForm] = useState(INITIAL)
-  const [sent, setSent] = useState(false)
-  const [errors, setErrors] = useState({})
-
-  const validate = () => {
-    const e = {}
-    if (!form.nome.trim())     e.nome     = t('contact.fieldRequired')
-    if (!form.email.trim())    e.email    = t('contact.fieldRequired')
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = t('contact.fieldInvalidEmail')
-    if (!form.assunto.trim())  e.assunto  = t('contact.fieldRequired')
-    if (!form.mensagem.trim()) e.mensagem = t('contact.fieldRequired')
-    return e
-  }
-
-  const onChange = e => {
-    const { name, value } = e.target
-    setForm(f => ({ ...f, [name]: value }))
-    if (errors[name]) setErrors(e => { const n = {...e}; delete n[name]; return n })
-  }
-
-  const onSubmit = e => {
-    e.preventDefault()
-    const errs = validate()
-    if (Object.keys(errs).length) { setErrors(errs); return }
-    setSent(true)
-    setForm(INITIAL)
-  }
 
   return (
     <div className="contacto">
@@ -74,61 +44,40 @@ export default function Contacto() {
             </div>
           </div>
 
-          {/* Form */}
-          <div className="contacto__form-wrap">
-            {sent ? (
-              <div className="form-success">
-                <div className="form-success__icon-wrap">
-                  <svg className="form-success__checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                    <circle className="form-success__checkmark-circle" cx="26" cy="26" r="25" fill="none" />
-                    <path className="form-success__checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                  </svg>
-                </div>
-                <h3>{t('contact.formSuccessTitle')}</h3>
-                <p>{t('contact.formSuccessDesc')}</p>
-                <button className="btn btn--ghost" onClick={() => setSent(false)}>
-                  {t('contact.formSuccessBtn')}
-                </button>
+          {/* CTAs */}
+          <div className="contacto__ctas">
+            {/* Email CTA */}
+            <div className="contacto__form-wrap">
+              <div className="email-cta">
+                <h3>{t('contact.emailCtaTitle')}</h3>
+                <p>{t('contact.emailCtaDesc')}</p>
+                <a
+                  href="mailto:geral@violets.pt?subject=Contacto%20Violets"
+                  className="btn btn--primary"
+                >
+                  {t('contact.emailCtaBtn')}
+                </a>
               </div>
-            ) : (
-              <form className="form" onSubmit={onSubmit} noValidate>
-                <div className="form__row form__row--2">
-                  <div className={`form__field${errors.nome ? ' form__field--error' : ''}${form.nome ? ' form__field--has-value' : ''}`}>
-                    <input name="nome" value={form.nome} onChange={onChange} placeholder=" " />
-                    <label>{t('contact.fieldNome')} <span>*</span></label>
-                    {errors.nome && <span className="form__error">{errors.nome}</span>}
-                  </div>
-                  <div className={`form__field${errors.email ? ' form__field--error' : ''}${form.email ? ' form__field--has-value' : ''}`}>
-                    <input name="email" type="email" value={form.email} onChange={onChange} placeholder=" " />
-                    <label>{t('contact.fieldEmail')} <span>*</span></label>
-                    {errors.email && <span className="form__error">{errors.email}</span>}
-                  </div>
-                </div>
-                
-                <div className="form__row form__row--2">
-                  <div className={`form__field${form.telefone ? ' form__field--has-value' : ''}`}>
-                    <input name="telefone" type="tel" value={form.telefone} onChange={onChange} placeholder=" " />
-                    <label>{t('contact.fieldTelefone')}</label>
-                  </div>
-                  <div className={`form__field${errors.assunto ? ' form__field--error' : ''}${form.assunto ? ' form__field--has-value' : ''}`}>
-                    <input name="assunto" value={form.assunto} onChange={onChange} placeholder=" " />
-                    <label>{t('contact.fieldAssunto')} <span>*</span></label>
-                    {errors.assunto && <span className="form__error">{errors.assunto}</span>}
-                  </div>
-                </div>
+            </div>
 
-                <div className={`form__field form__field--textarea${errors.mensagem ? ' form__field--error' : ''}${form.mensagem ? ' form__field--has-value' : ''}`}>
-                  <textarea name="mensagem" rows={5} value={form.mensagem} onChange={onChange} placeholder=" " />
-                  <label>{t('contact.fieldMensagem')} <span>*</span></label>
-                  {errors.mensagem && <span className="form__error">{errors.mensagem}</span>}
-                </div>
-
-                <div className="form__submit">
-                  <button type="submit" className="btn btn--primary">{t('contact.formSubmitBtn')}</button>
-                  <p className="form__note">{t('contact.formNote')}</p>
-                </div>
-              </form>
-            )}
+            {/* WhatsApp CTA */}
+            <div className="contacto__form-wrap">
+              <div className="email-cta">
+                <h3>{t('contact.whatsappCtaTitle')}</h3>
+                <p>{t('contact.whatsappCtaDesc')}</p>
+                <a
+                  href="https://wa.me/351910008669"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn--whatsapp"
+                >
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.13-2.9-7C17.17 3.03 14.69 2 12.04 2zm0 18.14h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.13.82.83-3.05-.2-.31a8.18 8.18 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z"></path>
+                  </svg>
+                  {t('contact.whatsappCtaBtn')}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

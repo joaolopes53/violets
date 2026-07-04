@@ -90,199 +90,35 @@
   border-radius: var(--radius);
 }
 
-.form { display: flex; flex-direction: column; gap: 36px; }
-
-.form__row { display: flex; flex-direction: column; gap: 36px; }
-.form__row--2 { flex-direction: row; }
-
-/* Floating Label Fields */
-.form__field {
-  position: relative;
+/* CTAs */
+.contacto__ctas {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  gap: 24px;
 }
 
-.form__field label {
-  position: absolute;
-  left: 0;
-  top: 14px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  pointer-events: none;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              font-size 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  transform-origin: left top;
+.email-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 0;
 }
 
-.form__field label span { color: var(--gold); margin-left: 2px; }
-
-.form__field input,
-.form__field select,
-.form__field textarea {
-  border: none;
-  border-bottom: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  font-size: 14.5px;
+.email-cta h3 {
+  font-size: 28px;
   font-weight: 300;
-  padding: 14px 0 8px 0;
-  border-radius: 0;
-  outline: none;
-  transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  width: 100%;
-  resize: none;
-  -webkit-appearance: none;
+  color: var(--text);
 }
 
-.form__field select {
-  cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b6420' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 4px center;
-  padding-right: 24px;
-}
-
-.form__field select option { background: var(--bg); color: var(--text); }
-
-.form__field input:focus,
-.form__field select:focus,
-.form__field textarea:focus {
-  border-color: var(--gold);
-}
-
-/* Floating label trigger */
-.form__field input:focus ~ label,
-.form__field--has-value input ~ label,
-.form__field select:focus ~ label,
-.form__field--has-value select ~ label,
-.form__field textarea:focus ~ label,
-.form__field--has-value textarea ~ label {
-  transform: translateY(-20px) scale(0.85);
-  color: var(--gold);
-}
-
-/* Error States */
-.form__field--error input,
-.form__field--error textarea {
-  border-color: #c0706a;
-}
-
-.form__field--error label {
-  color: #c0706a;
-}
-
-.form__error {
-  position: absolute;
-  bottom: -20px;
-  left: 0;
-  font-size: 11px;
-  color: #b05050;
-  letter-spacing: 0.02em;
-}
-
-/* Textarea Field */
-.form__field--textarea {
-  margin-top: 8px;
-}
-.form__field--textarea textarea {
-  padding-top: 14px;
-  line-height: 1.6;
-}
-
-/* Submit */
-.form__submit {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-
-.form__note {
-  font-size: 11px;
+.email-cta p {
   color: var(--text-muted);
-}
-.form__note span { color: var(--gold); }
-
-/* Success state */
-.form-success {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 20px;
-  padding: 60px 20px;
-}
-
-.form-success__icon-wrap {
-  width: 64px;
-  height: 64px;
+  font-size: 14.5px;
+  max-width: 420px;
+  line-height: 1.7;
   margin-bottom: 8px;
 }
 
-.form-success__checkmark {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  display: block;
-  stroke-width: 2;
-  stroke: var(--gold);
-  stroke-miterlimit: 10;
-  box-shadow: inset 0px 0px 0px var(--gold);
-  animation: fillCheckmark .4s ease-in-out .4s forwards, scaleCheckmark .3s ease-in-out .9s forwards;
-}
-
-.form-success__checkmark-circle {
-  stroke-dasharray: 166;
-  stroke-dashoffset: 166;
-  stroke-width: 2;
-  stroke-miterlimit: 10;
-  stroke: var(--gold);
-  fill: none;
-  animation: strokeCircle .6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.form-success__checkmark-check {
-  transform-origin: 50% 50%;
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
-  stroke: var(--gold);
-  stroke-linecap: round;
-  animation: strokeCheck 0.35s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
-}
-
-@keyframes strokeCircle {
-  100% { stroke-dashoffset: 0; }
-}
-@keyframes strokeCheck {
-  100% { stroke-dashoffset: 0; }
-}
-@keyframes fillCheckmark {
-  100% { box-shadow: inset 0px 0px 0px 40px rgba(139, 100, 32, 0.05); }
-}
-@keyframes scaleCheckmark {
-  0%, 100% { transform: none; }
-  50% { transform: scale3d(1.08, 1.08, 1); }
-}
-
-.form-success h3 {
-  font-size: 28px;
-  color: var(--text);
-}
-
-.form-success p {
-  color: var(--text-muted);
-  font-size: 14.5px;
-  max-width: 380px;
-  line-height: 1.7;
-}
 
 /* Btn shared active scale override */
 .btn {
@@ -298,6 +134,9 @@
 .btn--primary:hover { background: var(--gold-dim); color: #f2ebe0; }
 .btn--ghost { color: var(--text); border: 1px solid var(--border); }
 .btn--ghost:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+.btn--whatsapp { background: #25D366; color: #fff; }
+.btn--whatsapp:hover { background: #1ebe5b; color: #fff; }
 
 /* Responsive — Tablet */
 @media (max-width: 900px) {
@@ -343,8 +182,8 @@
     gap: 32px;
   }
 
-  /* Form first, info below on mobile */
-  .contacto__form-wrap { order: -1; }
+  /* CTAs first, info below on mobile */
+  .contacto__ctas { order: -1; }
 
   /* Info blocks — single column with divider lines */
   .contacto__info {
@@ -388,59 +227,30 @@
     border-radius: calc(var(--radius) * 0.8);
   }
 
-  .form {
-    gap: 28px;
-  }
-
-  .form__row--2 {
-    flex-direction: column;
-    gap: 28px;
-  }
-
-  /* Bigger hit area for inputs on mobile */
-  .form__field input,
-  .form__field select,
-  .form__field textarea {
-    font-size: 16px; /* prevents iOS zoom on focus */
-    padding: 16px 0 10px 0;
-  }
-
-  .form__field label {
-    font-size: 10.5px;
-    top: 16px;
-  }
-
-  /* Submit row — stacked, full-width */
-  .form__submit {
-    flex-direction: column;
+  /* Email CTA */
+  .email-cta {
     align-items: stretch;
-    gap: 14px;
-    margin-top: 8px;
+    text-align: center;
+    padding: 12px 0;
   }
 
-  .form__submit .btn {
+  .email-cta h3 {
+    font-size: 22px;
+  }
+
+  .email-cta p {
+    font-size: 13.5px;
+    max-width: none;
+  }
+
+  .contacto__ctas {
+    gap: 16px;
+  }
+
+  .email-cta .btn {
     justify-content: center;
     width: 100%;
     padding: 15px 24px;
     font-size: 14px;
-  }
-
-  .form__submit p {
-    text-align: center;
-    font-size: 11px;
-  }
-
-  /* Success state */
-  .form-success {
-    padding: 40px 12px;
-    gap: 16px;
-  }
-
-  .form-success h3 {
-    font-size: 22px;
-  }
-
-  .form-success p {
-    font-size: 13.5px;
   }
 }

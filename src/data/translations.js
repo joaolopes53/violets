@@ -141,18 +141,12 @@ export const translations = {
       horario: 'Horário',
       scheduleWeek: 'Segunda — Sexta: 9h às 18h',
       scheduleSat: 'Sábado: 9h às 13h',
-      formSuccessTitle: 'Mensagem enviada',
-      formSuccessDesc: 'Obrigado pelo seu contacto. Responderemos brevemente com uma proposta personalizada.',
-      formSuccessBtn: 'Enviar outra mensagem',
-      fieldNome: 'Nome',
-      fieldEmail: 'Email',
-      fieldTelefone: 'Telefone',
-      fieldAssunto: 'Assunto',
-      fieldMensagem: 'Mensagem',
-      fieldRequired: 'Campo obrigatório',
-      fieldInvalidEmail: 'Email inválido',
-      formSubmitBtn: 'Enviar mensagem',
-      formNote: 'Os campos marcados com * são obrigatórios'
+      emailCtaTitle: 'Envie-nos um email',
+      emailCtaDesc: 'Descreva o seu projeto e entraremos em contacto brevemente com uma proposta personalizada.',
+      emailCtaBtn: 'Enviar email',
+      whatsappCtaTitle: 'Fale connosco no WhatsApp',
+      whatsappCtaDesc: 'Prefere uma resposta mais rápida? Contacte-nos diretamente por mensagem.',
+      whatsappCtaBtn: 'Falar no WhatsApp'
     }
   },
   en: {
@@ -297,18 +291,12 @@ export const translations = {
       horario: 'Opening Hours',
       scheduleWeek: 'Monday — Friday: 9am to 6pm',
       scheduleSat: 'Saturday: 9am to 1pm',
-      formSuccessTitle: 'Message sent',
-      formSuccessDesc: 'Thank you for your message. We will get back to you shortly with a personalized proposal.',
-      formSuccessBtn: 'Send another message',
-      fieldNome: 'Name',
-      fieldEmail: 'Email',
-      fieldTelefone: 'Phone',
-      fieldAssunto: 'Subject',
-      fieldMensagem: 'Message',
-      fieldRequired: 'Required field',
-      fieldInvalidEmail: 'Invalid email',
-      formSubmitBtn: 'Send message',
-      formNote: 'Fields marked with * are required'
+      emailCtaTitle: 'Email us',
+      emailCtaDesc: 'Describe your project and we will get back to you shortly with a personalized proposal.',
+      emailCtaBtn: 'Send email',
+      whatsappCtaTitle: 'Chat with us on WhatsApp',
+      whatsappCtaDesc: 'Prefer a faster reply? Message us directly.',
+      whatsappCtaBtn: 'Chat on WhatsApp'
     }
   }
 }
