@@ -92,31 +92,50 @@
 
 /* CTAs */
 .contacto__ctas {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 24px;
+  align-items: start;
 }
 
 .email-cta {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 16px;
-  padding: 20px 0;
+  gap: 14px;
+}
+
+.email-cta__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  margin-bottom: 4px;
+}
+
+.email-cta__icon--gold {
+  background: rgba(139, 100, 32, 0.12);
+  color: var(--gold);
+}
+
+.email-cta__icon--whatsapp {
+  background: rgba(37, 211, 102, 0.12);
+  color: #25D366;
 }
 
 .email-cta h3 {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 300;
   color: var(--text);
 }
 
 .email-cta p {
   color: var(--text-muted);
-  font-size: 14.5px;
-  max-width: 420px;
+  font-size: 14px;
   line-height: 1.7;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 
@@ -157,6 +176,7 @@
     gap: 24px;
   }
   .contacto__form-wrap { padding: 32px; }
+  .contacto__ctas { grid-template-columns: 1fr; }
 }
 
 /* Responsive — Mobile */
