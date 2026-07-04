@@ -2,6 +2,8 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { images, categories } from '../data/gallery'
 import './Galeria.css'
 
+const categoryMap = Object.fromEntries(categories.map(c => [c.id, c.label]))
+
 export default function Galeria() {
   const [active, setActive] = useState('todos')
   const [lightbox, setLightbox] = useState(null)
@@ -18,11 +20,36 @@ export default function Galeria() {
   const prev = useCallback(() => setLightbox(i => (i - 1 + filtered.length) % filtered.length), [filtered.length])
   const next = useCallback(() => setLightbox(i => (i + 1) % filtered.length), [filtered.length])
 
-  const handleKey = useCallback((e) => {
-    if (e.key === 'Escape') closeLightbox()
-    if (e.key === 'ArrowLeft') prev()
-    if (e.key === 'ArrowRight') next()
-  }, [closeLightbox, prev, next])
+  // Reset lightbox on filter change
+  useEffect(() => {
+    setLightbox(null)
+  }, [active])
+
+  // Background Scroll Locking
+  useEffect(() => {
+    if (lightbox !== null && filtered[lightbox]) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [lightbox, filtered])
+
+  // Keyboard navigation for Lightbox
+  useEffect(() => {
+    if (lightbox === null) return
+    
+    const handleKey = (e) => {
+      if (e.key === 'Escape') closeLightbox()
+      if (e.key === 'ArrowLeft') prev()
+      if (e.key === 'ArrowRight') next()
+    }
+    
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [lightbox, closeLightbox, prev, next])
 
   // Slide Indicator logic
   useEffect(() => {
@@ -70,8 +97,15 @@ export default function Galeria() {
     touchEnd.current = 0
   }
 
+  const handleItemKeyDown = (e, idx) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      openLightbox(idx)
+    }
+  }
+
   return (
-    <div className="galeria" onKeyDown={handleKey} tabIndex={-1}>
+    <div className="galeria">
       {/* Filters */}
       <div className="galeria__filters">
         <div className="galeria__filters-inner">
@@ -80,9 +114,9 @@ export default function Galeria() {
               key={cat.id}
               ref={el => buttonsRef.current[cat.id] = el}
               className={`filter-btn${active === cat.id ? ' filter-btn--active' : ''}`}
-              onClick={() => { setActive(cat.id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+              onClick={() => { setActive(cat.id); setLightbox(null); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
             >
-              {cat.label}
+              <span className="filter-btn__text">{cat.label}</span>
               <span className="filter-btn__count">
                 {cat.id === 'todos' ? images.length : images.filter(i => i.cat === cat.id).length}
               </span>
@@ -100,16 +134,34 @@ export default function Galeria() {
 
       {/* Masonry Grid */}
       <div className="galeria__wrap">
-        <div className="masonry">
+        <div className="masonry" key={active}>
           {filtered.map((img, idx) => (
             <div
               className="masonry__item"
               key={img.src}
               onClick={() => openLightbox(idx)}
+              style={{ '--idx': idx }}
+              tabIndex={0}
+              role="button"
+              aria-label={`Ver imagem: ${img.alt}`}
+              onKeyDown={(e) => handleItemKeyDown(e, idx)}
             >
               <img src={img.src} alt={img.alt} loading="lazy" />
               <div className="masonry__overlay">
-                <span className="masonry__zoom">&#x2B;</span>
+                <div className="masonry__info">
+                  <span className="masonry__item-cat">
+                    {categoryMap[img.cat]}
+                  </span>
+                  <h3 className="masonry__item-title">{img.alt}</h3>
+                  <div className="masonry__zoom-trigger">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
@@ -117,21 +169,48 @@ export default function Galeria() {
       </div>
 
       {/* Lightbox */}
-      {lightbox !== null && (
+      {lightbox !== null && filtered[lightbox] && (
         <div className="lightbox" onClick={closeLightbox}>
-          <button className="lightbox__close" onClick={closeLightbox} aria-label="Fechar">✕</button>
-          <button className="lightbox__prev" onClick={e => { e.stopPropagation(); prev() }} aria-label="Anterior">‹</button>
+          <div className="lightbox__header" onClick={e => e.stopPropagation()}>
+            <span className="lightbox__counter">
+              {String(lightbox + 1).padStart(2, '0')} / {String(filtered.length).padStart(2, '0')}
+            </span>
+            <button className="lightbox__close" onClick={closeLightbox} aria-label="Fechar">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <button className="lightbox__prev" onClick={e => { e.stopPropagation(); prev() }} aria-label="Anterior">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+
           <div 
             className="lightbox__img-wrap" 
+            key={lightbox}
             onClick={e => e.stopPropagation()}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
             <img src={filtered[lightbox].src} alt={filtered[lightbox].alt} />
-            <p className="lightbox__caption">{filtered[lightbox].alt}</p>
+            <div className="lightbox__info-panel">
+              <span className="lightbox__cat-badge">
+                {categoryMap[filtered[lightbox].cat]}
+              </span>
+              <p className="lightbox__caption">{filtered[lightbox].alt}</p>
+            </div>
           </div>
-          <button className="lightbox__next" onClick={e => { e.stopPropagation(); next() }} aria-label="Próximo">›</button>
+
+          <button className="lightbox__next" onClick={e => { e.stopPropagation(); next() }} aria-label="Próximo">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
         </div>
       )}
     </div>
