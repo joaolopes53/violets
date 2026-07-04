@@ -563,7 +563,7 @@
 
 /* ─── CTA Banner ─── */
 .cta-banner {
-  padding: 72px clamp(20px, 5vw, 48px);
+  padding: 80px clamp(20px, 5vw, 48px) 160px;
   background: var(--bg-2);
   border-top: 1px solid var(--border);
   text-align: center;
@@ -628,9 +628,12 @@
 
   .about,
   .services,
-  .preview,
-  .cta-banner {
+  .preview {
     padding: 80px clamp(20px, 5vw, 48px);
+  }
+
+  .cta-banner {
+    padding: 80px clamp(20px, 5vw, 48px) 120px;
   }
 
   .services__header {
