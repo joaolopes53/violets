@@ -95,17 +95,6 @@
   column-gap: 16px;
 }
 
-@keyframes revealItem {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 .masonry__item {
   break-inside: avoid;
   margin-bottom: 16px;
@@ -115,9 +104,6 @@
   border-radius: var(--radius);
   background: var(--bg-2);
   box-shadow: 0 4px 20px rgba(30, 20, 8, 0.04);
-  opacity: 0;
-  animation: revealItem 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: calc(var(--idx) * 0.04s);
   transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

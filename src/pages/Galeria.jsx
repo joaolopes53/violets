@@ -134,13 +134,12 @@ export default function Galeria() {
 
       {/* Masonry Grid */}
       <div className="galeria__wrap">
-        <div className="masonry" key={active}>
+        <div className="masonry">
           {filtered.map((img, idx) => (
             <div
               className="masonry__item"
               key={img.src}
               onClick={() => openLightbox(idx)}
-              style={{ '--idx': idx }}
               tabIndex={0}
               role="button"
               aria-label={`Ver imagem: ${img.alt}`}
