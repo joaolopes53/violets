@@ -1,19 +1,21 @@
 import { useState } from 'react'
+import { useLanguage } from '../hooks/useLanguage'
 import './Contacto.css'
 
 const INITIAL = { nome: '', email: '', telefone: '', assunto: '', mensagem: '' }
 
 export default function Contacto() {
+  const { t } = useLanguage()
   const [form, setForm] = useState(INITIAL)
   const [sent, setSent] = useState(false)
   const [errors, setErrors] = useState({})
 
   const validate = () => {
     const e = {}
-    if (!form.nome.trim())     e.nome     = 'Campo obrigatório'
-    if (!form.email.trim())    e.email    = 'Campo obrigatório'
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Email inválido'
-    if (!form.mensagem.trim()) e.mensagem = 'Campo obrigatório'
+    if (!form.nome.trim())     e.nome     = t('contact.fieldRequired')
+    if (!form.email.trim())    e.email    = t('contact.fieldRequired')
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = t('contact.fieldInvalidEmail')
+    if (!form.mensagem.trim()) e.mensagem = t('contact.fieldRequired')
     return e
   }
 
@@ -36,9 +38,9 @@ export default function Contacto() {
       {/* Header */}
       <div className="contacto__header">
         <div className="contacto__header-inner">
-          <span className="section-label">Contacto</span>
-          <h1>Fale <em>connosco</em></h1>
-          <p>Estamos disponíveis para ajudar a criar o espaço dos seus sonhos.</p>
+          <span className="section-label">{t('contact.contact')}</span>
+          <h1>{t('contact.titlePre')} <em>{t('contact.titleEm')}</em></h1>
+          <p>{t('contact.subtitle')}</p>
         </div>
       </div>
 
@@ -48,26 +50,26 @@ export default function Contacto() {
           {/* Info */}
           <div className="contacto__info">
             <div className="info-block">
-              <span className="info-block__label">Sede</span>
+              <span className="info-block__label">{t('contact.sede')}</span>
               <p>Rua Francisco Peres</p>
               <p>Edifício Freitas, Loja C</p>
               <p>9125-015 Caniço, Madeira</p>
             </div>
             <div className="info-block">
-              <span className="info-block__label">Armazém</span>
+              <span className="info-block__label">{t('contact.armazem')}</span>
               <p>Rua Achada Diogo Dias</p>
               <p>Parque Empresarial da Camacha, Lote 4</p>
               <p>9135-401 Camacha</p>
             </div>
             <div className="info-block">
-              <span className="info-block__label">Contacto</span>
+              <span className="info-block__label">{t('contact.contact')}</span>
               <a href="tel:+351910008669">+351 910 008 669</a>
               <a href="mailto:geral@violets.pt">geral@violets.pt</a>
             </div>
             <div className="info-block">
-              <span className="info-block__label">Horário</span>
-              <p>Segunda — Sexta: 9h às 18h</p>
-              <p>Sábado: 9h às 13h</p>
+              <span className="info-block__label">{t('contact.horario')}</span>
+              <p>{t('contact.scheduleWeek')}</p>
+              <p>{t('contact.scheduleSat')}</p>
             </div>
           </div>
 
@@ -81,10 +83,10 @@ export default function Contacto() {
                     <path className="form-success__checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                   </svg>
                 </div>
-                <h3>Mensagem enviada</h3>
-                <p>Obrigado pelo seu contacto. Responderemos brevemente com uma proposta personalizada.</p>
+                <h3>{t('contact.formSuccessTitle')}</h3>
+                <p>{t('contact.formSuccessDesc')}</p>
                 <button className="btn btn--ghost" onClick={() => setSent(false)}>
-                  Enviar outra mensagem
+                  {t('contact.formSuccessBtn')}
                 </button>
               </div>
             ) : (
@@ -92,12 +94,12 @@ export default function Contacto() {
                 <div className="form__row form__row--2">
                   <div className={`form__field${errors.nome ? ' form__field--error' : ''}${form.nome ? ' form__field--has-value' : ''}`}>
                     <input name="nome" value={form.nome} onChange={onChange} placeholder=" " />
-                    <label>Nome <span>*</span></label>
+                    <label>{t('contact.fieldNome')} <span>*</span></label>
                     {errors.nome && <span className="form__error">{errors.nome}</span>}
                   </div>
                   <div className={`form__field${errors.email ? ' form__field--error' : ''}${form.email ? ' form__field--has-value' : ''}`}>
                     <input name="email" type="email" value={form.email} onChange={onChange} placeholder=" " />
-                    <label>Email <span>*</span></label>
+                    <label>{t('contact.fieldEmail')} <span>*</span></label>
                     {errors.email && <span className="form__error">{errors.email}</span>}
                   </div>
                 </div>
@@ -105,32 +107,32 @@ export default function Contacto() {
                 <div className="form__row form__row--2">
                   <div className={`form__field${form.telefone ? ' form__field--has-value' : ''}`}>
                     <input name="telefone" type="tel" value={form.telefone} onChange={onChange} placeholder=" " />
-                    <label>Telefone</label>
+                    <label>{t('contact.fieldTelefone')}</label>
                   </div>
                   <div className={`form__field${form.assunto ? ' form__field--has-value' : ''}`}>
                     <select name="assunto" value={form.assunto} onChange={onChange}>
                       <option value="" disabled hidden></option>
-                      <option value="cozinhas">Cozinhas</option>
-                      <option value="roupeiros">Roupeiros</option>
-                      <option value="portas">Portas</option>
-                      <option value="escadarias">Escadarias</option>
-                      <option value="design">Design</option>
-                      <option value="vinil">Vinil</option>
-                      <option value="outro">Outro</option>
+                      <option value="cozinhas">{t('contact.subjects.cozinhas')}</option>
+                      <option value="roupeiros">{t('contact.subjects.roupeiros')}</option>
+                      <option value="portas">{t('contact.subjects.portas')}</option>
+                      <option value="escadarias">{t('contact.subjects.escadarias')}</option>
+                      <option value="design">{t('contact.subjects.design')}</option>
+                      <option value="vinil">{t('contact.subjects.vinil')}</option>
+                      <option value="outro">{t('contact.subjects.outro')}</option>
                     </select>
-                    <label>Assunto</label>
+                    <label>{t('contact.fieldAssunto')}</label>
                   </div>
                 </div>
 
                 <div className={`form__field form__field--textarea${errors.mensagem ? ' form__field--error' : ''}${form.mensagem ? ' form__field--has-value' : ''}`}>
                   <textarea name="mensagem" rows={5} value={form.mensagem} onChange={onChange} placeholder=" " />
-                  <label>Mensagem <span>*</span></label>
+                  <label>{t('contact.fieldMensagem')} <span>*</span></label>
                   {errors.mensagem && <span className="form__error">{errors.mensagem}</span>}
                 </div>
 
                 <div className="form__submit">
-                  <button type="submit" className="btn btn--primary">Enviar mensagem</button>
-                  <p className="form__note">Os campos marcados com <span>*</span> são obrigatórios</p>
+                  <button type="submit" className="btn btn--primary">{t('contact.formSubmitBtn')}</button>
+                  <p className="form__note">{t('contact.formNote')}</p>
                 </div>
               </form>
             )}

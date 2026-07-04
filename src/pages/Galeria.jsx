@@ -1,10 +1,10 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
+import { useLanguage } from '../hooks/useLanguage'
 import { images, categories } from '../data/gallery'
 import './Galeria.css'
 
-const categoryMap = Object.fromEntries(categories.map(c => [c.id, c.label]))
-
 export default function Galeria() {
+  const { t, language } = useLanguage()
   const [active, setActive] = useState('todos')
   const [lightbox, setLightbox] = useState(null)
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 })
@@ -116,7 +116,7 @@ export default function Galeria() {
               className={`filter-btn${active === cat.id ? ' filter-btn--active' : ''}`}
               onClick={() => { setActive(cat.id); setLightbox(null); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
             >
-              <span className="filter-btn__text">{cat.label}</span>
+              <span className="filter-btn__text">{t(`gallery.categories.${cat.id}`)}</span>
               <span className="filter-btn__count">
                 {cat.id === 'todos' ? images.length : images.filter(i => i.cat === cat.id).length}
               </span>
@@ -142,10 +142,10 @@ export default function Galeria() {
               onClick={() => openLightbox(idx)}
               tabIndex={0}
               role="button"
-              aria-label={`Ver imagem: ${img.alt}`}
+              aria-label={language === 'pt' ? `Ver imagem: ${img.alt}` : `View image: ${t(`gallery.alts.${img.alt}`)}`}
               onKeyDown={(e) => handleItemKeyDown(e, idx)}
             >
-              <img src={img.src} alt={img.alt} loading="lazy" />
+              <img src={img.src} alt={t(`gallery.alts.${img.alt}`)} loading="lazy" />
             </div>
           ))}
         </div>
@@ -158,7 +158,7 @@ export default function Galeria() {
             <span className="lightbox__counter">
               {String(lightbox + 1).padStart(2, '0')} / {String(filtered.length).padStart(2, '0')}
             </span>
-            <button className="lightbox__close" onClick={closeLightbox} aria-label="Fechar">
+            <button className="lightbox__close" onClick={closeLightbox} aria-label={t('gallery.lightbox.close')}>
               <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -166,7 +166,7 @@ export default function Galeria() {
             </button>
           </div>
 
-          <button className="lightbox__prev" onClick={e => { e.stopPropagation(); prev() }} aria-label="Anterior">
+          <button className="lightbox__prev" onClick={e => { e.stopPropagation(); prev() }} aria-label={t('gallery.lightbox.prev')}>
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
@@ -180,16 +180,16 @@ export default function Galeria() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <img src={filtered[lightbox].src} alt={filtered[lightbox].alt} />
+            <img src={filtered[lightbox].src} alt={t(`gallery.alts.${filtered[lightbox].alt}`)} />
             <div className="lightbox__info-panel">
               <span className="lightbox__cat-badge">
-                {categoryMap[filtered[lightbox].cat]}
+                {t(`gallery.categories.${filtered[lightbox].cat}`)}
               </span>
-              <p className="lightbox__caption">{filtered[lightbox].alt}</p>
+              <p className="lightbox__caption">{t(`gallery.alts.${filtered[lightbox].alt}`)}</p>
             </div>
           </div>
 
-          <button className="lightbox__next" onClick={e => { e.stopPropagation(); next() }} aria-label="Próximo">
+          <button className="lightbox__next" onClick={e => { e.stopPropagation(); next() }} aria-label={t('gallery.lightbox.next')}>
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>

@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../hooks/useLanguage'
 import './Footer.css'
 
 export default function Footer() {
+  const { t } = useLanguage()
+
   return (
     <footer className="footer">
       {/* Wavy Divider */}
@@ -22,8 +25,7 @@ export default function Footer() {
             </span>
           </Link>
           <p className="footer__desc">
-            Desde 2011, transformamos espaços com paixão, elegância e atenção ao detalhe.
-            Especialistas em design de interiores e mobiliário por medida na Madeira.
+            {t('footer.desc')}
           </p>
           <div className="footer__socials">
             <a href="https://www.instagram.com/violets_decor?igsh=MWNyNnZyMml1NGdwMQ==" target="_blank" rel="noopener noreferrer" className="footer__social-btn" aria-label="Instagram">
@@ -48,17 +50,17 @@ export default function Footer() {
 
         {/* Column 2: Links */}
         <div className="footer__col">
-          <p className="footer__col-title">Links Rápidos</p>
+          <p className="footer__col-title">{t('footer.quickLinks')}</p>
           <div className="footer__links">
-            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Início</Link>
-            <Link to="/galeria">Galeria</Link>
-            <Link to="/contacto">Contacto</Link>
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>{t('nav.home')}</Link>
+            <Link to="/galeria">{t('nav.gallery')}</Link>
+            <Link to="/contacto">{t('nav.contact')}</Link>
           </div>
         </div>
 
         {/* Column 3: Contact */}
         <div className="footer__col">
-          <p className="footer__col-title">Contacto</p>
+          <p className="footer__col-title">{t('footer.contact')}</p>
           <div className="footer__contacts">
             <div className="footer__contact-item">
               <span className="footer__contact-icon">
@@ -100,7 +102,7 @@ export default function Footer() {
       </div>
 
       <div className="footer__bottom">
-        <p>© {new Date().getFullYear()} Violets Design Imobiliários. Todos os direitos reservados.</p>
+        <p>© {new Date().getFullYear()} Violets Design Imobiliários. {t('footer.rights')}</p>
       </div>
     </footer>
   )
