@@ -6,66 +6,31 @@ import './Home.css'
 
 const services = [
   {
-    icon: (
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2" />
-        <path d="M3 9h18M3 15h18M12 9v6M9 12h1M14 12h1" />
-      </svg>
-    ),
     title: 'Cozinhas',
     desc: 'Projetos à medida com materiais premium e acabamentos impecáveis.',
     image: '/gallery/cozinhas/COZINHA 1.jpeg'
   },
   {
-    icon: (
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 4c0 8 4 12 8 12s8-4 8-12M4 4v16M20 4v16M12 16v4" />
-      </svg>
-    ),
     title: 'Design',
     desc: 'Cortinados, estores, papel de parede e têxteis para o lar.',
     image: '/gallery/design/103514716_1596011003908635_5885864849083847190_n.jpg'
   },
   {
-    icon: (
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="5" y="3" width="14" height="18" rx="1" />
-        <path d="M15 12h1M5 12h14" />
-      </svg>
-    ),
     title: 'Portas',
     desc: 'Portas interiores de design com diversas opções de acabamento.',
     image: '/gallery/portas/1.jpeg'
   },
   {
-    icon: (
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 20h4v-4h4v-4h4V8h4V4" />
-      </svg>
-    ),
     title: 'Escadarias',
     desc: 'Escadarias únicas que combinam função e elegância estrutural.',
     image: '/gallery/escadarias/3.jpeg'
   },
   {
-    icon: (
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-        <circle cx="12" cy="12" r="3" />
-        <path d="M12 2a10 10 0 0 1 8 4" />
-      </svg>
-    ),
     title: 'Vinil',
     desc: 'Revestimentos em vinil de alta durabilidade e design contemporâneo.',
     image: '/gallery/vinil/2.jpeg'
   },
   {
-    icon: (
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="4" y="2" width="16" height="20" rx="2" />
-        <path d="M12 2v20M9 10h2M13 10h2" />
-      </svg>
-    ),
     title: 'Roupeiros',
     desc: 'Soluções de arrumação personalizadas para cada espaço.',
     image: '/gallery/roupeiros/2.jpeg'
@@ -273,7 +238,6 @@ export default function Home() {
                     <img src={s.image} alt={s.title} className="service-card__img" loading="lazy" />
                   </div>
                   <div className="service-card__body">
-                    <span className="service-card__icon">{s.icon}</span>
                     <h3>{s.title}</h3>
                     <p>{s.desc}</p>
                   </div>

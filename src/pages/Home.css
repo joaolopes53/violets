@@ -467,18 +467,6 @@
   flex-grow: 1;
 }
 
-.service-card__icon {
-  display: block;
-  color: var(--gold);
-  margin-bottom: 24px;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.service-card:hover .service-card__icon {
-  transform: scale(1.1);
-  color: var(--gold-dim);
-}
-
 .service-card h3 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 22px;
