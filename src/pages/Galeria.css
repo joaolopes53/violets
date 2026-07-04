@@ -26,12 +26,18 @@
 }
 .galeria__filters-inner::-webkit-scrollbar { display: none; }
 
+@media (min-width: 1100px) {
+  .galeria__filters-inner {
+    justify-content: center;
+  }
+}
+
 .filter-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 20px 24px;
-  font-size: 11px;
+  padding: 20px 22px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.08em;
   color: var(--text-muted);
@@ -45,7 +51,7 @@
 .filter-btn--active { color: var(--gold); }
 
 .filter-btn__count {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 300;
   color: var(--text-muted);
   opacity: 0.7;
