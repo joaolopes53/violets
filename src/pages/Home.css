@@ -246,7 +246,7 @@
 
 /* ─── About ─── */
 .about {
-  padding: 120px clamp(20px, 5vw, 48px);
+  padding: 72px clamp(20px, 5vw, 48px) 120px;
   border-top: 1px solid var(--border);
 }
 
@@ -344,7 +344,7 @@
 
 /* ─── Services (Carousel Grid) ─── */
 .services {
-  padding: 120px clamp(20px, 5vw, 48px);
+  padding: 72px clamp(20px, 5vw, 48px) 120px;
   background: var(--bg-2);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -523,7 +523,7 @@
 
 /* ─── Preview ─── */
 .preview {
-  padding: 120px clamp(20px, 5vw, 48px);
+  padding: 72px clamp(20px, 5vw, 48px) 120px;
   border-top: 1px solid var(--border);
 }
 
@@ -562,7 +562,7 @@
 
 /* ─── CTA Banner ─── */
 .cta-banner {
-  padding: 120px clamp(20px, 5vw, 48px);
+  padding: 72px clamp(20px, 5vw, 48px);
   background: var(--bg-2);
   border-top: 1px solid var(--border);
   text-align: center;
