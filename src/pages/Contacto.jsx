@@ -15,6 +15,7 @@ export default function Contacto() {
     if (!form.nome.trim())     e.nome     = t('contact.fieldRequired')
     if (!form.email.trim())    e.email    = t('contact.fieldRequired')
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = t('contact.fieldInvalidEmail')
+    if (!form.assunto.trim())  e.assunto  = t('contact.fieldRequired')
     if (!form.mensagem.trim()) e.mensagem = t('contact.fieldRequired')
     return e
   }
@@ -109,18 +110,10 @@ export default function Contacto() {
                     <input name="telefone" type="tel" value={form.telefone} onChange={onChange} placeholder=" " />
                     <label>{t('contact.fieldTelefone')}</label>
                   </div>
-                  <div className={`form__field${form.assunto ? ' form__field--has-value' : ''}`}>
-                    <select name="assunto" value={form.assunto} onChange={onChange}>
-                      <option value="" disabled hidden></option>
-                      <option value="cozinhas">{t('contact.subjects.cozinhas')}</option>
-                      <option value="roupeiros">{t('contact.subjects.roupeiros')}</option>
-                      <option value="portas">{t('contact.subjects.portas')}</option>
-                      <option value="escadarias">{t('contact.subjects.escadarias')}</option>
-                      <option value="design">{t('contact.subjects.design')}</option>
-                      <option value="vinil">{t('contact.subjects.vinil')}</option>
-                      <option value="outro">{t('contact.subjects.outro')}</option>
-                    </select>
-                    <label>{t('contact.fieldAssunto')}</label>
+                  <div className={`form__field${errors.assunto ? ' form__field--error' : ''}${form.assunto ? ' form__field--has-value' : ''}`}>
+                    <input name="assunto" value={form.assunto} onChange={onChange} placeholder=" " />
+                    <label>{t('contact.fieldAssunto')} <span>*</span></label>
+                    {errors.assunto && <span className="form__error">{errors.assunto}</span>}
                   </div>
                 </div>
 

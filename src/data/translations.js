@@ -152,16 +152,7 @@ export const translations = {
       fieldRequired: 'Campo obrigatório',
       fieldInvalidEmail: 'Email inválido',
       formSubmitBtn: 'Enviar mensagem',
-      formNote: 'Os campos marcados com * são obrigatórios',
-      subjects: {
-        cozinhas: 'Cozinhas',
-        roupeiros: 'Roupeiros',
-        portas: 'Portas',
-        escadarias: 'Escadarias',
-        design: 'Design',
-        vinil: 'Vinil',
-        outro: 'Outro',
-      }
+      formNote: 'Os campos marcados com * são obrigatórios'
     }
   },
   en: {
@@ -317,16 +308,7 @@ export const translations = {
       fieldRequired: 'Required field',
       fieldInvalidEmail: 'Invalid email',
       formSubmitBtn: 'Send message',
-      formNote: 'Fields marked with * are required',
-      subjects: {
-        cozinhas: 'Kitchens',
-        roupeiros: 'Wardrobes',
-        portas: 'Doors',
-        escadarias: 'Staircases',
-        design: 'Design',
-        vinil: 'Vinyl',
-        outro: 'Other',
-      }
+      formNote: 'Fields marked with * are required'
     }
   }
 }
