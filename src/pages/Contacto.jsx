@@ -114,7 +114,7 @@ export default function Contacto() {
                       <option value="roupeiros">Roupeiros</option>
                       <option value="portas">Portas</option>
                       <option value="escadarias">Escadarias</option>
-                      <option value="decoracao">Decoração</option>
+                      <option value="design">Design</option>
                       <option value="vinil">Vinil</option>
                       <option value="outro">Outro</option>
                     </select>

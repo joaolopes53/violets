@@ -22,9 +22,9 @@ const services = [
         <path d="M4 4c0 8 4 12 8 12s8-4 8-12M4 4v16M20 4v16M12 16v4" />
       </svg>
     ),
-    title: 'Decoração',
+    title: 'Design',
     desc: 'Cortinados, estores, papel de parede e têxteis para o lar.',
-    image: '/gallery/decoracao/103514716_1596011003908635_5885864849083847190_n.jpg'
+    image: '/gallery/design/103514716_1596011003908635_5885864849083847190_n.jpg'
   },
   {
     icon: (
@@ -172,7 +172,7 @@ export default function Home() {
 
         <div className="hero__content">
           <h1 className="hero__title">
-            Decoração<br />
+            Design<br />
             <em>com identidade</em>
           </h1>
           <p className="hero__desc">
@@ -200,9 +200,9 @@ export default function Home() {
             <div className="about__text">
               <h2>Excelência em cada<br /><em>detalhe do seu espaço</em></h2>
               <p>
-                A Violets Decoração Imobiliários nasceu em 2011 com uma missão clara:
+                A Violets Design Imobiliários nasceu em 2011 com uma missão clara:
                 transformar espaços comuns em ambientes extraordinários. Especializados
-                em decoração de interiores e design mobiliário, oferecemos soluções
+                em design de interiores e design mobiliário, oferecemos soluções
                 completas que combinam funcionalidade, estética e qualidade superior.
               </p>
               <p>

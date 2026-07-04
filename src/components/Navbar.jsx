@@ -27,7 +27,7 @@ export default function Navbar() {
             <img src="/logo.svg" alt="Violets Logo" className="navbar__brand-logo" />
             <span className="navbar__brand-text">
               <span className="navbar__brand-name">VIOLETS</span>
-              <span className="navbar__brand-sub">Decoração Imobiliário</span>
+              <span className="navbar__brand-sub">Design Imobiliário</span>
             </span>
           </Link>
 
