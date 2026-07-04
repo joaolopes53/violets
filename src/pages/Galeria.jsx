@@ -146,22 +146,6 @@ export default function Galeria() {
               onKeyDown={(e) => handleItemKeyDown(e, idx)}
             >
               <img src={img.src} alt={img.alt} loading="lazy" />
-              <div className="masonry__overlay">
-                <div className="masonry__info">
-                  <span className="masonry__item-cat">
-                    {categoryMap[img.cat]}
-                  </span>
-                  <h3 className="masonry__item-title">{img.alt}</h3>
-                  <div className="masonry__zoom-trigger">
-                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="11" cy="11" r="8"></circle>
-                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                      <line x1="11" y1="8" x2="11" y2="14"></line>
-                      <line x1="8" y1="11" x2="14" y2="11"></line>
-                    </svg>
-                  </div>
-                </div>
-              </div>
             </div>
           ))}
         </div>
