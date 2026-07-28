@@ -284,7 +284,8 @@
 }
 
 .about__text p {
-  color: var(--text-muted);
+  color: var(--text);
+  font-weight: 400;
   margin-bottom: 16px;
   line-height: 1.8;
 }
@@ -327,7 +328,7 @@
 
 .stat__num {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-sans);
   font-size: 56px;
   font-weight: 300;
   color: var(--gold);
@@ -337,9 +338,10 @@
 .stat__label {
   display: block;
   font-size: 11px;
+  font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text);
   margin-top: 6px;
 }
 
@@ -468,7 +470,7 @@
 }
 
 .service-card h3 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-sans);
   font-size: 22px;
   font-weight: 400;
   color: var(--text);

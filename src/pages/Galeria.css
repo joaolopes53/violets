@@ -222,7 +222,7 @@
 }
 
 .lightbox__caption {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-sans);
   font-size: 20px;
   font-style: italic;
   color: #fff;
