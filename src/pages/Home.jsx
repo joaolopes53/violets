@@ -14,7 +14,7 @@ export default function Home() {
     {
       title: t('home.services.cozinhasTitle'),
       desc: t('home.services.cozinhasDesc'),
-      image: '/gallery/cozinhas/COZINHA 1.jpeg'
+      image: images[0].src
     },
     {
       title: t('home.services.designTitle'),
