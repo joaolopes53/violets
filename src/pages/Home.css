@@ -576,8 +576,11 @@
 }
 
 .cta-banner p {
-  color: var(--text-muted);
-  margin-bottom: 40px;
+  max-width: 540px;
+  margin: 0 auto 40px;
+  color: var(--text);
+  font-weight: 400;
+  line-height: 1.8;
 }
 
 /* ─── Responsive ─── */
