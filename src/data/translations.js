@@ -4,6 +4,10 @@ export const translations = {
       home: 'Início',
       gallery: 'Galeria',
       contact: 'Contacto',
+      openMenu: 'Abrir menu',
+      closeMenu: 'Fechar menu',
+      menuLabel: 'Menu principal',
+      languageLabel: 'Idioma',
     },
     footer: {
       desc: 'Desde 2011, transformamos espaços com paixão, elegância e atenção ao detalhe. Especialistas em design de interiores e mobiliário por medida na Madeira.',
@@ -12,6 +16,12 @@ export const translations = {
       rights: 'Todos os direitos reservados.',
     },
     home: {
+      heroKicker: 'Design de interiores · mobiliário por medida',
+      heroLocation: 'Madeira · Portugal',
+      heroIndex: 'Arquivo 01 — 06',
+      heroScroll: 'Explorar o trabalho',
+      projectsLabel: 'Seleção de projetos',
+      projectsNote: 'Uma amostra do nosso trabalho, entre matéria, luz e função.',
       heroTitlePre: 'Design',
       heroTitleEm: 'com identidade',
       heroDesc: 'Interiores que refletem quem você é. Do design ao acabamento, criamos espaços únicos para viver e inspirar.',
@@ -56,6 +66,9 @@ export const translations = {
       }
     },
     gallery: {
+      headerTitlePre: 'Galeria',
+      headerTitleEm: 'de projetos',
+      filterLabel: 'Filtrar projetos',
       categories: {
         todos: 'Todos',
         cozinhas: 'Cozinhas',
@@ -129,9 +142,15 @@ export const translations = {
         close: 'Fechar',
         prev: 'Anterior',
         next: 'Seguinte',
+        label: 'Visualizador de imagem',
+        viewImage: 'Ver imagem',
+        slide: 'Ir para slide',
       }
     },
     contact: {
+      studioLabel: 'Estúdio / Armazém',
+      nextTitlePre: 'O próximo espaço',
+      nextTitleEm: 'começa aqui.',
       titlePre: 'Fale',
       titleEm: 'connosco',
       subtitle: 'Estamos disponíveis para ajudar a criar o espaço dos seus sonhos.',
@@ -154,6 +173,10 @@ export const translations = {
       home: 'Home',
       gallery: 'Gallery',
       contact: 'Contact',
+      openMenu: 'Open menu',
+      closeMenu: 'Close menu',
+      menuLabel: 'Main menu',
+      languageLabel: 'Language',
     },
     footer: {
       desc: 'Since 2011, we transform spaces with passion, elegance, and attention to detail. Specialists in interior and bespoke furniture design in Madeira.',
@@ -162,6 +185,12 @@ export const translations = {
       rights: 'All rights reserved.',
     },
     home: {
+      heroKicker: 'Interior design · bespoke furniture',
+      heroLocation: 'Madeira · Portugal',
+      heroIndex: 'Archive 01 — 06',
+      heroScroll: 'Explore the work',
+      projectsLabel: 'Selected projects',
+      projectsNote: 'A selection of our work, balancing material, light, and function.',
       heroTitlePre: 'Design',
       heroTitleEm: 'with identity',
       heroDesc: 'Interiors that reflect who you are. From design to finishing, we create unique spaces to live and inspire.',
@@ -206,6 +235,9 @@ export const translations = {
       }
     },
     gallery: {
+      headerTitlePre: 'Project',
+      headerTitleEm: 'gallery',
+      filterLabel: 'Filter projects',
       categories: {
         todos: 'All',
         cozinhas: 'Kitchens',
@@ -279,9 +311,15 @@ export const translations = {
         close: 'Close',
         prev: 'Previous',
         next: 'Next',
+        label: 'Image viewer',
+        viewImage: 'View image',
+        slide: 'Go to slide',
       }
     },
     contact: {
+      studioLabel: 'Studio / Workshop',
+      nextTitlePre: 'The next space',
+      nextTitleEm: 'starts here.',
       titlePre: 'Get in',
       titleEm: 'touch',
       subtitle: 'We are available to help create the space of your dreams.',

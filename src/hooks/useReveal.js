@@ -30,13 +30,7 @@ export function useReveal(options = {}) {
     })
 
     observer.observe(el)
-    return () => {
-      if (el && once) {
-        // Safe check
-      } else {
-        observer.disconnect()
-      }
-    }
+    return () => observer.disconnect()
   }, [once, threshold, rootMargin])
 
   return [ref, revealed]
