@@ -1,204 +1,199 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
-import { categories, galleryItems } from '../data/gallery'
+import { images, categories } from '../data/gallery'
 import './Galeria.css'
 
 export default function Galeria() {
-  const { t } = useLanguage()
-  const [activeCategory, setActiveCategory] = useState('todos')
-  const [lightboxIndex, setLightboxIndex] = useState(null)
+  const { t, language } = useLanguage()
+  const [active, setActive] = useState('todos')
+  const [lightbox, setLightbox] = useState(null)
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 })
-  const filterButtonsRef = useRef({})
-  const lightboxCloseRef = useRef(null)
-  const previousTriggerRef = useRef(null)
-  const previousOverflowRef = useRef('')
-  const lightboxOpenRef = useRef(false)
+  
+  const buttonsRef = useRef({})
   const touchStart = useRef(0)
   const touchEnd = useRef(0)
 
-  const filteredItems = activeCategory === 'todos'
-    ? galleryItems
-    : galleryItems.filter(item => item.cat === activeCategory)
+  const filtered = active === 'todos' ? images : images.filter(i => i.cat === active)
 
-  const closeLightbox = useCallback(() => setLightboxIndex(null), [])
-  const previousImage = useCallback(() => {
-    setLightboxIndex(index => (index - 1 + filteredItems.length) % filteredItems.length)
-  }, [filteredItems.length])
-  const nextImage = useCallback(() => {
-    setLightboxIndex(index => (index + 1) % filteredItems.length)
-  }, [filteredItems.length])
+  const openLightbox = useCallback((idx) => setLightbox(idx), [])
+  const closeLightbox = useCallback(() => setLightbox(null), [])
+  const prev = useCallback(() => setLightbox(i => (i - 1 + filtered.length) % filtered.length), [filtered.length])
+  const next = useCallback(() => setLightbox(i => (i + 1) % filtered.length), [filtered.length])
 
-  const openLightbox = index => {
-    previousTriggerRef.current = document.activeElement
-    setLightboxIndex(index)
-  }
-
+  // Reset lightbox on filter change
   useEffect(() => {
-    if (lightboxIndex !== null) {
-      if (!lightboxOpenRef.current) {
-        previousOverflowRef.current = document.body.style.overflow
-        lightboxOpenRef.current = true
-        window.requestAnimationFrame(() => lightboxCloseRef.current?.focus())
-      }
+    setLightbox(null)
+  }, [active])
+
+  // Background Scroll Locking
+  useEffect(() => {
+    if (lightbox !== null && filtered[lightbox]) {
       document.body.style.overflow = 'hidden'
-      return undefined
+    } else {
+      document.body.style.overflow = ''
     }
-
-    if (lightboxOpenRef.current) {
-      document.body.style.overflow = previousOverflowRef.current
-      lightboxOpenRef.current = false
-      previousTriggerRef.current?.focus?.()
-      previousTriggerRef.current = null
-    }
-    return undefined
-  }, [lightboxIndex])
-
-  useEffect(() => {
     return () => {
-      if (lightboxOpenRef.current) {
-        document.body.style.overflow = previousOverflowRef.current
-        previousTriggerRef.current?.focus?.()
-      }
+      document.body.style.overflow = ''
     }
-  }, [])
+  }, [lightbox, filtered])
 
+  // Keyboard navigation for Lightbox
   useEffect(() => {
-    if (lightboxIndex === null) return undefined
-
-    const onKeyDown = event => {
-      if (event.key === 'Escape') closeLightbox()
-      if (event.key === 'ArrowLeft') previousImage()
-      if (event.key === 'ArrowRight') nextImage()
+    if (lightbox === null) return
+    
+    const handleKey = (e) => {
+      if (e.key === 'Escape') closeLightbox()
+      if (e.key === 'ArrowLeft') prev()
+      if (e.key === 'ArrowRight') next()
     }
+    
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [lightbox, closeLightbox, prev, next])
 
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [lightboxIndex, closeLightbox, previousImage, nextImage])
-
-  useEffect(() => {
-    setLightboxIndex(null)
-  }, [activeCategory])
-
+  // Slide Indicator logic
   useEffect(() => {
     const updateIndicator = () => {
-      const activeButton = filterButtonsRef.current[activeCategory]
-      if (!activeButton) return
-
-      setIndicatorStyle({ left: activeButton.offsetLeft, width: activeButton.offsetWidth })
+      const activeBtn = buttonsRef.current[active]
+      if (activeBtn) {
+        setIndicatorStyle({
+          left: activeBtn.offsetLeft,
+          width: activeBtn.offsetWidth
+        })
+      }
     }
-
-    const frame = window.requestAnimationFrame(updateIndicator)
+    
+    // Tiny delay to ensure styles and layouts are resolved
+    const timer = setTimeout(updateIndicator, 50)
     window.addEventListener('resize', updateIndicator)
+    
     return () => {
-      window.cancelAnimationFrame(frame)
+      clearTimeout(timer)
       window.removeEventListener('resize', updateIndicator)
     }
-  }, [activeCategory])
+  }, [active])
 
-  const handleTouchStart = event => {
-    touchStart.current = event.targetTouches[0].clientX
-    touchEnd.current = touchStart.current
+  // Swipe Gestures
+  const handleTouchStart = (e) => {
+    touchStart.current = e.targetTouches[0].clientX
   }
 
-  const handleTouchMove = event => {
-    touchEnd.current = event.targetTouches[0].clientX
+  const handleTouchMove = (e) => {
+    touchEnd.current = e.targetTouches[0].clientX
   }
 
   const handleTouchEnd = () => {
-    const distance = touchStart.current - touchEnd.current
-    if (Math.abs(distance) > 50) {
-      if (distance > 0) nextImage()
-      else previousImage()
+    if (!touchStart.current || !touchEnd.current) return
+    const diff = touchStart.current - touchEnd.current
+    const minSwipeDistance = 50
+
+    if (diff > minSwipeDistance) {
+      next()
+    } else if (diff < -minSwipeDistance) {
+      prev()
     }
+
     touchStart.current = 0
     touchEnd.current = 0
   }
 
+  const handleItemKeyDown = (e, idx) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      openLightbox(idx)
+    }
+  }
+
   return (
-    <div className="gallery-page">
-      <header className="gallery-page__header">
-        <div className="container">
-          <span className="eyebrow">V / 03</span>
-          <h1>{t('gallery.headerTitlePre')} <em>{t('gallery.headerTitleEm')}</em></h1>
-          <p>{t('home.projectsNote')}</p>
+    <div className="galeria">
+      {/* Filters */}
+      <div className="galeria__filters">
+        <div className="galeria__filters-inner">
+          {categories.map(cat => (
+            <button
+              key={cat.id}
+              ref={el => buttonsRef.current[cat.id] = el}
+              className={`filter-btn${active === cat.id ? ' filter-btn--active' : ''}`}
+              onClick={() => { setActive(cat.id); setLightbox(null); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+            >
+              <span className="filter-btn__text">{t(`gallery.categories.${cat.id}`)}</span>
+              <span className="filter-btn__count">
+                {cat.id === 'todos' ? images.length : images.filter(i => i.cat === cat.id).length}
+              </span>
+            </button>
+          ))}
+          <div 
+            className="filter-indicator" 
+            style={{
+              left: `${indicatorStyle.left}px`,
+              width: `${indicatorStyle.width}px`
+            }}
+          />
         </div>
-      </header>
+      </div>
 
-      <nav className="gallery-filters" aria-label={t('gallery.filterLabel')}>
-        <div className="gallery-filters__inner container">
-          {categories.map(category => {
-            const count = category.id === 'todos'
-              ? galleryItems.length
-              : galleryItems.filter(item => item.cat === category.id).length
-            const isActive = activeCategory === category.id
-
-            return (
-              <button
-                type="button"
-                key={category.id}
-                ref={element => { filterButtonsRef.current[category.id] = element }}
-                className={isActive ? 'is-active' : ''}
-                aria-pressed={isActive}
-                onClick={() => {
-                  setActiveCategory(category.id)
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
-                }}
-              >
-                <span>{t(`gallery.categories.${category.id}`)}</span>
-                <small>{String(count).padStart(2, '0')}</small>
-              </button>
-            )
-          })}
-          <span className="gallery-filters__indicator" style={{ left: indicatorStyle.left, width: indicatorStyle.width }} aria-hidden="true" />
+      {/* Masonry Grid */}
+      <div className="galeria__wrap">
+        <div className="masonry">
+          {filtered.map((img, idx) => (
+            <div
+              className="masonry__item"
+              key={img.src}
+              onClick={() => openLightbox(idx)}
+              tabIndex={0}
+              role="button"
+              aria-label={language === 'pt' ? `Ver imagem: ${img.alt}` : `View image: ${t(`gallery.alts.${img.alt}`)}`}
+              onKeyDown={(e) => handleItemKeyDown(e, idx)}
+            >
+              <img src={img.src} alt={t(`gallery.alts.${img.alt}`)} loading="lazy" />
+            </div>
+          ))}
         </div>
-      </nav>
+      </div>
 
-      <main className="gallery-grid container" aria-live="polite">
-        {filteredItems.map((item, index) => (
-          <button
-            type="button"
-            className="gallery-grid__item"
-            key={item.id}
-            onClick={() => openLightbox(index)}
-            aria-label={`${t('gallery.lightbox.viewImage')}: ${t(`gallery.alts.${item.alt}`)}`}
-          >
-            <span className="gallery-grid__image">
-              <img src={item.src} alt={t(`gallery.alts.${item.alt}`)} loading="lazy" />
-              <span className="gallery-grid__index">{String(index + 1).padStart(2, '0')}</span>
+      {/* Lightbox */}
+      {lightbox !== null && filtered[lightbox] && (
+        <div className="lightbox" onClick={closeLightbox}>
+          <div className="lightbox__header" onClick={e => e.stopPropagation()}>
+            <span className="lightbox__counter">
+              {String(lightbox + 1).padStart(2, '0')} / {String(filtered.length).padStart(2, '0')}
             </span>
-            <span className="gallery-grid__meta">
-              <span>{t(`gallery.categories.${item.cat}`)}</span>
-              <strong>{t(`gallery.alts.${item.alt}`)}</strong>
-              <i aria-hidden="true">↗</i>
-            </span>
-          </button>
-        ))}
-      </main>
-
-      {lightboxIndex !== null && filteredItems[lightboxIndex] && (
-        <div className="lightbox" role="dialog" aria-modal="true" aria-label={t('gallery.lightbox.label')} onClick={closeLightbox}>
-          <div className="lightbox__topline" onClick={event => event.stopPropagation()}>
-            <span>{String(lightboxIndex + 1).padStart(2, '0')} / {String(filteredItems.length).padStart(2, '0')}</span>
-            <button ref={lightboxCloseRef} type="button" onClick={closeLightbox} aria-label={t('gallery.lightbox.close')}>×</button>
+            <button className="lightbox__close" onClick={closeLightbox} aria-label={t('gallery.lightbox.close')}>
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
           </div>
 
-          <button type="button" className="lightbox__previous" onClick={event => { event.stopPropagation(); previousImage() }} aria-label={t('gallery.lightbox.prev')}>←</button>
+          <button className="lightbox__prev" onClick={e => { e.stopPropagation(); prev() }} aria-label={t('gallery.lightbox.prev')}>
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
 
-          <figure
-            className="lightbox__figure"
-            onClick={event => event.stopPropagation()}
+          <div 
+            className="lightbox__img-wrap" 
+            key={lightbox}
+            onClick={e => e.stopPropagation()}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <img src={filteredItems[lightboxIndex].src} alt={t(`gallery.alts.${filteredItems[lightboxIndex].alt}`)} />
-            <figcaption>
-              <span>{t(`gallery.categories.${filteredItems[lightboxIndex].cat}`)}</span>
-              <strong>{t(`gallery.alts.${filteredItems[lightboxIndex].alt}`)}</strong>
-            </figcaption>
-          </figure>
+            <img src={filtered[lightbox].src} alt={t(`gallery.alts.${filtered[lightbox].alt}`)} />
+            <div className="lightbox__info-panel">
+              <span className="lightbox__cat-badge">
+                {t(`gallery.categories.${filtered[lightbox].cat}`)}
+              </span>
+              <p className="lightbox__caption">{t(`gallery.alts.${filtered[lightbox].alt}`)}</p>
+            </div>
+          </div>
 
-          <button type="button" className="lightbox__next" onClick={event => { event.stopPropagation(); nextImage() }} aria-label={t('gallery.lightbox.next')}>→</button>
+          <button className="lightbox__next" onClick={e => { e.stopPropagation(); next() }} aria-label={t('gallery.lightbox.next')}>
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
         </div>
       )}
     </div>

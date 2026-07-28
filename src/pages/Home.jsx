@@ -1,244 +1,286 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useLanguage } from '../hooks/useLanguage'
 import { useReveal } from '../hooks/useReveal'
-import { featuredGalleryItems } from '../data/gallery'
-import { services as serviceCatalog } from '../data/services'
+import { useLanguage } from '../hooks/useLanguage'
+import { images } from '../data/gallery'
 import './Home.css'
 
-const heroImage = '/gallery/cozinhas/COZINHA 4.jpeg'
+const preview = images.slice(0, 6)
 
 export default function Home() {
   const { t } = useLanguage()
-  const [introRef, introVisible] = useReveal()
-  const [servicesRef, servicesVisible] = useReveal()
-  const [projectsRef, projectsVisible] = useReveal()
-  const [closingRef, closingVisible] = useReveal()
-  const servicesTrackRef = useRef(null)
-  const [activeService, setActiveService] = useState(0)
 
-  const localizedServices = serviceCatalog.map(service => ({
-    ...service,
-    title: t(service.titleKey),
-    description: t(service.descriptionKey),
-  }))
+  const localizedServices = [
+    {
+      title: t('home.services.cozinhasTitle'),
+      desc: t('home.services.cozinhasDesc'),
+      image: '/gallery/cozinhas/COZINHA 1.jpeg'
+    },
+    {
+      title: t('home.services.designTitle'),
+      desc: t('home.services.designDesc'),
+      image: '/gallery/design/103514716_1596011003908635_5885864849083847190_n.jpg'
+    },
+    {
+      title: t('home.services.portasTitle'),
+      desc: t('home.services.portasDesc'),
+      image: '/gallery/portas/1.jpeg'
+    },
+    {
+      title: t('home.services.escadariasTitle'),
+      desc: t('home.services.escadariasDesc'),
+      image: '/gallery/escadarias/3.jpeg'
+    },
+    {
+      title: t('home.services.vinilTitle'),
+      desc: t('home.services.vinilDesc'),
+      image: '/gallery/vinil/2.jpeg'
+    },
+    {
+      title: t('home.services.roupeirosTitle'),
+      desc: t('home.services.roupeirosDesc'),
+      image: '/gallery/roupeiros/2.jpeg'
+    }
+  ]
+
+  // Scroll reveal hooks
+  const [aboutRef, aboutVisible] = useReveal()
+  const [servicesRef, servicesVisible] = useReveal()
+  const [previewRef, previewVisible] = useReveal()
+  const [ctaRef, ctaVisible] = useReveal()
+
+  const trackRef = useRef(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isAtStart, setIsAtStart] = useState(true)
+  const [isAtEnd, setIsAtEnd] = useState(false)
+
+  const handleScroll = () => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+
+    // Update active dot index
+    const children = track.children
+    if (children.length > 0) {
+      let closestIndex = 0
+      let minDiff = Infinity
+      const trackLeft = track.getBoundingClientRect().left
+
+      for (let i = 0; i < children.length; i++) {
+        const childLeft = children[i].getBoundingClientRect().left
+        const diff = Math.abs(childLeft - trackLeft)
+        if (diff < minDiff) {
+          minDiff = diff
+          closestIndex = i
+        }
+      }
+      setActiveIndex(closestIndex)
+    }
+
+    // Update boundary states
+    setIsAtStart(track.scrollLeft <= 5)
+    setIsAtEnd(track.scrollLeft + track.clientWidth >= track.scrollWidth - 5)
+  }
 
   useEffect(() => {
-    const track = servicesTrackRef.current
-    if (!track) return
+    const track = trackRef.current
+    if (track) {
+      track.addEventListener('scroll', handleScroll, { passive: true })
+      // Initial check
+      handleScroll()
 
-    const updateActiveService = () => {
-      const firstCard = track.children[0]
-      if (!firstCard) return
+      // Re-run on resize
+      window.addEventListener('resize', handleScroll)
 
-      const step = firstCard.getBoundingClientRect().width + 20
-      setActiveService(Math.min(
-        localizedServices.length - 1,
-        Math.max(0, Math.round(track.scrollLeft / step)),
-      ))
+      return () => {
+        track.removeEventListener('scroll', handleScroll)
+        window.removeEventListener('resize', handleScroll)
+      }
     }
+  }, [])
 
-    track.addEventListener('scroll', updateActiveService, { passive: true })
-    window.addEventListener('resize', updateActiveService)
-    updateActiveService()
-
-    return () => {
-      track.removeEventListener('scroll', updateActiveService)
-      window.removeEventListener('resize', updateActiveService)
+  const scrollToCard = (index) => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+    const child = track.children[index]
+    if (child) {
+      track.scrollTo({
+        left: child.offsetLeft - track.offsetLeft,
+        behavior: 'smooth'
+      })
     }
-  }, [localizedServices.length])
+  }
 
-  const scrollServices = direction => {
-    const track = servicesTrackRef.current
-    const card = track?.children[0]
-    if (!track || !card) return
-
+  const scrollPrev = () => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+    const cardWidth = track.children[0]?.offsetWidth || track.offsetWidth
+    const gap = 24
     track.scrollBy({
-      left: direction * (card.getBoundingClientRect().width + 20),
-      behavior: 'smooth',
+      left: -(cardWidth + gap),
+      behavior: 'smooth'
     })
   }
 
-  const scrollToService = index => {
-    const track = servicesTrackRef.current
-    const card = track?.children[index]
-    if (!track || !card) return
-
-    track.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: 'smooth' })
+  const scrollNext = () => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+    const cardWidth = track.children[0]?.offsetWidth || track.offsetWidth
+    const gap = 24
+    track.scrollBy({
+      left: cardWidth + gap,
+      behavior: 'smooth'
+    })
   }
 
   return (
     <div className="home">
-      <section className="home-hero" aria-labelledby="home-hero-title">
-        <div className="home-hero__inner container">
-          <div className="home-hero__copy">
-            <div className="home-hero__topline">
-              <span className="eyebrow">{t('home.heroKicker')}</span>
-              <span className="home-hero__code">V / 01</span>
-            </div>
+      {/* Hero */}
+      <section className="hero">
+        <div className="hero__bg" aria-hidden="true" />
 
-            <h1 id="home-hero-title" className="home-hero__title">
-              <span>{t('home.heroTitlePre')}</span>
-              <em>{t('home.heroTitleEm')}</em>
-            </h1>
-
-            <p className="home-hero__desc">{t('home.heroDesc')}</p>
-
-            <div className="home-hero__actions">
-              <Link to="/galeria" className="btn btn--primary">
-                {t('home.heroBtnProjects')} <span aria-hidden="true">↗</span>
-              </Link>
-              <Link to="/contacto" className="btn btn--ghost">
-                {t('home.heroBtnContact')}
-              </Link>
-            </div>
-
-            <div className="home-hero__meta" aria-label={t('home.heroKicker')}>
-              <span>{t('home.heroLocation')}</span>
-              <span>2011 — 2026</span>
-            </div>
+        <div className="hero__content">
+          <h1 className="hero__title">
+            {t('home.heroTitlePre')}<br />
+            <em>{t('home.heroTitleEm')}</em>
+          </h1>
+          <p className="hero__desc">
+            {t('home.heroDesc')}
+          </p>
+          <div className="hero__actions">
+            <Link to="/galeria" className="btn btn--primary">{t('home.heroBtnProjects')}</Link>
+            <Link to="/contacto" className="btn btn--ghost">{t('home.heroBtnContact')}</Link>
           </div>
-
-          <figure className="home-hero__figure">
-            <img src={heroImage} alt={t('gallery.alts.Cozinha personalizada')} />
-            <figcaption>
-              <span>{t('gallery.categories.cozinhas')}</span>
-              <span>{t('gallery.alts.Cozinha personalizada')}</span>
-            </figcaption>
-          </figure>
         </div>
-
-        <div className="home-hero__foot container">
-          <span className="home-hero__scroll"><i aria-hidden="true" />{t('home.heroScroll')}</span>
-          <span className="home-hero__index">{t('home.heroIndex')}</span>
-        </div>
-      </section>
-
-      <section
-        ref={introRef}
-        className={`home-intro reveal${introVisible ? ' reveal--visible' : ''}`}
-        aria-labelledby="home-intro-title"
-      >
-        <div className="container">
-          <div className="home-intro__label">
-            <span className="eyebrow eyebrow--light">{t('home.aboutLabel')}</span>
-            <span className="home-intro__stamp">STUDIO / MADEIRA</span>
-          </div>
-          <div className="home-intro__grid">
-            <h2 id="home-intro-title">{t('home.aboutTitlePre')} <em>{t('home.aboutTitleEm')}</em></h2>
-            <div className="home-intro__body">
-              <p>{t('home.aboutP1')}</p>
-              <p>{t('home.aboutP2')}</p>
-              <Link to="/contacto" className="text-link">
-                {t('home.aboutCta')} <span aria-hidden="true">↗</span>
-              </Link>
-            </div>
-          </div>
-          <div className="home-intro__stats">
-            <div><strong>{t('home.statExpNum')}</strong><span>{t('home.statExpLabel')}</span></div>
-            <div><strong>{t('home.statProjNum')}</strong><span>{t('home.statProjLabel')}</span></div>
-            <div><strong>{t('home.statSatNum')}</strong><span>{t('home.statSatLabel')}</span></div>
+        <div className="hero__scroll-hint" aria-hidden="true">
+          {/* Real Violets logo revealed with a clipPath animation */}
+          <div className="hero__logo-reveal">
+            <img src="/logo.svg" alt="Violets Logo" className="hero__logo-img" />
           </div>
         </div>
       </section>
 
-      <section
-        ref={servicesRef}
-        className={`home-services reveal${servicesVisible ? ' reveal--visible' : ''}`}
-        aria-labelledby="home-services-title"
-      >
-        <div className="container">
-          <div className="section-heading section-heading--split">
+      {/* About */}
+      <section ref={aboutRef} className={`about reveal ${aboutVisible ? 'reveal--visible' : ''}`}>
+        <div className="about__inner">
+          <div className="about__label">{t('home.aboutLabel')}</div>
+          <div className="about__grid">
+            <div className="about__text">
+              <h2>{t('home.aboutTitlePre')}<br /><em>{t('home.aboutTitleEm')}</em></h2>
+              <p>
+                {t('home.aboutP1')}
+              </p>
+              <p>
+                {t('home.aboutP2')}
+              </p>
+              <Link to="/contacto" className="about__cta">
+                {t('home.aboutCta')} <span>→</span>
+              </Link>
+            </div>
+            <div className="about__stats">
+              <div className="stat">
+                <span className="stat__num">{t('home.statExpNum')}</span>
+                <span className="stat__label">{t('home.statExpLabel')}</span>
+              </div>
+              <div className="stat">
+                <span className="stat__num">{t('home.statProjNum')}</span>
+                <span className="stat__label">{t('home.statProjLabel')}</span>
+              </div>
+              <div className="stat">
+                <span className="stat__num">{t('home.statSatNum')}</span>
+                <span className="stat__label">{t('home.statSatLabel')}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section ref={servicesRef} className={`services reveal ${servicesVisible ? 'reveal--visible' : ''}`}>
+        <div className="services__inner">
+          <div className="section-header services__header">
             <div>
-              <span className="eyebrow">{t('home.servicesLabel')}</span>
-              <h2 id="home-services-title">{t('home.servicesTitlePre')} <em>{t('home.servicesTitleEm')}</em></h2>
+              <span className="section-label">{t('home.servicesLabel')}</span>
+              <h2>{t('home.servicesTitlePre')} <em>{t('home.servicesTitleEm')}</em></h2>
             </div>
-            <div className="carousel-controls" aria-label={t('home.servicesLabel')}>
-              <button type="button" onClick={() => scrollServices(-1)} aria-label={t('gallery.lightbox.prev')}>
-                <span aria-hidden="true">←</span>
-              </button>
-              <button type="button" onClick={() => scrollServices(1)} aria-label={t('gallery.lightbox.next')}>
-                <span aria-hidden="true">→</span>
-              </button>
-            </div>
-          </div>
-
-          <div ref={servicesTrackRef} className="services-track" tabIndex="0" aria-label={t('home.servicesLabel')}>
-            {localizedServices.map((service, index) => (
-              <article className="service-card" key={service.id}>
-                <div className="service-card__image">
-                  <img src={service.image} alt={service.title} loading="lazy" />
-                  <span>0{index + 1}</span>
-                </div>
-                <div className="service-card__body">
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="carousel-dots" aria-label={t('home.servicesLabel')}>
-            {localizedServices.map((service, index) => (
+            <div className="services__carousel-controls">
               <button
-                type="button"
-                key={service.id}
-                className={index === activeService ? 'is-active' : ''}
-                aria-label={`${service.title} ${index + 1}`}
-                aria-current={index === activeService ? 'step' : undefined}
-                onClick={() => scrollToService(index)}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        ref={projectsRef}
-        className={`home-projects reveal${projectsVisible ? ' reveal--visible' : ''}`}
-        aria-labelledby="home-projects-title"
-      >
-        <div className="container">
-          <div className="section-heading section-heading--projects">
-            <div>
-              <span className="eyebrow">{t('home.projectsLabel')}</span>
-              <h2 id="home-projects-title">{t('home.portfolioTitlePre')} <em>{t('home.portfolioTitleEm')}</em></h2>
+                onClick={scrollPrev}
+                className="services__carousel-btn"
+                aria-label={t('gallery.lightbox.prev')}
+                disabled={isAtStart}
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+              <button
+                onClick={scrollNext}
+                className="services__carousel-btn"
+                aria-label={t('gallery.lightbox.next')}
+                disabled={isAtEnd}
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
             </div>
-            <p>{t('home.projectsNote')}</p>
           </div>
-
-          <div className="project-index">
-            {featuredGalleryItems.map((project, index) => (
-              <Link to="/galeria" className="project-index__item" key={project.id}>
-                <div className="project-index__image">
-                  <img src={project.src} alt={t(`gallery.alts.${project.alt}`)} loading="lazy" />
-                  <span className="project-index__number">0{index + 1}</span>
+          <div className="services__carousel">
+            <div ref={trackRef} className="services__carousel-track">
+              {localizedServices.map(s => (
+                <div className="service-card" key={s.title}>
+                  <div className="service-card__img-wrap">
+                    <img src={s.image} alt={s.title} className="service-card__img" loading="lazy" />
+                  </div>
+                  <div className="service-card__body">
+                    <h3>{s.title}</h3>
+                    <p>{s.desc}</p>
+                  </div>
                 </div>
-                <div className="project-index__details">
-                  <span>{t(`gallery.categories.${project.cat}`)}</span>
-                  <strong>{t(`gallery.alts.${project.alt}`)}</strong>
-                  <span aria-hidden="true">↗</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="home-projects__action">
-            <Link to="/galeria" className="btn btn--outline">{t('home.portfolioCta')} <span aria-hidden="true">↗</span></Link>
+              ))}
+            </div>
+            <div className="services__carousel-dots">
+              {localizedServices.map((_, idx) => (
+                <button
+                  key={idx}
+                  className={`services__carousel-dot ${idx === activeIndex ? 'services__carousel-dot--active' : ''}`}
+                  onClick={() => scrollToCard(idx)}
+                  aria-label={`Ir para slide ${idx + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section
-        ref={closingRef}
-        className={`home-closing reveal${closingVisible ? ' reveal--visible' : ''}`}
-        aria-labelledby="home-closing-title"
-      >
-        <div className="container home-closing__inner">
-          <span className="eyebrow eyebrow--light">V / 02</span>
-          <h2 id="home-closing-title">{t('home.ctaTitlePre')} <em>{t('home.ctaTitleEm')}</em></h2>
+      {/* Gallery preview */}
+      <section ref={previewRef} className={`preview reveal ${previewVisible ? 'reveal--visible' : ''}`}>
+        <div className="preview__inner">
+          <div className="section-header">
+            <span className="section-label">{t('home.portfolioLabel')}</span>
+            <h2>{t('home.portfolioTitlePre')} <em>{t('home.portfolioTitleEm')}</em></h2>
+          </div>
+          <div className="preview__grid">
+            {preview.map((img, i) => (
+              <div className="preview__item" key={i}>
+                <img src={img.src} alt={t(`gallery.alts.${img.alt}`)} loading="lazy" />
+              </div>
+            ))}
+          </div>
+          <div className="preview__cta">
+            <Link to="/galeria" className="btn btn--outline">{t('home.portfolioCta')}</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA banner */}
+      <section ref={ctaRef} className={`cta-banner reveal ${ctaVisible ? 'reveal--visible' : ''}`}>
+        <div className="cta-banner__inner">
+          <h2>{t('home.ctaTitlePre')}<br /><em>{t('home.ctaTitleEm')}</em></h2>
           <p>{t('home.ctaDesc')}</p>
-          <Link to="/contacto" className="btn btn--primary">{t('home.ctaBtn')} <span aria-hidden="true">↗</span></Link>
+          <Link to="/contacto" className="btn btn--primary">{t('home.ctaBtn')}</Link>
         </div>
       </section>
     </div>

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { NavLink, Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import './Navbar.css'
 
@@ -8,120 +8,145 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const location = useLocation()
-  const burgerRef = useRef(null)
-  const closeRef = useRef(null)
-  const wasOpen = useRef(false)
   const isHome = location.pathname === '/'
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
+    const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow
-    if (open) document.body.style.overflow = 'hidden'
-
-    return () => {
-      document.body.style.overflow = previousOverflow
-    }
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
   }, [open])
-
-  useEffect(() => {
-    if (open) {
-      closeRef.current?.focus()
-    } else if (wasOpen.current) {
-      burgerRef.current?.focus()
-    }
-    wasOpen.current = open
-  }, [open])
-
-  useEffect(() => {
-    if (!open) return undefined
-
-    const onKeyDown = event => {
-      if (event.key === 'Escape') setOpen(false)
-    }
-
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [open])
-
-  const closeMenu = () => setOpen(false)
 
   return (
     <>
       <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}${open ? ' navbar--open' : ''}${isHome ? ' navbar--home' : ''}`}>
-        <div className="navbar__inner container">
-          <Link to="/" className="navbar__brand" onClick={closeMenu}>
-            <img src="/logo.svg" alt="Violets" className="navbar__brand-logo" />
+        <div className="navbar__inner">
+          <Link to="/" className="navbar__brand" onClick={() => setOpen(false)}>
+            <img src="/logo.svg" alt="Violets Logo" className="navbar__brand-logo" />
             <span className="navbar__brand-text">
               <span className="navbar__brand-name">VIOLETS</span>
               <span className="navbar__brand-sub">Design Imobiliário</span>
             </span>
           </Link>
 
-          <nav className="navbar__desktop-nav" aria-label={t('nav.menuLabel')}>
+          <nav className="navbar__nav-desktop">
             <NavLink to="/" end>{t('nav.home')}</NavLink>
             <NavLink to="/galeria">{t('nav.gallery')}</NavLink>
             <NavLink to="/contacto">{t('nav.contact')}</NavLink>
-            <div className="language-switcher" aria-label={t('nav.languageLabel')}>
-              <button type="button" className={language === 'pt' ? 'is-active' : ''} onClick={() => setLanguage('pt')} aria-pressed={language === 'pt'}>PT</button>
-              <button type="button" className={language === 'en' ? 'is-active' : ''} onClick={() => setLanguage('en')} aria-pressed={language === 'en'}>EN</button>
+            
+            <div className="lang-switcher">
+              <button
+                className={`lang-btn${language === 'pt' ? ' lang-btn--active' : ''}`}
+                onClick={() => setLanguage('pt')}
+                aria-label="Português"
+              >
+                PT
+              </button>
+              <button
+                className={`lang-btn${language === 'en' ? ' lang-btn--active' : ''}`}
+                onClick={() => setLanguage('en')}
+                aria-label="English"
+              >
+                EN
+              </button>
             </div>
           </nav>
 
           <button
-            ref={burgerRef}
-            type="button"
-            className="navbar__menu-button"
-            onClick={() => setOpen(value => !value)}
-            aria-expanded={open}
-            aria-controls="site-menu"
-            aria-label={open ? t('nav.closeMenu') : t('nav.openMenu')}
+            className={`navbar__burger${open ? ' navbar__burger--open' : ''}`}
+            onClick={() => setOpen(v => !v)}
+            aria-label="Menu"
           >
-            <span aria-hidden="true">{open ? 'Close' : 'Menu'}</span>
-            <i aria-hidden="true" />
+            <span /><span /><span />
           </button>
         </div>
       </header>
 
-      <div className={`navbar__overlay${open ? ' is-open' : ''}`} onClick={closeMenu} aria-hidden="true" />
+      <div
+        className={`navbar__overlay${open ? ' navbar__overlay--open' : ''}`}
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
+      />
 
-      <aside
-        id="site-menu"
-        className={`navbar__drawer${open ? ' is-open' : ''}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label={t('nav.menuLabel')}
-        aria-hidden={!open}
-        inert={!open}
-      >
-        <div className="navbar__drawer-topline">
-          <span className="eyebrow">V / 00</span>
-          <button ref={closeRef} type="button" className="navbar__drawer-close" onClick={closeMenu} aria-label={t('nav.closeMenu')}>
-            <span aria-hidden="true">×</span>
+      <aside className={`navbar__drawer${open ? ' navbar__drawer--open' : ''}`}>
+        <div className="navbar__drawer-header">
+          <div className="navbar__drawer-brand">
+            <img src="/logo.svg" alt="Violets Logo" className="navbar__drawer-logo" />
+            <span className="navbar__drawer-brand-name">VIOLETS</span>
+          </div>
+          <button
+            className="navbar__drawer-close"
+            onClick={() => setOpen(false)}
+            aria-label={t('gallery.lightbox.close')}
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
           </button>
         </div>
 
-        <nav className="navbar__drawer-nav" aria-label={t('nav.menuLabel')}>
-          <NavLink to="/" end onClick={closeMenu}>{t('nav.home')}</NavLink>
-          <NavLink to="/galeria" onClick={closeMenu}>{t('nav.gallery')}</NavLink>
-          <NavLink to="/contacto" onClick={closeMenu}>{t('nav.contact')}</NavLink>
+        <nav className="navbar__drawer-nav">
+          <NavLink to="/" end onClick={() => setOpen(false)}>{t('nav.home')}</NavLink>
+          <NavLink to="/galeria" onClick={() => setOpen(false)}>{t('nav.gallery')}</NavLink>
+          <NavLink to="/contacto" onClick={() => setOpen(false)}>{t('nav.contact')}</NavLink>
         </nav>
 
         <div className="navbar__drawer-footer">
-          <div className="language-switcher" aria-label={t('nav.languageLabel')}>
-            <button type="button" className={language === 'pt' ? 'is-active' : ''} onClick={() => { setLanguage('pt'); closeMenu() }} aria-pressed={language === 'pt'}>PT</button>
-            <button type="button" className={language === 'en' ? 'is-active' : ''} onClick={() => { setLanguage('en'); closeMenu() }} aria-pressed={language === 'en'}>EN</button>
-          </div>
           <div className="navbar__drawer-contact">
-            <a href="tel:+351910008669">+351 910 008 669</a>
-            <a href="mailto:geral@violets.pt">geral@violets.pt</a>
+            <a href="tel:+351910008669" className="navbar__drawer-contact-item">
+              +351 910 008 669
+            </a>
+            <a href="mailto:geral@violets.pt" className="navbar__drawer-contact-item">
+              geral@violets.pt
+            </a>
+          </div>
+          
+          <div className="navbar__drawer-footer-row">
+            <div className="lang-switcher">
+              <button
+                className={`lang-btn${language === 'pt' ? ' lang-btn--active' : ''}`}
+                onClick={() => { setLanguage('pt'); setOpen(false); }}
+                aria-label="Português"
+              >
+                PT
+              </button>
+              <button
+                className={`lang-btn${language === 'en' ? ' lang-btn--active' : ''}`}
+                onClick={() => { setLanguage('en'); setOpen(false); }}
+                aria-label="English"
+              >
+                EN
+              </button>
+            </div>
+
+            <div className="navbar__drawer-socials">
+              <a href="https://www.instagram.com/violets_decor?igsh=MWNyNnZyMml1NGdwMQ==" target="_blank" rel="noopener noreferrer" className="navbar__drawer-social-btn" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a href="https://www.facebook.com/share/1XwyGfTokq/" target="_blank" rel="noopener noreferrer" className="navbar__drawer-social-btn" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 2h-3a5 5 0 0 0 -5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+              </a>
+              <a href="https://wa.me/351910008669" target="_blank" rel="noopener noreferrer" className="navbar__drawer-social-btn" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </aside>
     </>
   )
 }
+

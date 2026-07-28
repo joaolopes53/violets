@@ -7,6 +7,13 @@ export default function Footer() {
 
   return (
     <footer className="footer">
+      {/* Wavy Divider */}
+      <div className="footer__divider" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,30 C240,70 480,80 720,50 C960,20 1200,30 1440,15 L1440,120 L0,120 Z" />
+        </svg>
+      </div>
+
       <div className="footer__inner">
         {/* Column 1: Brand, Description & Socials */}
         <div className="footer__brand-section">
