@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
 import { images, categories } from '../data/gallery'
+import { assetUrl } from '../utils/assetUrl'
 import './Galeria.css'
 
 export default function Galeria() {
@@ -145,7 +146,7 @@ export default function Galeria() {
               aria-label={language === 'pt' ? `Ver imagem: ${img.alt}` : `View image: ${t(`gallery.alts.${img.alt}`)}`}
               onKeyDown={(e) => handleItemKeyDown(e, idx)}
             >
-              <img src={img.src} alt={t(`gallery.alts.${img.alt}`)} loading="lazy" />
+              <img src={assetUrl(img.src)} alt={t(`gallery.alts.${img.alt}`)} loading="lazy" />
             </div>
           ))}
         </div>
@@ -180,7 +181,7 @@ export default function Galeria() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <img src={filtered[lightbox].src} alt={t(`gallery.alts.${filtered[lightbox].alt}`)} />
+            <img src={assetUrl(filtered[lightbox].src)} alt={t(`gallery.alts.${filtered[lightbox].alt}`)} />
             <div className="lightbox__info-panel">
               <span className="lightbox__cat-badge">
                 {t(`gallery.categories.${filtered[lightbox].cat}`)}

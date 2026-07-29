@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
+import { assetUrl } from '../utils/assetUrl'
 import './Navbar.css'
 
 export default function Navbar() {
@@ -26,7 +27,7 @@ export default function Navbar() {
       <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}${open ? ' navbar--open' : ''}${isHome ? ' navbar--home' : ''}`}>
         <div className="navbar__inner">
           <Link to="/" className="navbar__brand" onClick={() => setOpen(false)}>
-            <img src="/logo.svg" alt="Violets Logo" className="navbar__brand-logo" />
+            <img src={assetUrl('/logo.svg')} alt="Violets Logo" className="navbar__brand-logo" />
             <span className="navbar__brand-text">
               <span className="navbar__brand-name">VIOLETS</span>
               <span className="navbar__brand-sub">Design Imobiliário</span>
@@ -75,7 +76,7 @@ export default function Navbar() {
       <aside className={`navbar__drawer${open ? ' navbar__drawer--open' : ''}`}>
         <div className="navbar__drawer-header">
           <div className="navbar__drawer-brand">
-            <img src="/logo.svg" alt="Violets Logo" className="navbar__drawer-logo" />
+            <img src={assetUrl('/logo.svg')} alt="Violets Logo" className="navbar__drawer-logo" />
             <span className="navbar__drawer-brand-name">VIOLETS</span>
           </div>
           <button

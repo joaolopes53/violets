@@ -6,12 +6,13 @@ import Home from './pages/Home'
 import Galeria from './pages/Galeria'
 import Contacto from './pages/Contacto'
 import { LanguageProvider } from './context/LanguageProvider'
+import { getDeploymentBasePath } from './utils/assetUrl'
 import './App.css'
 
 export default function App() {
   return (
     <LanguageProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={getDeploymentBasePath()}>
         <ScrollToTop />
         <Navbar />
         <main>

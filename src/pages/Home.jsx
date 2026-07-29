@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useReveal } from '../hooks/useReveal'
 import { useLanguage } from '../hooks/useLanguage'
 import { images } from '../data/gallery'
+import { assetUrl } from '../utils/assetUrl'
 import './Home.css'
 
 const preview = images.slice(0, 6)
@@ -14,32 +15,32 @@ export default function Home() {
     {
       title: t('home.services.cozinhasTitle'),
       desc: t('home.services.cozinhasDesc'),
-      image: images[0].src
+      image: assetUrl(images[0].src)
     },
     {
       title: t('home.services.designTitle'),
       desc: t('home.services.designDesc'),
-      image: '/gallery/design/103514716_1596011003908635_5885864849083847190_n.jpg'
+      image: assetUrl('/gallery/design/103514716_1596011003908635_5885864849083847190_n.jpg')
     },
     {
       title: t('home.services.portasTitle'),
       desc: t('home.services.portasDesc'),
-      image: '/gallery/portas/1.jpeg'
+      image: assetUrl('/gallery/portas/1.jpeg')
     },
     {
       title: t('home.services.escadariasTitle'),
       desc: t('home.services.escadariasDesc'),
-      image: '/gallery/escadarias/3.jpeg'
+      image: assetUrl('/gallery/escadarias/3.jpeg')
     },
     {
       title: t('home.services.vinilTitle'),
       desc: t('home.services.vinilDesc'),
-      image: '/gallery/vinil/2.jpeg'
+      image: assetUrl('/gallery/vinil/2.jpeg')
     },
     {
       title: t('home.services.roupeirosTitle'),
       desc: t('home.services.roupeirosDesc'),
-      image: '/gallery/roupeiros/2.jpeg'
+      image: assetUrl('/gallery/roupeiros/2.jpeg')
     }
   ]
 
@@ -136,7 +137,11 @@ export default function Home() {
     <div className="home">
       {/* Hero */}
       <section className="hero">
-        <div className="hero__bg" aria-hidden="true" />
+        <div
+          className="hero__bg"
+          style={{ '--hero-image': `url("${assetUrl('/gallery/cozinhas/cozinha-4.jpeg')}")` }}
+          aria-hidden="true"
+        />
 
         <div className="hero__content">
           <h1 className="hero__title">
@@ -154,7 +159,7 @@ export default function Home() {
         <div className="hero__scroll-hint" aria-hidden="true">
           {/* Real Violets logo revealed with a clipPath animation */}
           <div className="hero__logo-reveal">
-            <img src="/logo.svg" alt="Violets Logo" className="hero__logo-img" />
+            <img src={assetUrl('/logo.svg')} alt="Violets Logo" className="hero__logo-img" />
           </div>
         </div>
       </section>
@@ -265,7 +270,7 @@ export default function Home() {
           <div className="preview__grid">
             {preview.map((img, i) => (
               <div className="preview__item" key={i}>
-                <img src={img.src} alt={t(`gallery.alts.${img.alt}`)} loading="lazy" />
+                <img src={assetUrl(img.src)} alt={t(`gallery.alts.${img.alt}`)} loading="lazy" />
               </div>
             ))}
           </div>

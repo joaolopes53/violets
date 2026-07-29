@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
+import { assetUrl } from '../utils/assetUrl'
 import './Footer.css'
 
 export default function Footer() {
@@ -18,7 +19,7 @@ export default function Footer() {
         {/* Column 1: Brand, Description & Socials */}
         <div className="footer__brand-section">
           <Link to="/" className="footer__brand">
-            <img src="/logo.png" alt="Violets Logo" className="footer__brand-logo" />
+            <img src={assetUrl('/logo.png')} alt="Violets Logo" className="footer__brand-logo" />
             <span className="footer__brand-text">
               <span className="footer__brand-name">VIOLETS</span>
               <span className="footer__brand-sub">Design Imobiliário</span>
