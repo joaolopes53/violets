@@ -57,3 +57,16 @@ test('keeps the selected gallery category in the URL', async ({ page }) => {
   await expect(page).toHaveURL(/\/galeria\?category=design$/)
   await expect(page.locator('.masonry__item')).toHaveCount(33)
 })
+
+test('renders gallery images with responsive loading attributes', async ({ page }) => {
+  await page.goto('/galeria')
+  const image = page.locator('.masonry__item img').first()
+
+  await expect(image).toHaveAttribute('loading', 'lazy')
+  await expect(image).toHaveAttribute('decoding', 'async')
+  await expect(image).toHaveAttribute('sizes', /50vw|33vw|25vw/)
+  await expect(image).toHaveAttribute('srcset', /480w/)
+  await expect(image).toHaveAttribute('width', /\d+/)
+  await expect(image).toHaveAttribute('height', /\d+/)
+  await expect.poll(() => image.evaluate(element => element.complete && element.naturalWidth > 0)).toBe(true)
+})

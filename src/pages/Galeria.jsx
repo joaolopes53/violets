@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import { images, categories } from '../data/gallery'
 import { assetUrl } from '../utils/assetUrl'
+import { galleryImageSources } from '../utils/galleryImage'
 import './Galeria.css'
 
 function getValidCategory(value) {
@@ -205,17 +206,27 @@ export default function Galeria() {
       {/* Masonry Grid */}
       <div className="galeria__wrap">
         <div className="masonry">
-          {filtered.map((img, idx) => (
-            <button
-              type="button"
-              className="masonry__item"
-              key={img.src}
-              onClick={event => openLightbox(idx, event.currentTarget)}
-              aria-label={language === 'pt' ? `Ver imagem: ${img.alt}` : `View image: ${t(`gallery.alts.${img.alt}`)}`}
-            >
-              <img src={assetUrl(img.src)} alt={t(`gallery.alts.${img.alt}`)} loading="lazy" />
-            </button>
-          ))}
+          {filtered.map((img, idx) => {
+            const source = galleryImageSources(img.src)
+
+            return (
+              <button
+                type="button"
+                className="masonry__item"
+                key={img.src}
+                onClick={event => openLightbox(idx, event.currentTarget)}
+                aria-label={language === 'pt' ? `Ver imagem: ${img.alt}` : `View image: ${t(`gallery.alts.${img.alt}`)}`}
+              >
+                <img
+                  {...source}
+                  alt={t(`gallery.alts.${img.alt}`)}
+                  sizes="(max-width: 860px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            )
+          })}
         </div>
       </div>
 

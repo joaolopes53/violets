@@ -6,6 +6,10 @@ import { images } from '../src/data/gallery.js'
 
 const assetModule = await import('../src/utils/assetUrl.js').catch(() => ({}))
 const { assetUrl, getDeploymentBasePath } = assetModule
+const dimensionsModule = await import('../src/data/galleryDimensions.js').catch(() => ({}))
+const { galleryDimensions } = dimensionsModule
+const galleryImageModule = await import('../src/utils/galleryImage.js').catch(() => ({}))
+const { galleryImageSources } = galleryImageModule
 
 const projectRoot = path.resolve(import.meta.dirname, '..')
 const sourceFiles = [
@@ -31,7 +35,7 @@ function sourceGalleryUrls() {
 
 function publicGalleryAssets() {
   return fs.readdirSync(path.join(projectRoot, 'public', 'gallery'), { recursive: true })
-    .filter(relativePath => /\.(?:jpe?g|png|webp)$/i.test(relativePath))
+    .filter(relativePath => !relativePath.startsWith('generated/') && /\.(?:jpe?g|png|webp)$/i.test(relativePath))
     .map(relativePath => `/gallery/${relativePath}`)
 }
 
@@ -66,6 +70,53 @@ test('gallery category state is driven by validated URL search parameters', () =
   assert.match(source, /useSearchParams/)
   assert.match(source, /searchParams\.get\('category'\)/)
   assert.match(source, /getValidCategory/)
+})
+
+test('gallery views use the shared responsive image source helper', () => {
+  const gallerySource = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.jsx'), 'utf8')
+  const homeSource = fs.readFileSync(path.join(projectRoot, 'src/pages/Home.jsx'), 'utf8')
+
+  for (const source of [gallerySource, homeSource]) {
+    assert.match(source, /galleryImageSources/)
+    assert.match(source, /sizes=/)
+    assert.match(source, /decoding="async"/)
+  }
+})
+
+test('gallery derivatives have a generator and dimensions manifest', () => {
+  assert.equal(fs.existsSync(path.join(projectRoot, 'scripts/generate-gallery-variants.mjs')), true)
+  assert.equal(fs.existsSync(path.join(projectRoot, 'src/data/galleryDimensions.js')), true)
+})
+
+test('every catalogued image has dimensions and responsive WebP variants', () => {
+  assert.equal(typeof galleryDimensions, 'object')
+  assert.equal(typeof galleryImageSources, 'function')
+
+  for (const image of images) {
+    const dimensions = galleryDimensions[image.src]
+    assert.equal(typeof dimensions?.width, 'number', `Missing width for ${image.src}`)
+    assert.equal(typeof dimensions?.height, 'number', `Missing height for ${image.src}`)
+
+    const [category, filename] = image.src.replace(/^\/gallery\//, '').split('/')
+    const basename = filename.replace(/\.[^.]+$/, '')
+
+    for (const width of [480, 960, 1440]) {
+      const variantPath = path.join(
+        projectRoot,
+        'public',
+        'gallery',
+        'generated',
+        category,
+        `${basename}-${width}.webp`,
+      )
+
+      assert.equal(fs.existsSync(variantPath), true, `Missing responsive variant: ${variantPath}`)
+    }
+  }
+
+  const source = galleryImageSources(images[0].src, '/violets/')
+  assert.equal(source.src, '/violets/gallery/cozinhas/cozinha-1.jpeg')
+  assert.match(source.srcSet, /cozinha-1-480\.webp 480w/)
 })
 
 test('public asset URLs respect the configured deployment base', () => {
