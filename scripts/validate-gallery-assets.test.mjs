@@ -29,6 +29,12 @@ function sourceGalleryUrls() {
   })
 }
 
+function publicGalleryAssets() {
+  return fs.readdirSync(path.join(projectRoot, 'public', 'gallery'), { recursive: true })
+    .filter(relativePath => /\.(?:jpe?g|png|webp)$/i.test(relativePath))
+    .map(relativePath => `/gallery/${relativePath}`)
+}
+
 test('gallery image URLs use URL-safe asset names that exist in public', () => {
   for (const imageUrl of sourceGalleryUrls()) {
     const assetPath = path.join(projectRoot, 'public', imageUrl.slice(1))
@@ -38,6 +44,13 @@ test('gallery image URLs use URL-safe asset names that exist in public', () => {
   }
 
   assert.equal(images.length > 0, true, 'Gallery data must contain at least one image')
+})
+
+test('every public gallery image is represented in the gallery catalog', () => {
+  const cataloguedAssets = new Set(images.map(image => image.src))
+  const uncataloguedAssets = publicGalleryAssets().filter(asset => !cataloguedAssets.has(asset))
+
+  assert.deepEqual(uncataloguedAssets, [])
 })
 
 test('public asset URLs respect the configured deployment base', () => {
