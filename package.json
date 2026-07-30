@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
+    "images:gallery": "node scripts/generate-gallery-variants.mjs",
     "lint": "oxlint",
     "test:gallery": "node --test scripts/validate-gallery-assets.test.mjs",
+    "test:e2e:gallery": "playwright test scripts/gallery-accessibility.e2e.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -16,10 +18,12 @@
     "react-router-dom": "^7.18.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "oxlint": "^1.69.0",
+    "sharp": "^0.35.3",
     "vite": "^8.1.0"
   }
 }

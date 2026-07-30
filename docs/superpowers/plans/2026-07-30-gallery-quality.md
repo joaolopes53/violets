@@ -67,6 +67,7 @@ git commit -m "fix: clean up reveal observers"
 - Modify: `website/src/pages/Galeria.jsx`
 - Modify: `website/src/pages/Galeria.css`
 - Create: `website/scripts/gallery-accessibility.e2e.mjs`
+- Create: `website/playwright.config.mjs`
 - Modify: `website/package.json`
 - Modify: `website/package-lock.json`
 

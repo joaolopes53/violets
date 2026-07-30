@@ -4,6 +4,7 @@ import { useReveal } from '../hooks/useReveal'
 import { useLanguage } from '../hooks/useLanguage'
 import { images } from '../data/gallery'
 import { assetUrl } from '../utils/assetUrl'
+import { galleryImageSources } from '../utils/galleryImage'
 import './Home.css'
 
 const preview = images.slice(0, 6)
@@ -268,11 +269,21 @@ export default function Home() {
             <h2>{t('home.portfolioTitlePre')} <em>{t('home.portfolioTitleEm')}</em></h2>
           </div>
           <div className="preview__grid">
-            {preview.map((img, i) => (
-              <div className="preview__item" key={i}>
-                <img src={assetUrl(img.src)} alt={t(`gallery.alts.${img.alt}`)} loading="lazy" />
-              </div>
-            ))}
+            {preview.map((img, i) => {
+              const source = galleryImageSources(img.src)
+
+              return (
+                <div className="preview__item" key={i}>
+                  <img
+                    {...source}
+                    alt={t(`gallery.alts.${img.alt}`)}
+                    sizes="(max-width: 960px) 50vw, 33vw"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              )
+            })}
           </div>
           <div className="preview__cta">
             <Link to="/galeria" className="btn btn--outline">{t('home.portfolioCta')}</Link>
