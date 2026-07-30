@@ -53,6 +53,13 @@ test('every public gallery image is represented in the gallery catalog', () => {
   assert.deepEqual(uncataloguedAssets, [])
 })
 
+test('useReveal disconnects its IntersectionObserver during cleanup', () => {
+  const source = fs.readFileSync(path.join(projectRoot, 'src/hooks/useReveal.js'), 'utf8')
+  const cleanup = source.match(/return \(\) => \{([\s\S]*?)\n\s*\}/)?.[1]
+
+  assert.match(cleanup ?? '', /^\s*observer\.disconnect\(\)/m)
+})
+
 test('public asset URLs respect the configured deployment base', () => {
   assert.equal(typeof assetUrl, 'function')
   assert.equal(assetUrl('/gallery/cozinhas/cozinha-1.jpeg', '/'), '/gallery/cozinhas/cozinha-1.jpeg')
