@@ -60,6 +60,14 @@ test('useReveal disconnects its IntersectionObserver during cleanup', () => {
   assert.match(cleanup ?? '', /^\s*observer\.disconnect\(\)/m)
 })
 
+test('gallery category state is driven by validated URL search parameters', () => {
+  const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.jsx'), 'utf8')
+
+  assert.match(source, /useSearchParams/)
+  assert.match(source, /searchParams\.get\('category'\)/)
+  assert.match(source, /getValidCategory/)
+})
+
 test('public asset URLs respect the configured deployment base', () => {
   assert.equal(typeof assetUrl, 'function')
   assert.equal(assetUrl('/gallery/cozinhas/cozinha-1.jpeg', '/'), '/gallery/cozinhas/cozinha-1.jpeg')
