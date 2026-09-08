@@ -154,8 +154,36 @@
 .btn--ghost { color: var(--text); border: 1px solid var(--border); }
 .btn--ghost:hover { border-color: var(--gold-dim); color: var(--gold); }
 
-.btn--whatsapp { background: #25D366; color: #fff; }
-.btn--whatsapp:hover { background: #1ebe5b; color: #fff; }
+.btn--whatsapp {
+  background: #19382d;
+  color: #f7f5f0;
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn--whatsapp:hover {
+  background: #132b22;
+  color: #ffffff;
+  border-color: rgba(37, 211, 102, 0.6);
+  box-shadow: 0 4px 18px rgba(25, 56, 45, 0.28);
+}
+
+.btn--whatsapp svg {
+  color: #25d366;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.btn--whatsapp:hover svg {
+  transform: scale(1.1);
+}
+
+.btn--whatsapp:focus-visible {
+  outline: 2px solid #25d366;
+  outline-offset: 3px;
+}
 
 /* Responsive — Tablet */
 @media (max-width: 900px) {

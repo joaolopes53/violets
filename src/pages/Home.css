@@ -619,6 +619,22 @@
 
 @media (max-width: 600px) {
 
+  .hero {
+    padding: calc(var(--nav-h) + 20px) 20px 60px;
+  }
+
+  .hero__title {
+    font-size: clamp(38px, 11vw, 56px);
+    margin-bottom: 20px;
+  }
+
+  .hero__desc {
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 32px;
+    padding: 0 10px;
+  }
+
   .about,
   .services,
   .preview {
@@ -651,6 +667,9 @@
     flex-direction: column;
     align-items: stretch;
     width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    gap: 12px;
   }
 
   .hero__actions .btn {
