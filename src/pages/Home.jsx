@@ -14,34 +14,29 @@ export default function Home() {
 
   const localizedServices = [
     {
-      title: t('home.services.cozinhasTitle'),
-      desc: t('home.services.cozinhasDesc'),
-      image: assetUrl(images[0].src)
+      title: t('home.services.cortinadosTitle'),
+      desc: t('home.services.cortinadosDesc'),
+      image: assetUrl('/gallery/cortinados/cortinados1.jpeg')
     },
     {
-      title: t('home.services.designTitle'),
-      desc: t('home.services.designDesc'),
-      image: assetUrl('/gallery/design/103514716_1596011003908635_5885864849083847190_n.jpg')
+      title: t('home.services.cabeceirasTitle'),
+      desc: t('home.services.cabeceirasDesc'),
+      image: assetUrl('/gallery/cabeceiras-de-cama/cabeceiras-de-cama1.jpeg')
     },
     {
-      title: t('home.services.portasTitle'),
-      desc: t('home.services.portasDesc'),
-      image: assetUrl('/gallery/portas/1.jpeg')
+      title: t('home.services.papelParedeTitle'),
+      desc: t('home.services.papelParedeDesc'),
+      image: assetUrl('/gallery/papel-de-parede/papel-de-parede1.jpeg')
     },
     {
-      title: t('home.services.escadariasTitle'),
-      desc: t('home.services.escadariasDesc'),
-      image: assetUrl('/gallery/escadarias/3.jpeg')
+      title: t('home.services.estofamentosTitle'),
+      desc: t('home.services.estofamentosDesc'),
+      image: assetUrl('/gallery/estofamentos/estofamentos1.jpeg')
     },
     {
-      title: t('home.services.vinilTitle'),
-      desc: t('home.services.vinilDesc'),
-      image: assetUrl('/gallery/vinil/2.jpeg')
-    },
-    {
-      title: t('home.services.roupeirosTitle'),
-      desc: t('home.services.roupeirosDesc'),
-      image: assetUrl('/gallery/roupeiros/2.jpeg')
+      title: t('home.services.hotelariaTitle'),
+      desc: t('home.services.hotelariaDesc'),
+      image: assetUrl('/gallery/hotelaria/hotelaria1.jpeg')
     }
   ]
 
@@ -140,7 +135,7 @@ export default function Home() {
       <section className="hero">
         <div
           className="hero__bg"
-          style={{ '--hero-image': `url("${assetUrl('/gallery/cozinhas/cozinha-4.jpeg')}")` }}
+          style={{ '--hero-image': `url("${assetUrl('/hero.jpeg')}")` }}
           aria-hidden="true"
         />
 

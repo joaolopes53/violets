@@ -115,16 +115,16 @@ test('every catalogued image has dimensions and responsive WebP variants', () =>
   }
 
   const source = galleryImageSources(images[0].src, '/violets/')
-  assert.equal(source.src, '/violets/gallery/cozinhas/cozinha-1.jpeg')
-  assert.match(source.srcSet, /cozinha-1-480\.webp 480w/)
+  assert.equal(source.src, `/violets${images[0].src}`)
+  assert.match(source.srcSet, /cortinados1-480\.webp 480w/)
 })
 
 test('public asset URLs respect the configured deployment base', () => {
   assert.equal(typeof assetUrl, 'function')
-  assert.equal(assetUrl('/gallery/cozinhas/cozinha-1.jpeg', '/'), '/gallery/cozinhas/cozinha-1.jpeg')
+  assert.equal(assetUrl(images[0].src, '/'), images[0].src)
   assert.equal(
-    assetUrl('/gallery/cozinhas/cozinha-1.jpeg', '/violets/'),
-    '/violets/gallery/cozinhas/cozinha-1.jpeg'
+    assetUrl(images[0].src, '/violets/'),
+    `/violets${images[0].src}`
   )
   assert.equal(assetUrl('logo.svg', '/portfolio'), '/portfolio/logo.svg')
 })

@@ -37,25 +37,25 @@ test('closes the lightbox with Escape and the close button', async ({ page }) =>
 })
 
 test('opens the gallery on the category provided in the URL', async ({ page }) => {
-  await page.goto('/galeria?category=design')
+  await page.goto('/galeria?category=cortinados')
 
-  await expect(page.locator('.filter-btn--active .filter-btn__text')).toHaveText('Design')
-  await expect(page.locator('.masonry__item')).toHaveCount(33)
+  await expect(page.locator('.filter-btn--active .filter-btn__text')).toHaveText(/^(Cortinados|Curtains & Drapes)$/)
+  await expect(page.locator('.masonry__item')).toHaveCount(18)
 })
 
 test('falls back to all images for an unknown category', async ({ page }) => {
   await page.goto('/galeria?category=unknown')
 
   await expect(page.locator('.filter-btn--active .filter-btn__text')).toHaveText(/^(Todos|All)$/)
-  await expect(page.locator('.masonry__item')).toHaveCount(77)
+  await expect(page.locator('.masonry__item')).toHaveCount(63)
 })
 
 test('keeps the selected gallery category in the URL', async ({ page }) => {
   await page.goto('/galeria')
 
-  await page.getByRole('button', { name: /Design\s+\d+/ }).click()
-  await expect(page).toHaveURL(/\/galeria\?category=design$/)
-  await expect(page.locator('.masonry__item')).toHaveCount(33)
+  await page.getByRole('button', { name: /(Cortinados|Curtains & Drapes)\s+\d+/ }).click()
+  await expect(page).toHaveURL(/\/galeria\?category=cortinados$/)
+  await expect(page.locator('.masonry__item')).toHaveCount(18)
 })
 
 test('renders gallery images with responsive loading attributes', async ({ page }) => {
