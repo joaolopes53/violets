@@ -16,10 +16,6 @@ export const galleryDimensions = {
     "height": 1086
   },
   "/gallery/cabeceiras-de-cama/cabeceiras-de-cama5.jpeg": {
-    "width": 810,
-    "height": 1440
-  },
-  "/gallery/cabeceiras-de-cama/cabeceiras-de-cama6.jpeg": {
     "width": 1672,
     "height": 941
   },
@@ -228,16 +224,16 @@ export const galleryDimensions = {
     "height": 1448
   },
   "/gallery/cortinados/cortinados10.jpeg": {
-    "width": 1086,
-    "height": 1448
-  },
-  "/gallery/cortinados/cortinados11.jpeg": {
     "width": 1448,
     "height": 1086
   },
-  "/gallery/cortinados/cortinados12.jpeg": {
+  "/gallery/cortinados/cortinados11.jpeg": {
     "width": 941,
     "height": 1672
+  },
+  "/gallery/cortinados/cortinados12.jpeg": {
+    "width": 1086,
+    "height": 1448
   },
   "/gallery/cortinados/cortinados13.jpeg": {
     "width": 1086,
@@ -252,14 +248,10 @@ export const galleryDimensions = {
     "height": 1448
   },
   "/gallery/cortinados/cortinados16.jpeg": {
-    "width": 1086,
-    "height": 1448
-  },
-  "/gallery/cortinados/cortinados17.jpeg": {
     "width": 941,
     "height": 1672
   },
-  "/gallery/cortinados/cortinados18.jpeg": {
+  "/gallery/cortinados/cortinados17.jpeg": {
     "width": 941,
     "height": 1672
   },
@@ -276,20 +268,20 @@ export const galleryDimensions = {
     "height": 1448
   },
   "/gallery/cortinados/cortinados5.jpeg": {
-    "width": 1086,
-    "height": 1448
+    "width": 1448,
+    "height": 1086
   },
   "/gallery/cortinados/cortinados6.jpeg": {
-    "width": 1448,
-    "height": 1086
-  },
-  "/gallery/cortinados/cortinados7.jpeg": {
     "width": 1086,
     "height": 1448
   },
-  "/gallery/cortinados/cortinados8.jpeg": {
+  "/gallery/cortinados/cortinados7.jpeg": {
     "width": 1448,
     "height": 1086
+  },
+  "/gallery/cortinados/cortinados8.jpeg": {
+    "width": 1086,
+    "height": 1448
   },
   "/gallery/cortinados/cortinados9.jpeg": {
     "width": 1086,

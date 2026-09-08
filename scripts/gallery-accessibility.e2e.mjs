@@ -40,14 +40,14 @@ test('opens the gallery on the category provided in the URL', async ({ page }) =
   await page.goto('/galeria?category=cortinados')
 
   await expect(page.locator('.filter-btn--active .filter-btn__text')).toHaveText(/^(Cortinados|Curtains & Drapes)$/)
-  await expect(page.locator('.masonry__item')).toHaveCount(18)
+  await expect(page.locator('.masonry__item')).toHaveCount(17)
 })
 
 test('falls back to all images for an unknown category', async ({ page }) => {
   await page.goto('/galeria?category=unknown')
 
   await expect(page.locator('.filter-btn--active .filter-btn__text')).toHaveText(/^(Todos|All)$/)
-  await expect(page.locator('.masonry__item')).toHaveCount(113)
+  await expect(page.locator('.masonry__item')).toHaveCount(111)
 })
 
 test('keeps the selected gallery category in the URL', async ({ page }) => {
@@ -55,7 +55,7 @@ test('keeps the selected gallery category in the URL', async ({ page }) => {
 
   await page.getByRole('button', { name: /(Cortinados|Curtains & Drapes)\s+\d+/ }).click()
   await expect(page).toHaveURL(/\/galeria\?category=cortinados$/)
-  await expect(page.locator('.masonry__item')).toHaveCount(18)
+  await expect(page.locator('.masonry__item')).toHaveCount(17)
 })
 
 test('renders gallery images with responsive loading attributes', async ({ page }) => {

@@ -27,14 +27,12 @@ export const images = [
   { src: '/gallery/cortinados/cortinados15.jpeg', cat: 'cortinados', alt: 'Cortinados 15' }, 
   { src: '/gallery/cortinados/cortinados16.jpeg', cat: 'cortinados', alt: 'Cortinados 16' }, 
   { src: '/gallery/cortinados/cortinados17.jpeg', cat: 'cortinados', alt: 'Cortinados 17' }, 
-  { src: '/gallery/cortinados/cortinados18.jpeg', cat: 'cortinados', alt: 'Cortinados 18' }, 
   // Cabeceiras de Cama
   { src: '/gallery/cabeceiras-de-cama/cabeceiras-de-cama1.jpeg', cat: 'cabeceiras-de-cama', alt: 'Cabeceiras de Cama 1' }, 
   { src: '/gallery/cabeceiras-de-cama/cabeceiras-de-cama2.jpeg', cat: 'cabeceiras-de-cama', alt: 'Cabeceiras de Cama 2' }, 
   { src: '/gallery/cabeceiras-de-cama/cabeceiras-de-cama3.jpeg', cat: 'cabeceiras-de-cama', alt: 'Cabeceiras de Cama 3' }, 
   { src: '/gallery/cabeceiras-de-cama/cabeceiras-de-cama4.jpeg', cat: 'cabeceiras-de-cama', alt: 'Cabeceiras de Cama 4' }, 
   { src: '/gallery/cabeceiras-de-cama/cabeceiras-de-cama5.jpeg', cat: 'cabeceiras-de-cama', alt: 'Cabeceiras de Cama 5' }, 
-  { src: '/gallery/cabeceiras-de-cama/cabeceiras-de-cama6.jpeg', cat: 'cabeceiras-de-cama', alt: 'Cabeceiras de Cama 6' }, 
   // Papel de Parede
   { src: '/gallery/papel-de-parede/papel-de-parede1.jpeg', cat: 'papel-de-parede', alt: 'Papel de Parede 1' }, 
   { src: '/gallery/papel-de-parede/papel-de-parede2.jpeg', cat: 'papel-de-parede', alt: 'Papel de Parede 2' }, 
