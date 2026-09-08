@@ -177,11 +177,21 @@ export default function Galeria() {
 
   return (
     <div className="galeria">
+      {/* Editorial Header */}
+      <header className="galeria__header">
+        <span className="galeria__hero-tag">{t('gallery.heroTag')}</span>
+        <h1 className="galeria__hero-title">
+          {t('gallery.heroTitlePre')} <em>{t('gallery.heroTitleEm')}</em> {t('gallery.heroTitlePost')}
+        </h1>
+        <p className="galeria__hero-desc">{t('gallery.heroDesc')}</p>
+      </header>
+
       {/* Filters */}
       <div className="galeria__filters">
         <div className="galeria__filters-inner">
           {categories.map(cat => (
             <button
+              type="button"
               key={cat.id}
               ref={el => buttonsRef.current[cat.id] = el}
               className={`filter-btn${active === cat.id ? ' filter-btn--active' : ''}`}
@@ -203,7 +213,7 @@ export default function Galeria() {
         </div>
       </div>
 
-      {/* Masonry Grid */}
+      {/* Organic Masonry Grid (Preserving Natural Proportions) */}
       <div className="galeria__wrap">
         <div className="masonry">
           {filtered.map((img, idx) => {
@@ -217,13 +227,25 @@ export default function Galeria() {
                 onClick={event => openLightbox(idx, event.currentTarget)}
                 aria-label={language === 'pt' ? `Ver imagem: ${img.alt}` : `View image: ${t(`gallery.alts.${img.alt}`)}`}
               >
-                <img
-                  {...source}
-                  alt={t(`gallery.alts.${img.alt}`)}
-                  sizes="(max-width: 860px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <div className="masonry__img-box">
+                  <img
+                    {...source}
+                    alt={t(`gallery.alts.${img.alt}`)}
+                    sizes="(max-width: 680px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="masonry__overlay" aria-hidden="true">
+                    <span className="masonry__zoom-icon">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        <line x1="11" y1="8" x2="11" y2="14" />
+                        <line x1="8" y1="11" x2="14" y2="11" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
               </button>
             )
           })}
@@ -248,20 +270,21 @@ export default function Galeria() {
               {String(lightbox + 1).padStart(2, '0')} / {String(filtered.length).padStart(2, '0')}
             </span>
             <button
+              type="button"
               ref={closeButtonRef}
               className="lightbox__close"
               onClick={closeLightbox}
               aria-label={t('gallery.lightbox.close')}
             >
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
             </button>
           </div>
 
-          <button className="lightbox__prev" onClick={e => { e.stopPropagation(); prev() }} aria-label={t('gallery.lightbox.prev')}>
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <button type="button" className="lightbox__prev" onClick={e => { e.stopPropagation(); prev() }} aria-label={t('gallery.lightbox.prev')}>
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </button>
@@ -277,14 +300,13 @@ export default function Galeria() {
             <img src={assetUrl(filtered[lightbox].src)} alt={t(`gallery.alts.${filtered[lightbox].alt}`)} />
             <div className="lightbox__info-panel">
               <span className="lightbox__cat-badge">
-                {t(`gallery.categories.${filtered[lightbox].cat}`)}
+                {t(`gallery.categories.${filtered[lightbox].cat}`)} · Madeira
               </span>
-              <p className="lightbox__caption">{t(`gallery.alts.${filtered[lightbox].alt}`)}</p>
             </div>
           </div>
 
-          <button className="lightbox__next" onClick={e => { e.stopPropagation(); next() }} aria-label={t('gallery.lightbox.next')}>
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <button type="button" className="lightbox__next" onClick={e => { e.stopPropagation(); next() }} aria-label={t('gallery.lightbox.next')}>
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </button>

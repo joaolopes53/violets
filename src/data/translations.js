@@ -54,6 +54,11 @@ export const translations = {
       }
     },
     gallery: {
+      heroTag: 'Portfólio & Obras',
+      heroTitlePre: 'Projetos que',
+      heroTitleEm: 'transformam',
+      heroTitlePost: 'interiores',
+      heroDesc: 'Conheça o nosso trabalho em cortinados, estofos e decoração por medida na Madeira.',
       categories: {
         todos: 'Todos',
         cortinados: 'Cortinados',
@@ -206,6 +211,11 @@ export const translations = {
       }
     },
     gallery: {
+      heroTag: 'Portfolio & Works',
+      heroTitlePre: 'Projects that',
+      heroTitleEm: 'transform',
+      heroTitlePost: 'interiors',
+      heroDesc: 'Discover our bespoke craftsmanship in curtains, upholstery, and interior decor in Madeira.',
       categories: {
         todos: 'All',
         cortinados: 'Curtains & Drapes',
