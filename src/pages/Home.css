@@ -209,10 +209,6 @@
   z-index: 4;
 }
 
-.hero__scroll-hint span {
-  display: none;
-}
-
 /* ── Hero logo reveal animation ── */
 .hero__logo-reveal {
   position: relative;
@@ -784,11 +780,6 @@
   .home-contact__triptych {
     grid-template-columns: 1fr;
     gap: 24px;
-  }
-
-  .home-contact__banner {
-    height: auto;
-    padding: 36px 30px;
   }
 
   .stat {

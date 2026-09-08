@@ -1,11 +1,11 @@
 export const categories = [
-  { id: 'todos',              label: 'Todos' },
-  { id: 'cortinados',         label: 'Cortinados' },
-  { id: 'cabeceiras-de-cama', label: 'Cabeceiras de Cama' },
-  { id: 'papel-de-parede',    label: 'Papel de Parede' },
-  { id: 'estofamentos',       label: 'Estofamentos' },
-  { id: 'hotelaria',          label: 'Hotelaria' },
-  { id: 'carpintaria',        label: 'Carpintaria' },
+  { id: 'todos' },
+  { id: 'cortinados' },
+  { id: 'cabeceiras-de-cama' },
+  { id: 'papel-de-parede' },
+  { id: 'estofamentos' },
+  { id: 'hotelaria' },
+  { id: 'carpintaria' },
 ]
 
 export const images = [
