@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useReveal } from '../hooks/useReveal'
 import { useLanguage } from '../hooks/useLanguage'
 import { images } from '../data/gallery'
@@ -11,6 +11,7 @@ const preview = images.slice(0, 6)
 
 export default function Home() {
   const { t } = useLanguage()
+  const navigate = useNavigate()
 
   const localizedServices = [
     {
@@ -156,7 +157,7 @@ export default function Home() {
                 e.preventDefault()
                 const el = document.getElementById('contacto')
                 if (el) el.scrollIntoView({ behavior: 'smooth' })
-                window.history.replaceState(null, '', '#contacto')
+                navigate('/#contacto', { replace: true })
               }}
             >
               {t('home.heroBtnContact')}
@@ -191,7 +192,7 @@ export default function Home() {
                   e.preventDefault()
                   const el = document.getElementById('contacto')
                   if (el) el.scrollIntoView({ behavior: 'smooth' })
-                  window.history.replaceState(null, '', '#contacto')
+                  navigate('/#contacto', { replace: true })
                 }}
               >
                 {t('home.aboutCta')} <span>→</span>
@@ -404,7 +405,7 @@ export default function Home() {
           {/* Google Maps - Sede (Caniço) */}
           <div className="home-contact__map">
             <iframe
-              title="Violets Atelier - Sede Caniço"
+              title="Violets Showroom - Sede Caniço"
               src="https://maps.google.com/maps?q=Rua+Francisco+Peres+Canico+Edificio+Freitas&t=&z=16&ie=UTF8&iwloc=&output=embed"
               className="home-contact__map-frame"
               loading="lazy"

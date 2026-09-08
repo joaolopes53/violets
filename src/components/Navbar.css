@@ -208,6 +208,11 @@
   transform: translateY(0);
 }
 
+.navbar__cta-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
 /* Home Transparent State for CTA */
 .navbar--home:not(.navbar--scrolled):not(.navbar--open) .navbar__cta-btn {
   background: #ffffff;
@@ -461,6 +466,11 @@
   color: var(--gold-dark, #725016);
 }
 
+.lang-dropdown__btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
 .lang-dropdown__arrow {
   color: var(--gold);
   transition: transform 0.25s ease, color 0.25s ease;
@@ -511,6 +521,11 @@
 .lang-dropdown__item:hover {
   background: rgba(139, 100, 32, 0.08);
   color: var(--gold);
+}
+
+.lang-dropdown__item:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
 }
 
 .lang-dropdown__item--active {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { NavLink, Link, useLocation } from 'react-router-dom'
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import { assetUrl } from '../utils/assetUrl'
 import './Navbar.css'
@@ -9,6 +9,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
   const isHome = location.pathname === '/'
 
   useEffect(() => {
@@ -31,9 +32,27 @@ export default function Navbar() {
         setLangOpen(false)
       }
     }
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && langOpen) {
+        setLangOpen(false)
+      }
+    }
     document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [langOpen])
+
+  const handleContactNav = (e) => {
+    if (isHome) {
+      e.preventDefault()
+      const el = document.getElementById('contacto')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+      navigate('/#contacto', { replace: true })
+    }
+  }
 
   return (
     <>
@@ -47,23 +66,16 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <nav className="navbar__nav-desktop" aria-label="Navegação principal">
+          <nav className="navbar__nav-desktop" aria-label={t('nav.mainNav')}>
             <NavLink to="/" end className={({ isActive }) => `navbar__link${isActive && !location.hash ? ' active' : ''}`}>{t('nav.home')}</NavLink>
             <NavLink to="/galeria" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>{t('nav.gallery')}</NavLink>
-            <a
-              href="/#contacto"
+            <Link
+              to="/#contacto"
               className={`navbar__link${location.hash === '#contacto' ? ' active' : ''}`}
-              onClick={(e) => {
-                if (isHome) {
-                  e.preventDefault()
-                  const el = document.getElementById('contacto')
-                  if (el) el.scrollIntoView({ behavior: 'smooth' })
-                  window.history.replaceState(null, '', '#contacto')
-                }
-              }}
+              onClick={handleContactNav}
             >
               {t('nav.contact')}
-            </a>
+            </Link>
           </nav>
 
           <div className="navbar__actions-desktop">
@@ -74,7 +86,7 @@ export default function Navbar() {
                 onClick={() => setLangOpen(prev => !prev)}
                 aria-expanded={langOpen}
                 aria-haspopup="listbox"
-                aria-label="Selecionar idioma"
+                aria-label={t('nav.selectLang')}
               >
                 <span className="lang-dropdown__current">{language.toUpperCase()}</span>
                 <svg className="lang-dropdown__arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -83,55 +95,62 @@ export default function Navbar() {
               </button>
 
               {langOpen && (
-                <ul className="lang-dropdown__menu" role="listbox" aria-label="Idiomas disponíveis">
-                  <li role="option" aria-selected={language === 'pt'}>
-                    <button
-                      type="button"
-                      className={`lang-dropdown__item${language === 'pt' ? ' lang-dropdown__item--active' : ''}`}
-                      onClick={() => { setLanguage('pt'); setLangOpen(false); }}
-                    >
-                      <span className="lang-dropdown__code">PT</span>
-                      <span className="lang-dropdown__label">Português</span>
-                      {language === 'pt' && (
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                      )}
-                    </button>
+                <ul className="lang-dropdown__menu" role="listbox" aria-label={t('nav.availableLangs')}>
+                  <li
+                    role="option"
+                    tabIndex={0}
+                    aria-selected={language === 'pt'}
+                    className={`lang-dropdown__item${language === 'pt' ? ' lang-dropdown__item--active' : ''}`}
+                    onClick={() => { setLanguage('pt'); setLangOpen(false); }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        setLanguage('pt')
+                        setLangOpen(false)
+                      }
+                    }}
+                  >
+                    <span className="lang-dropdown__code">PT</span>
+                    <span className="lang-dropdown__label">Português</span>
+                    {language === 'pt' && (
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    )}
                   </li>
-                  <li role="option" aria-selected={language === 'en'}>
-                    <button
-                      type="button"
-                      className={`lang-dropdown__item${language === 'en' ? ' lang-dropdown__item--active' : ''}`}
-                      onClick={() => { setLanguage('en'); setLangOpen(false); }}
-                    >
-                      <span className="lang-dropdown__code">EN</span>
-                      <span className="lang-dropdown__label">English</span>
-                      {language === 'en' && (
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                      )}
-                    </button>
+                  <li
+                    role="option"
+                    tabIndex={0}
+                    aria-selected={language === 'en'}
+                    className={`lang-dropdown__item${language === 'en' ? ' lang-dropdown__item--active' : ''}`}
+                    onClick={() => { setLanguage('en'); setLangOpen(false); }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        setLanguage('en')
+                        setLangOpen(false)
+                      }
+                    }}
+                  >
+                    <span className="lang-dropdown__code">EN</span>
+                    <span className="lang-dropdown__label">English</span>
+                    {language === 'en' && (
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    )}
                   </li>
                 </ul>
               )}
             </div>
 
-            <a
-              href="/#contacto"
+            <Link
+              to="/#contacto"
               className="navbar__cta-btn"
-              onClick={(e) => {
-                if (isHome) {
-                  e.preventDefault()
-                  const el = document.getElementById('contacto')
-                  if (el) el.scrollIntoView({ behavior: 'smooth' })
-                  window.history.replaceState(null, '', '#contacto')
-                }
-              }}
+              onClick={handleContactNav}
             >
               <span>{t('nav.cta')}</span>
-            </a>
+            </Link>
           </div>
 
           <button
@@ -173,20 +192,15 @@ export default function Navbar() {
         <nav className="navbar__drawer-nav">
           <NavLink to="/" end onClick={() => setOpen(false)}>{t('nav.home')}</NavLink>
           <NavLink to="/galeria" onClick={() => setOpen(false)}>{t('nav.gallery')}</NavLink>
-          <a
-            href="/#contacto"
+          <Link
+            to="/#contacto"
             onClick={(e) => {
               setOpen(false)
-              if (isHome) {
-                e.preventDefault()
-                const el = document.getElementById('contacto')
-                if (el) el.scrollIntoView({ behavior: 'smooth' })
-                window.history.replaceState(null, '', '#contacto')
-              }
+              handleContactNav(e)
             }}
           >
             {t('nav.contact')}
-          </a>
+          </Link>
         </nav>
 
         <div className="navbar__drawer-footer">

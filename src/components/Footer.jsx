@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import { assetUrl } from '../utils/assetUrl'
 import './Footer.css'
 
 export default function Footer() {
   const { t } = useLanguage()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isHome = location.pathname === '/'
 
   return (
     <footer className="footer">
@@ -66,19 +69,19 @@ export default function Footer() {
           <nav className="footer__nav-list" aria-label="Footer Navigation">
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>{t('nav.home')}</Link>
             <Link to="/galeria">{t('nav.gallery')}</Link>
-            <a
-              href="/#contacto"
+            <Link
+              to="/#contacto"
               onClick={(e) => {
-                const el = document.getElementById('contacto')
-                if (el) {
+                if (isHome) {
                   e.preventDefault()
-                  el.scrollIntoView({ behavior: 'smooth' })
-                  window.history.replaceState(null, '', '#contacto')
+                  const el = document.getElementById('contacto')
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
+                  navigate('/#contacto', { replace: true })
                 }
               }}
             >
               {t('nav.contact')}
-            </a>
+            </Link>
           </nav>
         </div>
 
