@@ -7,6 +7,7 @@
 }
 
 :root {
+  color-scheme: light;
   --bg: #f2ebe0;
   --bg-2: #e8ddd0;
   --bg-3: #ddd0bf;
@@ -23,6 +24,8 @@
 }
 
 html {
+  color-scheme: light;
+  background-color: var(--bg);
   scroll-behavior: smooth;
 }
 
