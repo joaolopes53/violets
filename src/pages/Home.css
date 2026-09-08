@@ -551,36 +551,208 @@
   text-align: center;
 }
 
-/* ─── CTA Banner ─── */
-.cta-banner {
-  padding: 80px clamp(20px, 5vw, 48px) 160px;
+/* ─── Contact Section (Option 3: Tríptico Nobre & Showroom) ─── */
+.home-contact {
+  padding: 88px clamp(20px, 5vw, 48px) 100px;
   background: var(--bg-2);
   border-top: 1px solid var(--border);
-  text-align: center;
+  scroll-margin-top: var(--nav-h);
 }
 
-.cta-banner__inner {
-  max-width: 600px;
+.home-contact__inner {
+  max-width: var(--max-w);
   margin: 0 auto;
 }
 
-.cta-banner h2 {
-  font-size: clamp(36px, 5vw, 60px);
-  margin-bottom: 20px;
-  color: var(--text);
+.home-contact__header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 52px;
 }
 
-.cta-banner h2 em {
+.home-contact__header h2 {
+  font-family: var(--font-display, inherit);
+  font-size: clamp(34px, 5vw, 50px);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--text);
+  margin: 10px 0 14px;
+}
+
+.home-contact__header h2 em {
   font-style: italic;
   color: var(--gold);
 }
 
-.cta-banner p {
-  max-width: 540px;
-  margin: 0 auto 40px;
-  color: var(--text);
+.home-contact__header p {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* 3-Card Triptych Grid */
+.home-contact__triptych {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 3vw, 32px);
+  margin-bottom: 56px;
+}
+
+.triptych-card {
+  background: #ffffff;
+  border: 1px solid rgba(139, 100, 32, 0.22);
+  border-radius: 12px;
+  padding: 44px 34px 38px;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(30, 20, 8, 0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s;
+}
+
+.triptych-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(139, 100, 32, 0.12);
+  border-color: var(--gold);
+}
+
+.triptych-card--featured {
+  position: relative;
+}
+
+.triptych-card__body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.triptych-card__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(139, 100, 32, 0.08);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  transition: transform 0.3s ease;
+}
+
+.triptych-card:hover .triptych-card__icon {
+  transform: scale(1.08);
+}
+
+.triptych-card__icon--wa {
+  background: rgba(18, 140, 126, 0.1);
+  color: #128C7E;
+}
+
+.triptych-card h3 {
+  font-family: var(--font-display, inherit);
+  font-size: 28px;
   font-weight: 400;
-  line-height: 1.8;
+  color: var(--text);
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+
+.triptych-card p {
+  font-size: 15.5px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 0;
+  min-height: 80px;
+}
+
+.triptych-card__details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 22px 0 20px;
+  border-top: 1px solid rgba(139, 100, 32, 0.14);
+  margin-top: 24px;
+  margin-bottom: 28px;
+  min-height: 148px;
+}
+
+.triptych-card__details .location-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.triptych-card__details .location-addr {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.triptych-card__details .direct-number {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+}
+
+.triptych-card__btn {
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  background: transparent;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.triptych-card__btn:hover {
+  background: var(--gold);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(139, 100, 32, 0.25);
+}
+
+.triptych-card__btn--wa {
+  background: #20BA5C;
+  color: #ffffff;
+  border-color: #20BA5C;
+  box-shadow: 0 4px 14px rgba(32, 186, 92, 0.25);
+}
+
+.triptych-card__btn--wa:hover {
+  background: #199c4c;
+  border-color: #199c4c;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(25, 156, 76, 0.35);
+}
+
+/* Google Maps - Sede (Caniço) */
+.home-contact__map {
+  border-radius: 12px;
+  overflow: hidden;
+  height: 340px;
+  border: 1px solid rgba(139, 100, 32, 0.22);
+  box-shadow: 0 8px 26px rgba(30, 20, 8, 0.05);
+  background: var(--bg-1, #fbf9f6);
+}
+
+.home-contact__map-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
 }
 
 /* ─── Responsive ─── */
@@ -597,6 +769,16 @@
     flex-wrap: wrap;
     border-top: 1px solid var(--border);
     padding-top: 40px;
+  }
+
+  .home-contact__triptych {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .home-contact__banner {
+    height: auto;
+    padding: 36px 30px;
   }
 
   .stat {
@@ -641,8 +823,8 @@
     padding: 80px clamp(20px, 5vw, 48px);
   }
 
-  .cta-banner {
-    padding: 80px clamp(20px, 5vw, 48px) 120px;
+  .home-contact {
+    padding: 64px 20px 80px;
   }
 
   .services__header {

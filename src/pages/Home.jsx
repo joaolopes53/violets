@@ -149,7 +149,18 @@ export default function Home() {
           </p>
           <div className="hero__actions">
             <Link to="/galeria" className="btn btn--primary">{t('home.heroBtnProjects')}</Link>
-            <Link to="/contacto" className="btn btn--ghost">{t('home.heroBtnContact')}</Link>
+            <a
+              href="#contacto"
+              className="btn btn--ghost"
+              onClick={(e) => {
+                e.preventDefault()
+                const el = document.getElementById('contacto')
+                if (el) el.scrollIntoView({ behavior: 'smooth' })
+                window.history.replaceState(null, '', '#contacto')
+              }}
+            >
+              {t('home.heroBtnContact')}
+            </a>
           </div>
         </div>
         <div className="hero__scroll-hint" aria-hidden="true">
@@ -173,9 +184,18 @@ export default function Home() {
               <p>
                 {t('home.aboutP2')}
               </p>
-              <Link to="/contacto" className="about__cta">
+              <a
+                href="#contacto"
+                className="about__cta"
+                onClick={(e) => {
+                  e.preventDefault()
+                  const el = document.getElementById('contacto')
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
+                  window.history.replaceState(null, '', '#contacto')
+                }}
+              >
                 {t('home.aboutCta')} <span>→</span>
-              </Link>
+              </a>
             </div>
             <div className="about__stats">
               <div className="stat">
@@ -205,6 +225,7 @@ export default function Home() {
             </div>
             <div className="services__carousel-controls">
               <button
+                type="button"
                 onClick={scrollPrev}
                 className="services__carousel-btn"
                 aria-label={t('gallery.lightbox.prev')}
@@ -216,6 +237,7 @@ export default function Home() {
                 </svg>
               </button>
               <button
+                type="button"
                 onClick={scrollNext}
                 className="services__carousel-btn"
                 aria-label={t('gallery.lightbox.next')}
@@ -245,6 +267,7 @@ export default function Home() {
             <div className="services__carousel-dots">
               {localizedServices.map((_, idx) => (
                 <button
+                  type="button"
                   key={idx}
                   className={`services__carousel-dot ${idx === activeIndex ? 'services__carousel-dot--active' : ''}`}
                   onClick={() => scrollToCard(idx)}
@@ -286,12 +309,108 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA banner */}
-      <section ref={ctaRef} className={`cta-banner reveal ${ctaVisible ? 'reveal--visible' : ''}`}>
-        <div className="cta-banner__inner">
-          <h2>{t('home.ctaTitlePre')}<br /><em>{t('home.ctaTitleEm')}</em></h2>
-          <p>{t('home.ctaDesc')}</p>
-          <Link to="/contacto" className="btn btn--primary">{t('home.ctaBtn')}</Link>
+      {/* Contact Section (Option 3: Cartões em Tríptico Nobre + Showroom) */}
+      <section id="contacto" ref={ctaRef} className={`home-contact reveal ${ctaVisible ? 'reveal--visible' : ''}`}>
+        <div className="home-contact__inner">
+          <div className="home-contact__header">
+            <span className="section-label">{t('contact.tag')}</span>
+            <h2>{t('contact.titlePre')} <em>{t('contact.titleEm')}</em></h2>
+            <p>{t('contact.subtitle')}</p>
+          </div>
+
+          <div className="home-contact__triptych">
+            {/* Card 1: Atelier */}
+            <div className="triptych-card">
+              <div className="triptych-card__body">
+                <div className="triptych-card__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
+                <h3>{t('contact.atelierTitle')}</h3>
+                <p>{t('contact.atelierDesc')}</p>
+                <div className="triptych-card__details">
+                  <span className="location-name">{t('contact.sede')}</span>
+                  <span className="location-addr">{t('contact.sedeAddress')}</span>
+                  <span className="location-name" style={{ marginTop: '8px' }}>{t('contact.armazem')}</span>
+                  <span className="location-addr">{t('contact.armazemAddress')}</span>
+                </div>
+              </div>
+              <a
+                href="https://maps.google.com/?q=Rua+Francisco+Peres+Caniço"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="triptych-card__btn"
+              >
+                <span>{t('contact.atelierCta')}</span>
+              </a>
+            </div>
+
+            {/* Card 2: WhatsApp (Featured) */}
+            <div className="triptych-card triptych-card--featured">
+              <div className="triptych-card__body">
+                <div className="triptych-card__icon triptych-card__icon--wa">
+                  <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.13-2.9-7C17.17 3.03 14.69 2 12.04 2zm0 18.14h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.13.82.83-3.05-.2-.31a8.18 8.18 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z" />
+                  </svg>
+                </div>
+                <h3>{t('contact.waTitle')}</h3>
+                <p>{t('contact.waDesc')}</p>
+                <div className="triptych-card__details">
+                  <span className="direct-number">{t('contact.phoneText')}</span>
+                  <span className="location-addr">{t('contact.horarioText')}</span>
+                </div>
+              </div>
+              <a
+                href="https://wa.me/351910008669"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="triptych-card__btn triptych-card__btn--wa"
+              >
+                <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.13-2.9-7C17.17 3.03 14.69 2 12.04 2zm0 18.14h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.13.82.83-3.05-.2-.31a8.18 8.18 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z" />
+                </svg>
+                <span>{t('contact.waCta')}</span>
+              </a>
+            </div>
+
+            {/* Card 3: Email */}
+            <div className="triptych-card">
+              <div className="triptych-card__body">
+                <div className="triptych-card__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                    <path d="M3 7l9 6 9-6" />
+                  </svg>
+                </div>
+                <h3>{t('contact.emailTitle')}</h3>
+                <p>{t('contact.emailDesc')}</p>
+                <div className="triptych-card__details">
+                  <span className="location-name">{t('contact.emailLabel')}</span>
+                  <span className="direct-number">{t('contact.emailText')}</span>
+                  <span className="location-addr">{t('contact.emailSub')}</span>
+                </div>
+              </div>
+              <a
+                href={`mailto:${t('contact.emailText')}?subject=Contacto%20Violets`}
+                className="triptych-card__btn"
+              >
+                <span>{t('contact.emailCta')}</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Google Maps - Sede (Caniço) */}
+          <div className="home-contact__map">
+            <iframe
+              title="Violets Atelier - Sede Caniço"
+              src="https://maps.google.com/maps?q=Rua+Francisco+Peres+Canico+Edificio+Freitas&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              className="home-contact__map-frame"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
         </div>
       </section>
     </div>

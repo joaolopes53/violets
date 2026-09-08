@@ -1,10 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
 import Galeria from './pages/Galeria'
-import Contacto from './pages/Contacto'
 import { LanguageProvider } from './context/LanguageProvider'
 import { getDeploymentBasePath } from './utils/assetUrl'
 import './App.css'
@@ -19,7 +18,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/galeria" element={<Galeria />} />
-            <Route path="/contacto" element={<Contacto />} />
+            <Route path="/contacto" element={<Navigate to="/#contacto" replace />} />
           </Routes>
         </main>
         <Footer />

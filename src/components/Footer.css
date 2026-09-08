@@ -256,13 +256,13 @@
 
 @media (max-width: 600px) {
   .footer {
-    padding: 60px 20px 28px;
+    padding: 48px 24px 36px;
   }
 
   .footer__inner {
     grid-template-columns: 1fr;
-    gap: 36px;
-    padding-bottom: 40px;
+    gap: 0;
+    padding-bottom: 0;
   }
 
   .footer__brand-col {
@@ -271,9 +271,16 @@
     border-bottom: none;
   }
 
-  .footer__bottom-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+  .footer__desc {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 28px;
+    color: rgba(244, 240, 233, 0.7);
+  }
+
+  .footer__nav-col,
+  .footer__contact-col,
+  .footer__bottom {
+    display: none;
   }
 }

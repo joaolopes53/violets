@@ -66,7 +66,19 @@ export default function Footer() {
           <nav className="footer__nav-list" aria-label="Footer Navigation">
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>{t('nav.home')}</Link>
             <Link to="/galeria">{t('nav.gallery')}</Link>
-            <Link to="/contacto">{t('nav.contact')}</Link>
+            <a
+              href="/#contacto"
+              onClick={(e) => {
+                const el = document.getElementById('contacto')
+                if (el) {
+                  e.preventDefault()
+                  el.scrollIntoView({ behavior: 'smooth' })
+                  window.history.replaceState(null, '', '#contacto')
+                }
+              }}
+            >
+              {t('nav.contact')}
+            </a>
           </nav>
         </div>
 
