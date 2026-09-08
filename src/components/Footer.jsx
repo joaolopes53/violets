@@ -90,11 +90,11 @@ export default function Footer() {
           <p className="footer__col-label">{t('footer.contact')}</p>
           <div className="footer__locations">
             <div className="footer__location-block">
-              <span className="footer__location-name">{t('contact.sede')} · Caniço</span>
+              <span className="footer__location-name">{t('contact.sede')}</span>
               <p className="footer__location-detail">Rua Francisco Peres, Ed. Freitas, Loja C</p>
             </div>
             <div className="footer__location-block">
-              <span className="footer__location-name">{t('contact.armazem')} · Camacha</span>
+              <span className="footer__location-name">{t('contact.armazem')}</span>
               <p className="footer__location-detail">Parque Empresarial da Camacha, Lote 4</p>
             </div>
           </div>
