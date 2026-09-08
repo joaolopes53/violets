@@ -62,7 +62,7 @@ export default function Navbar() {
             <img src={assetUrl('/logo.svg')} alt="Violets Logo" className="navbar__brand-logo" />
             <span className="navbar__brand-text">
               <span className="navbar__brand-name">VIOLETS</span>
-              <span className="navbar__brand-sub">Design Imobiliário</span>
+              <span className="navbar__brand-sub">Design e Decoração</span>
             </span>
           </Link>
 

@@ -23,6 +23,206 @@ export const galleryDimensions = {
     "width": 1672,
     "height": 941
   },
+  "/gallery/carpintaria/carpintaria1.jpeg": {
+    "width": 1088,
+    "height": 1445
+  },
+  "/gallery/carpintaria/carpintaria10.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/carpintaria/carpintaria11.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/carpintaria/carpintaria12.jpeg": {
+    "width": 1254,
+    "height": 1254
+  },
+  "/gallery/carpintaria/carpintaria13.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria14.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria15.jpeg": {
+    "width": 1254,
+    "height": 1254
+  },
+  "/gallery/carpintaria/carpintaria16.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria17.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria18.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/carpintaria/carpintaria19.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria2.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria20.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria21.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/carpintaria/carpintaria22.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria23.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria24.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria25.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria26.jpeg": {
+    "width": 1122,
+    "height": 1402
+  },
+  "/gallery/carpintaria/carpintaria27.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria28.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria29.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria3.jpeg": {
+    "width": 1088,
+    "height": 1445
+  },
+  "/gallery/carpintaria/carpintaria30.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria31.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria32.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria33.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria34.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/carpintaria/carpintaria35.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/carpintaria/carpintaria36.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria37.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria38.jpeg": {
+    "width": 1122,
+    "height": 1402
+  },
+  "/gallery/carpintaria/carpintaria39.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria4.jpeg": {
+    "width": 1088,
+    "height": 1445
+  },
+  "/gallery/carpintaria/carpintaria40.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria41.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/carpintaria/carpintaria42.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria43.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria44.jpeg": {
+    "width": 1254,
+    "height": 1254
+  },
+  "/gallery/carpintaria/carpintaria45.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria46.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria47.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria48.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria49.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria5.jpeg": {
+    "width": 1088,
+    "height": 1445
+  },
+  "/gallery/carpintaria/carpintaria50.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria6.jpeg": {
+    "width": 1254,
+    "height": 1254
+  },
+  "/gallery/carpintaria/carpintaria7.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/carpintaria/carpintaria8.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria9.jpeg": {
+    "width": 1254,
+    "height": 1254
+  },
   "/gallery/cortinados/cortinados1.jpeg": {
     "width": 1086,
     "height": 1448

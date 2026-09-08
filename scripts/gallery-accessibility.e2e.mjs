@@ -47,7 +47,7 @@ test('falls back to all images for an unknown category', async ({ page }) => {
   await page.goto('/galeria?category=unknown')
 
   await expect(page.locator('.filter-btn--active .filter-btn__text')).toHaveText(/^(Todos|All)$/)
-  await expect(page.locator('.masonry__item')).toHaveCount(63)
+  await expect(page.locator('.masonry__item')).toHaveCount(113)
 })
 
 test('keeps the selected gallery category in the URL', async ({ page }) => {

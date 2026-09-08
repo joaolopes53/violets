@@ -18,7 +18,7 @@ export default function Footer() {
             <img src={assetUrl('/logo.svg')} alt="Violets Logo" className="footer__brand-logo" />
             <span className="footer__brand-text">
               <span className="footer__brand-name">VIOLETS</span>
-              <span className="footer__brand-sub">Design Imobiliário</span>
+              <span className="footer__brand-sub">Design e Decoração</span>
             </span>
           </Link>
           <p className="footer__desc">
@@ -107,7 +107,7 @@ export default function Footer() {
 
       <div className="footer__bottom">
         <div className="footer__bottom-inner">
-          <p>© {new Date().getFullYear()} Violets Design Imobiliário. {t('footer.rights')}</p>
+          <p>© {new Date().getFullYear()} Violets Design e Decoração. {t('footer.rights')}</p>
           <p className="footer__location-tag">Madeira · Portugal</p>
         </div>
       </div>

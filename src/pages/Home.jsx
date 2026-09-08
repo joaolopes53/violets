@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useReveal } from '../hooks/useReveal'
 import { useLanguage } from '../hooks/useLanguage'
@@ -38,6 +38,11 @@ export default function Home() {
       title: t('home.services.hotelariaTitle'),
       desc: t('home.services.hotelariaDesc'),
       image: assetUrl('/gallery/hotelaria/hotelaria1.jpeg')
+    },
+    {
+      title: t('home.services.carpintariaTitle'),
+      desc: t('home.services.carpintariaDesc'),
+      image: assetUrl('/gallery/carpintaria/carpintaria1.jpeg')
     }
   ]
 
@@ -49,14 +54,50 @@ export default function Home() {
 
   const trackRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const [isAtStart, setIsAtStart] = useState(true)
-  const [isAtEnd, setIsAtEnd] = useState(false)
+  const isInternalScrollRef = useRef(false)
 
-  const handleScroll = () => {
+  // Compute single set span width (5 items + gaps)
+  const getSingleSetWidth = useCallback(() => {
+    if (!trackRef.current) return 0
+    const track = trackRef.current
+    const firstChild = track.children[0]
+    const middleChild = track.children[localizedServices.length]
+    if (firstChild && middleChild) {
+      return middleChild.offsetLeft - firstChild.offsetLeft
+    }
+    return 0
+  }, [localizedServices.length])
+
+  const handleScroll = useCallback(() => {
     if (!trackRef.current) return
     const track = trackRef.current
+    const singleSetWidth = getSingleSetWidth()
 
-    // Update active dot index
+    if (singleSetWidth > 0 && !isInternalScrollRef.current) {
+      // If scrolled past the second set into the third set
+      if (track.scrollLeft >= singleSetWidth * 2) {
+        isInternalScrollRef.current = true
+        track.scrollTo({
+          left: track.scrollLeft - singleSetWidth,
+          behavior: 'instant'
+        })
+        requestAnimationFrame(() => {
+          isInternalScrollRef.current = false
+        })
+      } else if (track.scrollLeft <= 10) {
+        // If scrolled before the middle set into the first set
+        isInternalScrollRef.current = true
+        track.scrollTo({
+          left: track.scrollLeft + singleSetWidth,
+          behavior: 'instant'
+        })
+        requestAnimationFrame(() => {
+          isInternalScrollRef.current = false
+        })
+      }
+    }
+
+    // Determine active index for dots (modulo category count)
     const children = track.children
     if (children.length > 0) {
       let closestIndex = 0
@@ -71,64 +112,144 @@ export default function Home() {
           closestIndex = i
         }
       }
-      setActiveIndex(closestIndex)
+      setActiveIndex(closestIndex % localizedServices.length)
     }
+  }, [getSingleSetWidth, localizedServices.length])
 
-    // Update boundary states
-    setIsAtStart(track.scrollLeft <= 5)
-    setIsAtEnd(track.scrollLeft + track.clientWidth >= track.scrollWidth - 5)
-  }
-
+  // Initialize scroll position to the middle clone set so it can scroll seamlessly left or right
   useEffect(() => {
     const track = trackRef.current
     if (track) {
-      track.addEventListener('scroll', handleScroll, { passive: true })
-      // Initial check
-      handleScroll()
+      const initScroll = () => {
+        const singleSetWidth = getSingleSetWidth()
+        if (singleSetWidth > 0 && track.scrollLeft < singleSetWidth - 50) {
+          isInternalScrollRef.current = true
+          track.scrollTo({
+            left: singleSetWidth,
+            behavior: 'instant'
+          })
+          requestAnimationFrame(() => {
+            isInternalScrollRef.current = false
+          })
+        }
+        handleScroll()
+      }
 
-      // Re-run on resize
+      // Initial position after render
+      const timer = setTimeout(initScroll, 50)
+
+      track.addEventListener('scroll', handleScroll, { passive: true })
       window.addEventListener('resize', handleScroll)
 
       return () => {
+        clearTimeout(timer)
         track.removeEventListener('scroll', handleScroll)
         window.removeEventListener('resize', handleScroll)
       }
     }
-  }, [])
+  }, [getSingleSetWidth, handleScroll])
 
-  const scrollToCard = (index) => {
+  const [isPaused, setIsPaused] = useState(false)
+  const autoPlayTimerRef = useRef(null)
+
+  const scrollNext = useCallback(() => {
     if (!trackRef.current) return
     const track = trackRef.current
-    const child = track.children[index]
-    if (child) {
+    const singleSetWidth = getSingleSetWidth()
+
+    // If near the end of the middle set, snap back by 1 set instantly before smooth scrolling forward
+    if (singleSetWidth > 0 && track.scrollLeft >= singleSetWidth * 2 - 10) {
+      isInternalScrollRef.current = true
       track.scrollTo({
-        left: child.offsetLeft - track.offsetLeft,
-        behavior: 'smooth'
+        left: track.scrollLeft - singleSetWidth,
+        behavior: 'instant'
+      })
+      requestAnimationFrame(() => {
+        isInternalScrollRef.current = false
       })
     }
-  }
 
-  const scrollPrev = () => {
-    if (!trackRef.current) return
-    const track = trackRef.current
-    const cardWidth = track.children[0]?.offsetWidth || track.offsetWidth
-    const gap = 24
-    track.scrollBy({
-      left: -(cardWidth + gap),
-      behavior: 'smooth'
-    })
-  }
-
-  const scrollNext = () => {
-    if (!trackRef.current) return
-    const track = trackRef.current
     const cardWidth = track.children[0]?.offsetWidth || track.offsetWidth
     const gap = 24
     track.scrollBy({
       left: cardWidth + gap,
       behavior: 'smooth'
     })
+  }, [getSingleSetWidth])
+
+  const resetAutoPlay = useCallback(() => {
+    if (autoPlayTimerRef.current) {
+      clearInterval(autoPlayTimerRef.current)
+      autoPlayTimerRef.current = null
+    }
+    if (!isPaused) {
+      autoPlayTimerRef.current = setInterval(() => {
+        scrollNext()
+      }, 2000)
+    }
+  }, [isPaused, scrollNext])
+
+  const scrollToCard = (index) => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+    // Target the corresponding card in the middle set
+    const targetCard = track.children[localizedServices.length + index]
+    if (targetCard) {
+      track.scrollTo({
+        left: targetCard.offsetLeft - track.offsetLeft,
+        behavior: 'smooth'
+      })
+    }
+    resetAutoPlay()
   }
+
+  const scrollPrev = useCallback(() => {
+    if (!trackRef.current) return
+    const track = trackRef.current
+    const singleSetWidth = getSingleSetWidth()
+
+    // If near the start of the middle set, snap ahead by 1 set instantly before smooth scrolling backwards
+    if (singleSetWidth > 0 && track.scrollLeft <= singleSetWidth + 10) {
+      isInternalScrollRef.current = true
+      track.scrollTo({
+        left: track.scrollLeft + singleSetWidth,
+        behavior: 'instant'
+      })
+      requestAnimationFrame(() => {
+        isInternalScrollRef.current = false
+      })
+    }
+
+    const cardWidth = track.children[0]?.offsetWidth || track.offsetWidth
+    const gap = 24
+    track.scrollBy({
+      left: -(cardWidth + gap),
+      behavior: 'smooth'
+    })
+    resetAutoPlay()
+  }, [getSingleSetWidth, resetAutoPlay])
+
+  // Smooth continuous auto-play every 2 seconds
+  useEffect(() => {
+    if (isPaused) {
+      if (autoPlayTimerRef.current) {
+        clearInterval(autoPlayTimerRef.current)
+        autoPlayTimerRef.current = null
+      }
+      return
+    }
+
+    autoPlayTimerRef.current = setInterval(() => {
+      scrollNext()
+    }, 2000)
+
+    return () => {
+      if (autoPlayTimerRef.current) {
+        clearInterval(autoPlayTimerRef.current)
+        autoPlayTimerRef.current = null
+      }
+    }
+  }, [isPaused, scrollNext])
 
   return (
     <div className="home">
@@ -218,7 +339,13 @@ export default function Home() {
 
       {/* Services */}
       <section ref={servicesRef} className={`services reveal ${servicesVisible ? 'reveal--visible' : ''}`}>
-        <div className="services__inner">
+        <div
+          className="services__inner"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onFocusCapture={() => setIsPaused(true)}
+          onBlurCapture={() => setIsPaused(false)}
+        >
           <div className="section-header services__header">
             <div>
               <span className="section-label">{t('home.servicesLabel')}</span>
@@ -230,7 +357,6 @@ export default function Home() {
                 onClick={scrollPrev}
                 className="services__carousel-btn"
                 aria-label={t('gallery.lightbox.prev')}
-                disabled={isAtStart}
               >
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -242,7 +368,6 @@ export default function Home() {
                 onClick={scrollNext}
                 className="services__carousel-btn"
                 aria-label={t('gallery.lightbox.next')}
-                disabled={isAtEnd}
               >
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -253,8 +378,8 @@ export default function Home() {
           </div>
           <div className="services__carousel">
             <div ref={trackRef} className="services__carousel-track">
-              {localizedServices.map(s => (
-                <div className="service-card" key={s.title}>
+              {[...localizedServices, ...localizedServices, ...localizedServices].map((s, idx) => (
+                <div className="service-card" key={`${s.title}-${idx}`}>
                   <div className="service-card__img-wrap">
                     <img src={s.image} alt={s.title} className="service-card__img" loading="lazy" />
                   </div>

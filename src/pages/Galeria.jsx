@@ -23,11 +23,24 @@ export default function Galeria() {
   const closeButtonRef = useRef(null)
   const triggerRef = useRef(null)
   const wasLightboxOpen = useRef(false)
+  const thumbsStripRef = useRef(null)
+  const thumbsRef = useRef({})
   const touchStart = useRef(0)
   const touchEnd = useRef(0)
 
   const filtered = active === 'todos' ? images : images.filter(i => i.cat === active)
   const isLightboxOpen = lightbox !== null && Boolean(filtered[lightbox])
+
+  // Center active thumbnail in strip
+  useEffect(() => {
+    if (lightbox !== null && thumbsRef.current[lightbox]) {
+      thumbsRef.current[lightbox].scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest'
+      })
+    }
+  }, [lightbox])
 
   const openLightbox = useCallback((idx, trigger) => {
     triggerRef.current = trigger
@@ -262,13 +275,26 @@ export default function Galeria() {
           aria-labelledby="lightbox-title"
           onClick={closeLightbox}
         >
+          {/* Ambient Glow Backdrop from the active image */}
+          <div
+            className="lightbox__ambient-glow"
+            style={{ backgroundImage: `url(${assetUrl(filtered[lightbox].src)})` }}
+            aria-hidden="true"
+          />
+
           <h2 id="lightbox-title" className="visually-hidden">
             {t(`gallery.alts.${filtered[lightbox].alt}`)}
           </h2>
+
           <div className="lightbox__header" onClick={e => e.stopPropagation()}>
-            <span className="lightbox__counter">
-              {String(lightbox + 1).padStart(2, '0')} / {String(filtered.length).padStart(2, '0')}
-            </span>
+            <div className="lightbox__header-info">
+              <span className="lightbox__cat-title">
+                {t(`gallery.categories.${filtered[lightbox].cat}`)}
+              </span>
+              <span className="lightbox__counter">
+                {String(lightbox + 1).padStart(2, '0')} / {String(filtered.length).padStart(2, '0')}
+              </span>
+            </div>
             <button
               type="button"
               ref={closeButtonRef}
@@ -290,18 +316,14 @@ export default function Galeria() {
           </button>
 
           <div 
-            className="lightbox__img-wrap" 
-            key={lightbox}
+            className="lightbox__stage" 
             onClick={e => e.stopPropagation()}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <img src={assetUrl(filtered[lightbox].src)} alt={t(`gallery.alts.${filtered[lightbox].alt}`)} />
-            <div className="lightbox__info-panel">
-              <span className="lightbox__cat-badge">
-                {t(`gallery.categories.${filtered[lightbox].cat}`)} · Madeira
-              </span>
+            <div className="lightbox__img-wrap" key={lightbox}>
+              <img src={assetUrl(filtered[lightbox].src)} alt={t(`gallery.alts.${filtered[lightbox].alt}`)} />
             </div>
           </div>
 
@@ -310,6 +332,31 @@ export default function Galeria() {
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </button>
+
+          {/* Bottom Thumbnails Strip */}
+          <div className="lightbox__footer" onClick={e => e.stopPropagation()}>
+            <div className="lightbox__footer-caption">
+              <span className="lightbox__caption-text">
+                {t(`gallery.categories.${filtered[lightbox].cat}`)} · Madeira
+              </span>
+            </div>
+            <div className="lightbox__thumbs-strip" ref={thumbsStripRef} role="tablist" aria-label={t('gallery.heroTag')}>
+              {filtered.map((item, idx) => (
+                <button
+                  type="button"
+                  role="tab"
+                  key={item.src}
+                  ref={el => { thumbsRef.current[idx] = el }}
+                  className={`lightbox__thumb-btn ${idx === lightbox ? 'lightbox__thumb-btn--active' : ''}`}
+                  onClick={() => setLightbox(idx)}
+                  aria-label={`${t('gallery.lightbox.thumbnail')} ${idx + 1}`}
+                  aria-selected={idx === lightbox}
+                >
+                  <img src={assetUrl(item.src)} alt="" aria-hidden="true" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>
