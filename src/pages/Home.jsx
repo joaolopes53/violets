@@ -298,7 +298,7 @@ export default function Home() {
                   key={idx}
                   className={`services__carousel-dot ${idx === activeIndex ? 'services__carousel-dot--active' : ''}`}
                   onClick={() => scrollToCard(idx)}
-                  aria-label={`Ir para slide ${idx + 1}`}
+                  aria-label={language === 'pt' ? `Ir para slide ${idx + 1}` : `Go to slide ${idx + 1}`}
                 />
               ))}
             </div>
@@ -379,7 +379,7 @@ export default function Home() {
                 </div>
               </div>
               <a
-                href="https://maps.google.com/?q=Rua+Francisco+Peres+Caniço"
+                href="https://maps.google.com/?q=32.6518,-16.8407"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="triptych-card__btn"

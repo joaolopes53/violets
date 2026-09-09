@@ -8,6 +8,7 @@ export const translations = {
       mainNav: 'Navegação principal',
       selectLang: 'Selecionar idioma',
       availableLangs: 'Idiomas disponíveis',
+      closeMenu: 'Fechar menu',
     },
     footer: {
       desc: 'Desde 2011, transformamos espaços com paixão, elegância e atenção ao detalhe. Especialistas em design de interiores e mobiliário por medida na Madeira.',
@@ -252,6 +253,7 @@ export const translations = {
       mainNav: 'Main navigation',
       selectLang: 'Select language',
       availableLangs: 'Available languages',
+      closeMenu: 'Close menu',
     },
     footer: {
       desc: 'Since 2011, we transform spaces with passion, elegance, and attention to detail. Specialists in interior and bespoke furniture design in Madeira.',

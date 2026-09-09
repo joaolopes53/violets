@@ -69,7 +69,7 @@ button {
 
 ::selection {
   background: var(--gold-dim);
-  color: var(--text);
+  color: #ffffff;
 }
 
 ::-webkit-scrollbar {

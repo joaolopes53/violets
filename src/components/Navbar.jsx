@@ -191,7 +191,7 @@ export default function Navbar() {
             type="button"
             className="navbar__drawer-close"
             onClick={() => setOpen(false)}
-            aria-label={t('gallery.lightbox.close')}
+            aria-label={t('nav.closeMenu')}
           >
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
