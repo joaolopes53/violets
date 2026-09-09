@@ -163,3 +163,15 @@ test('components do not bypass the shared public asset URL helper', () => {
     )
   }
 })
+
+test('services carousel implements gesture resilience, pointer cancel, and touch-action', () => {
+  const homeJsx = fs.readFileSync(path.join(projectRoot, 'src/pages/Home.jsx'), 'utf8')
+  const homeCss = fs.readFileSync(path.join(projectRoot, 'src/pages/Home.css'), 'utf8')
+
+  assert.match(homeJsx, /onPointerDown=\{handlePointerDown\}/)
+  assert.match(homeJsx, /onPointerCancel=\{handlePointerCancel\}/)
+  assert.match(homeJsx, /onWheel=\{handleWheel\}/)
+  assert.match(homeJsx, /onKeyDown=\{handleKeyDown\}/)
+  assert.match(homeCss, /touch-action:\s*pan-y/)
+})
+

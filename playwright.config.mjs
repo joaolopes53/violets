@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
   testDir: './scripts',
-  testMatch: 'gallery-accessibility.e2e.mjs',
+  testMatch: '**/*.e2e.mjs',
   use: {
     baseURL: 'http://127.0.0.1:4173',
     headless: true,

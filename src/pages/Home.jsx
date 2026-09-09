@@ -66,7 +66,22 @@ export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const autoPlayTimerRef = useRef(null)
-  const touchStartXRef = useRef(null)
+
+  // Disentangled pause drivers (hover, focus, drag)
+  const isHoveredRef = useRef(false)
+  const isFocusedRef = useRef(false)
+  const isDraggingRef = useRef(false)
+  const activePointerIdRef = useRef(null)
+
+  // Gesture tracking
+  const pointerStartXRef = useRef(null)
+  const pointerStartYRef = useRef(null)
+  const didDragRef = useRef(false)
+  const lastWheelTimeRef = useRef(0)
+
+  const syncPausedState = useCallback(() => {
+    setIsPaused(isHoveredRef.current || isFocusedRef.current || isDraggingRef.current)
+  }, [])
 
   const totalServices = localizedServices.length
 
@@ -82,22 +97,106 @@ export default function Home() {
     setActiveIndex(index)
   }
 
-  const handleTouchStart = (e) => {
-    touchStartXRef.current = e.touches[0].clientX
-    setIsPaused(true)
+  const handlePointerDown = (e) => {
+    // Only track primary pointer (ignores multi-touch secondary fingers)
+    if (!e.isPrimary) return
+    if (e.button !== undefined && e.button !== 0) return
+
+    activePointerIdRef.current = e.pointerId
+    try {
+      e.currentTarget.setPointerCapture?.(e.pointerId)
+    } catch {
+      // Ignore environments that do not support setPointerCapture
+    }
+
+    pointerStartXRef.current = e.clientX
+    pointerStartYRef.current = e.clientY
+    isDraggingRef.current = true
+    didDragRef.current = false
+    syncPausedState()
   }
 
-  const handleTouchEnd = (e) => {
-    if (touchStartXRef.current === null) return
-    const touchEndX = e.changedTouches[0].clientX
-    const diff = touchEndX - touchStartXRef.current
-    if (diff > 50) {
+  const handlePointerMove = (e) => {
+    if (!isDraggingRef.current || e.pointerId !== activePointerIdRef.current || pointerStartXRef.current === null) return
+    const diffX = e.clientX - pointerStartXRef.current
+    const diffY = e.clientY - (pointerStartYRef.current ?? e.clientY)
+
+    if (Math.abs(diffX) > 8) {
+      didDragRef.current = true
+    }
+
+    // Release horizontal drag if user is scrolling the page vertically
+    if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 20) {
+      try {
+        e.currentTarget.releasePointerCapture?.(e.pointerId)
+      } catch {}
+      isDraggingRef.current = false
+      activePointerIdRef.current = null
+      pointerStartXRef.current = null
+      pointerStartYRef.current = null
+      syncPausedState()
+    }
+  }
+
+  const handlePointerUp = (e) => {
+    if (isDraggingRef.current && e.pointerId === activePointerIdRef.current && pointerStartXRef.current !== null) {
+      const diffX = e.clientX - pointerStartXRef.current
+      const diffY = e.clientY - (pointerStartYRef.current ?? e.clientY)
+      if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) {
+          scrollNext()
+        } else {
+          scrollPrev()
+        }
+      }
+    }
+    try {
+      e.currentTarget.releasePointerCapture?.(e.pointerId)
+    } catch {}
+    isDraggingRef.current = false
+    activePointerIdRef.current = null
+    pointerStartXRef.current = null
+    pointerStartYRef.current = null
+    syncPausedState()
+  }
+
+  const handlePointerCancel = (e) => {
+    try {
+      if (e?.pointerId !== undefined) {
+        e.currentTarget?.releasePointerCapture?.(e.pointerId)
+      }
+    } catch {}
+    isDraggingRef.current = false
+    activePointerIdRef.current = null
+    pointerStartXRef.current = null
+    pointerStartYRef.current = null
+    syncPausedState()
+  }
+
+  const handleWheel = (e) => {
+    const now = Date.now()
+    // 650ms lockout prevents multi-card runaway from trackpad inertia momentum
+    if (now - lastWheelTimeRef.current < 650) return
+
+    // Allow horizontal swipe or Shift+Wheel to scroll cards smoothly
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) {
+      if (e.deltaX > 0) {
+        scrollNext()
+      } else {
+        scrollPrev()
+      }
+      lastWheelTimeRef.current = now
+    }
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault()
       scrollPrev()
-    } else if (diff < -50) {
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault()
       scrollNext()
     }
-    touchStartXRef.current = null
-    setIsPaused(false)
   }
 
   const AUTOPLAY_INTERVAL = 3800
@@ -214,10 +313,22 @@ export default function Home() {
       <section ref={servicesRef} className={`services reveal ${servicesVisible ? 'reveal--visible' : ''}`}>
         <div
           className="services__inner"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onFocusCapture={() => setIsPaused(true)}
-          onBlurCapture={() => setIsPaused(false)}
+          onMouseEnter={() => {
+            isHoveredRef.current = true
+            syncPausedState()
+          }}
+          onMouseLeave={() => {
+            isHoveredRef.current = false
+            syncPausedState()
+          }}
+          onFocusCapture={() => {
+            isFocusedRef.current = true
+            syncPausedState()
+          }}
+          onBlurCapture={() => {
+            isFocusedRef.current = false
+            syncPausedState()
+          }}
         >
           <div className="section-header services__header">
             <div>
@@ -252,8 +363,15 @@ export default function Home() {
           <div className="services__carousel">
             <div
               className="services__stage"
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerCancel}
+              onWheel={handleWheel}
+              onKeyDown={handleKeyDown}
+              tabIndex={0}
+              role="region"
+              aria-label={t('home.servicesLabel')}
             >
               {localizedServices.map((s, idx) => {
                 let diff = (idx - activeIndex) % totalServices
@@ -273,14 +391,23 @@ export default function Home() {
                   <div
                     className={`service-card ${cardModifier}`}
                     key={s.title}
-                    onClick={isInteractiveSideCard ? () => scrollToCard(idx) : undefined}
+                    onClick={isInteractiveSideCard ? () => {
+                      if (didDragRef.current) return
+                      scrollToCard(idx)
+                    } : undefined}
                     role={isInteractiveSideCard ? 'button' : undefined}
                     tabIndex={diff === 0 ? 0 : -1}
                     aria-label={isInteractiveSideCard ? s.title : undefined}
                     aria-hidden={Math.abs(diff) > 2}
                   >
                     <div className="service-card__img-wrap">
-                      <img src={s.image} alt={s.title} className="service-card__img" loading="lazy" />
+                      <img
+                        src={s.image}
+                        alt={s.title}
+                        className="service-card__img"
+                        loading="lazy"
+                        draggable={false}
+                      />
                     </div>
                     <div className="service-card__body">
                       <h3>{s.title}</h3>
