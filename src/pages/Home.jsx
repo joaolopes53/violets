@@ -52,184 +52,46 @@ export default function Home() {
   const [previewRef, previewVisible] = useReveal()
   const [ctaRef, ctaVisible] = useReveal()
 
-  const trackRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const isInternalScrollRef = useRef(false)
-
-  // Compute single set span width (5 items + gaps)
-  const getSingleSetWidth = useCallback(() => {
-    if (!trackRef.current) return 0
-    const track = trackRef.current
-    const firstChild = track.children[0]
-    const middleChild = track.children[localizedServices.length]
-    if (firstChild && middleChild) {
-      return middleChild.offsetLeft - firstChild.offsetLeft
-    }
-    return 0
-  }, [localizedServices.length])
-
-  const handleScroll = useCallback(() => {
-    if (!trackRef.current) return
-    const track = trackRef.current
-    const singleSetWidth = getSingleSetWidth()
-
-    if (singleSetWidth > 0 && !isInternalScrollRef.current) {
-      // If scrolled past the second set into the third set
-      if (track.scrollLeft >= singleSetWidth * 2) {
-        isInternalScrollRef.current = true
-        track.scrollTo({
-          left: track.scrollLeft - singleSetWidth,
-          behavior: 'instant'
-        })
-        requestAnimationFrame(() => {
-          isInternalScrollRef.current = false
-        })
-      } else if (track.scrollLeft <= 10) {
-        // If scrolled before the middle set into the first set
-        isInternalScrollRef.current = true
-        track.scrollTo({
-          left: track.scrollLeft + singleSetWidth,
-          behavior: 'instant'
-        })
-        requestAnimationFrame(() => {
-          isInternalScrollRef.current = false
-        })
-      }
-    }
-
-    // Determine active index for dots (modulo category count)
-    const children = track.children
-    if (children.length > 0) {
-      let closestIndex = 0
-      let minDiff = Infinity
-      const trackLeft = track.getBoundingClientRect().left
-
-      for (let i = 0; i < children.length; i++) {
-        const childLeft = children[i].getBoundingClientRect().left
-        const diff = Math.abs(childLeft - trackLeft)
-        if (diff < minDiff) {
-          minDiff = diff
-          closestIndex = i
-        }
-      }
-      setActiveIndex(closestIndex % localizedServices.length)
-    }
-  }, [getSingleSetWidth, localizedServices.length])
-
-  // Initialize scroll position to the middle clone set so it can scroll seamlessly left or right
-  useEffect(() => {
-    const track = trackRef.current
-    if (track) {
-      const initScroll = () => {
-        const singleSetWidth = getSingleSetWidth()
-        if (singleSetWidth > 0 && track.scrollLeft < singleSetWidth - 50) {
-          isInternalScrollRef.current = true
-          track.scrollTo({
-            left: singleSetWidth,
-            behavior: 'instant'
-          })
-          requestAnimationFrame(() => {
-            isInternalScrollRef.current = false
-          })
-        }
-        handleScroll()
-      }
-
-      // Initial position after render
-      const timer = setTimeout(initScroll, 50)
-
-      track.addEventListener('scroll', handleScroll, { passive: true })
-      window.addEventListener('resize', handleScroll)
-
-      return () => {
-        clearTimeout(timer)
-        track.removeEventListener('scroll', handleScroll)
-        window.removeEventListener('resize', handleScroll)
-      }
-    }
-  }, [getSingleSetWidth, handleScroll])
-
   const [isPaused, setIsPaused] = useState(false)
   const autoPlayTimerRef = useRef(null)
+  const touchStartXRef = useRef(null)
+
+  const totalServices = localizedServices.length
 
   const scrollNext = useCallback(() => {
-    if (!trackRef.current) return
-    const track = trackRef.current
-    const singleSetWidth = getSingleSetWidth()
-
-    // If near the end of the middle set, snap back by 1 set instantly before smooth scrolling forward
-    if (singleSetWidth > 0 && track.scrollLeft >= singleSetWidth * 2 - 10) {
-      isInternalScrollRef.current = true
-      track.scrollTo({
-        left: track.scrollLeft - singleSetWidth,
-        behavior: 'instant'
-      })
-      requestAnimationFrame(() => {
-        isInternalScrollRef.current = false
-      })
-    }
-
-    const cardWidth = track.children[0]?.offsetWidth || track.offsetWidth
-    const gap = 24
-    track.scrollBy({
-      left: cardWidth + gap,
-      behavior: 'smooth'
-    })
-  }, [getSingleSetWidth])
-
-  const resetAutoPlay = useCallback(() => {
-    if (autoPlayTimerRef.current) {
-      clearInterval(autoPlayTimerRef.current)
-      autoPlayTimerRef.current = null
-    }
-    if (!isPaused) {
-      autoPlayTimerRef.current = setInterval(() => {
-        scrollNext()
-      }, 2000)
-    }
-  }, [isPaused, scrollNext])
-
-  const scrollToCard = (index) => {
-    if (!trackRef.current) return
-    const track = trackRef.current
-    // Target the corresponding card in the middle set
-    const targetCard = track.children[localizedServices.length + index]
-    if (targetCard) {
-      track.scrollTo({
-        left: targetCard.offsetLeft - track.offsetLeft,
-        behavior: 'smooth'
-      })
-    }
-    resetAutoPlay()
-  }
+    setActiveIndex((prev) => (prev + 1) % totalServices)
+  }, [totalServices])
 
   const scrollPrev = useCallback(() => {
-    if (!trackRef.current) return
-    const track = trackRef.current
-    const singleSetWidth = getSingleSetWidth()
+    setActiveIndex((prev) => (prev - 1 + totalServices) % totalServices)
+  }, [totalServices])
 
-    // If near the start of the middle set, snap ahead by 1 set instantly before smooth scrolling backwards
-    if (singleSetWidth > 0 && track.scrollLeft <= singleSetWidth + 10) {
-      isInternalScrollRef.current = true
-      track.scrollTo({
-        left: track.scrollLeft + singleSetWidth,
-        behavior: 'instant'
-      })
-      requestAnimationFrame(() => {
-        isInternalScrollRef.current = false
-      })
+  const scrollToCard = (index) => {
+    setActiveIndex(index)
+  }
+
+  const handleTouchStart = (e) => {
+    touchStartXRef.current = e.touches[0].clientX
+    setIsPaused(true)
+  }
+
+  const handleTouchEnd = (e) => {
+    if (touchStartXRef.current === null) return
+    const touchEndX = e.changedTouches[0].clientX
+    const diff = touchEndX - touchStartXRef.current
+    if (diff > 50) {
+      scrollPrev()
+    } else if (diff < -50) {
+      scrollNext()
     }
+    touchStartXRef.current = null
+    setIsPaused(false)
+  }
 
-    const cardWidth = track.children[0]?.offsetWidth || track.offsetWidth
-    const gap = 24
-    track.scrollBy({
-      left: -(cardWidth + gap),
-      behavior: 'smooth'
-    })
-    resetAutoPlay()
-  }, [getSingleSetWidth, resetAutoPlay])
+  const AUTOPLAY_INTERVAL = 3800
 
-  // Smooth continuous auto-play every 2 seconds
+  // Editorial auto-play every 3.8 seconds
   useEffect(() => {
     if (isPaused) {
       if (autoPlayTimerRef.current) {
@@ -241,7 +103,7 @@ export default function Home() {
 
     autoPlayTimerRef.current = setInterval(() => {
       scrollNext()
-    }, 2000)
+    }, AUTOPLAY_INTERVAL)
 
     return () => {
       if (autoPlayTimerRef.current) {
@@ -377,18 +239,45 @@ export default function Home() {
             </div>
           </div>
           <div className="services__carousel">
-            <div ref={trackRef} className="services__carousel-track">
-              {[...localizedServices, ...localizedServices, ...localizedServices].map((s, idx) => (
-                <div className="service-card" key={`${s.title}-${idx}`}>
-                  <div className="service-card__img-wrap">
-                    <img src={s.image} alt={s.title} className="service-card__img" loading="lazy" />
+            <div
+              className="services__stage"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
+              {localizedServices.map((s, idx) => {
+                let diff = (idx - activeIndex) % totalServices
+                if (diff > totalServices / 2) diff -= totalServices
+                if (diff < -totalServices / 2) diff += totalServices
+
+                let cardModifier = 'service-card--hidden'
+                if (diff === 0) cardModifier = 'service-card--active'
+                else if (diff === -1) cardModifier = 'service-card--prev'
+                else if (diff === 1) cardModifier = 'service-card--next'
+                else if (diff === -2) cardModifier = 'service-card--far-prev'
+                else if (diff === 2) cardModifier = 'service-card--far-next'
+
+                const isInteractiveSideCard = diff !== 0 && Math.abs(diff) <= 2
+
+                return (
+                  <div
+                    className={`service-card ${cardModifier}`}
+                    key={s.title}
+                    onClick={isInteractiveSideCard ? () => scrollToCard(idx) : undefined}
+                    role={isInteractiveSideCard ? 'button' : undefined}
+                    tabIndex={diff === 0 ? 0 : -1}
+                    aria-label={isInteractiveSideCard ? s.title : undefined}
+                    aria-hidden={Math.abs(diff) > 2}
+                  >
+                    <div className="service-card__img-wrap">
+                      <img src={s.image} alt={s.title} className="service-card__img" loading="lazy" />
+                    </div>
+                    <div className="service-card__body">
+                      <h3>{s.title}</h3>
+                      <p>{s.desc}</p>
+                    </div>
                   </div>
-                  <div className="service-card__body">
-                    <h3>{s.title}</h3>
-                    <p>{s.desc}</p>
-                  </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
             <div className="services__carousel-dots">
               {localizedServices.map((_, idx) => (
