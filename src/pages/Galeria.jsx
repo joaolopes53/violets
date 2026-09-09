@@ -31,13 +31,19 @@ export default function Galeria() {
   const filtered = active === 'todos' ? images : images.filter(i => i.cat === active)
   const isLightboxOpen = lightbox !== null && Boolean(filtered[lightbox])
 
-  // Center active thumbnail in strip
+  // Center active thumbnail in strip without scrolling the entire window
   useEffect(() => {
-    if (lightbox !== null && thumbsRef.current[lightbox]) {
-      thumbsRef.current[lightbox].scrollIntoView({
-        behavior: 'smooth',
-        inline: 'center',
-        block: 'nearest'
+    const strip = thumbsStripRef.current
+    const thumb = lightbox !== null ? thumbsRef.current[lightbox] : null
+
+    if (strip && thumb && strip.scrollWidth > strip.clientWidth) {
+      const stripRect = strip.getBoundingClientRect()
+      const thumbRect = thumb.getBoundingClientRect()
+      const targetScroll = strip.scrollLeft + (thumbRect.left - stripRect.left) - (strip.clientWidth - thumb.clientWidth) / 2
+
+      strip.scrollTo({
+        left: targetScroll,
+        behavior: 'smooth'
       })
     }
   }, [lightbox])
