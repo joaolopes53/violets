@@ -5,13 +5,25 @@ import { useLanguage } from '../hooks/useLanguage'
 import { images } from '../data/gallery'
 import { assetUrl } from '../utils/assetUrl'
 import { galleryImageSources } from '../utils/galleryImage'
+import { useSeo } from '../hooks/useSeo'
+import FaqSection from '../components/FaqSection'
 import './Home.css'
 
 const preview = images.slice(0, 6)
 
 export default function Home() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const navigate = useNavigate()
+
+  useSeo({
+    title: language === 'en'
+      ? 'Violets — Bespoke Interior Design & Decoration | Madeira'
+      : 'Violets — Design de Interiores e Decoração por Medida | Madeira',
+    description: language === 'en'
+      ? 'Timeless interiors made to last. Specialists in bespoke curtains, upholstered headboards, artisanal seating and hospitality projects in Madeira since 2011.'
+      : 'Interiores intemporais pensados para durar. Especialistas em cortinados por medida, cabeceiras estofadas, estofos artesanais e hotelaria na Madeira desde 2011.',
+    canonicalPath: '/'
+  })
 
   const localizedServices = [
     {
@@ -334,6 +346,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* FAQ Section (AEO & Voice Search / Rich Snippets) */}
+      <FaqSection />
 
       {/* Contact Section (Option 3: Cartões em Tríptico Nobre + Showroom) */}
       <section id="contacto" ref={ctaRef} className={`home-contact reveal ${ctaVisible ? 'reveal--visible' : ''}`}>

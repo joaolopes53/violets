@@ -45,6 +45,17 @@ export default function Navbar() {
     }
   }, [langOpen])
 
+  const handleHomeNav = (e) => {
+    setOpen(false)
+    if (isHome) {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      if (location.hash) {
+        navigate('/', { replace: true })
+      }
+    }
+  }
+
   const handleContactNav = (e) => {
     if (isHome) {
       e.preventDefault()
@@ -58,7 +69,7 @@ export default function Navbar() {
     <>
       <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}${open ? ' navbar--open' : ''}${isHome ? ' navbar--home' : ''}`}>
         <div className="navbar__inner">
-          <Link to="/" className="navbar__brand" onClick={() => setOpen(false)}>
+          <Link to="/" className="navbar__brand" onClick={handleHomeNav}>
             <img src={assetUrl('/logo.svg')} alt="Violets Logo" className="navbar__brand-logo" />
             <span className="navbar__brand-text">
               <span className="navbar__brand-name">VIOLETS</span>
@@ -67,7 +78,7 @@ export default function Navbar() {
           </Link>
 
           <nav className="navbar__nav-desktop" aria-label={t('nav.mainNav')}>
-            <NavLink to="/" end className={({ isActive }) => `navbar__link${isActive && !location.hash ? ' active' : ''}`}>{t('nav.home')}</NavLink>
+            <NavLink to="/" end className={({ isActive }) => `navbar__link${isActive && !location.hash ? ' active' : ''}`} onClick={handleHomeNav}>{t('nav.home')}</NavLink>
             <NavLink to="/galeria" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>{t('nav.gallery')}</NavLink>
             <Link
               to="/#contacto"
@@ -190,7 +201,7 @@ export default function Navbar() {
         </div>
 
         <nav className="navbar__drawer-nav">
-          <NavLink to="/" end onClick={() => setOpen(false)}>{t('nav.home')}</NavLink>
+          <NavLink to="/" end onClick={handleHomeNav}>{t('nav.home')}</NavLink>
           <NavLink to="/galeria" onClick={() => setOpen(false)}>{t('nav.gallery')}</NavLink>
           <Link
             to="/#contacto"

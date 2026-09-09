@@ -213,6 +213,34 @@ export const translations = {
       emailLabel: 'Endereço Institucional',
       emailText: 'geral@violets.pt',
       emailSub: 'Resposta célere e personalizada',
+    },
+    faq: {
+      tag: 'Esclarecimentos',
+      titlePre: 'Perguntas',
+      titleEm: 'frequentes',
+      subtitle: 'Tudo o que precisa de saber sobre os nossos serviços de confeção, materiais e acompanhamento de projetos na Madeira.',
+      items: [
+        {
+          q: 'Fazem projetos de cortinados e estofos por medida em toda a Ilha da Madeira?',
+          a: 'Sim. Acompanhamos clientes em toda a Região Autónoma da Madeira. Realizamos levantamento rigoroso de medidas no local, aconselhamento técnico de tecidos e instalação completa quer em habitações particulares, quer em empreendimentos turísticos.'
+        },
+        {
+          q: 'Como funciona o processo de orçamento e visita ao showroom?',
+          a: 'Pode contactar-nos diretamente via WhatsApp ou email partilhando plantas ou fotografias do espaço. Teremos todo o gosto em recebê-lo no nosso showroom no Caniço para explorar amostras de tecidos nobres, catálogos de papel de parede e acabamentos.'
+        },
+        {
+          q: 'Desenvolvem soluções integradas para hotelaria e alojamento local?',
+          a: 'Sim, a hotelaria é uma das nossas principais especialidades desde 2011. Produzimos cortinados corta-fogo (blackout e acústicos), cabeceiras de cama de alta resistência, sofás e estofos de grande durabilidade cumprindo todas as normas do setor hoteleiro.'
+        },
+        {
+          q: 'Fazem recuperação e estofamento de peças existentes?',
+          a: 'Sim. Dispomos de atelier próprio de carpintaria e estofamento na Camacha onde restauramos sofás, cadeirões e peças de autor, renovando enchimentos ergonómicos e aplicando tecidos de alta gama com acabamento artesanal.'
+        },
+        {
+          q: 'Onde estão localizadas as vossas instalações?',
+          a: 'A nossa sede e showroom localizam-se no Caniço (Edifício Freitas, Loja C), com atendimento personalizado. O nosso polo de produção, carpintaria e estofos situa-se no Parque Empresarial da Camacha.'
+        }
+      ]
     }
   },
   en: {
@@ -429,6 +457,34 @@ export const translations = {
       emailLabel: 'Official Email',
       emailText: 'geral@violets.pt',
       emailSub: 'Prompt and personalized response',
+    },
+    faq: {
+      tag: 'Insights',
+      titlePre: 'Frequently asked',
+      titleEm: 'questions',
+      subtitle: 'Everything you need to know about our bespoke textile manufacturing, materials, and project guidance in Madeira.',
+      items: [
+        {
+          q: 'Do you deliver custom curtains and upholstery projects across all of Madeira?',
+          a: 'Yes. We cater to residential and hospitality clients across Madeira Island. We conduct on-site precision measurements, provide specialist textile advice, and ensure full turnkey installation.'
+        },
+        {
+          q: 'How does the consultation and showroom visit work?',
+          a: 'You can reach out directly via WhatsApp or email with floor plans or space photographs. We are delighted to welcome you to our Caniço showroom to view fabric samples, wallpaper collections, and custom finishes.'
+        },
+        {
+          q: 'Do you design comprehensive solutions for hospitality and holiday rentals?',
+          a: 'Yes, hospitality is one of our foundational specialties since 2011. We supply certified flame-retardant (blackout and acoustic) curtains, heavy-duty upholstered headboards, sofas, and contract-grade furnishings.'
+        },
+        {
+          q: 'Can you restore or reupholster existing furniture?',
+          a: 'Yes. We operate our own dedicated carpentry and upholstery facility in Camacha, where we restore sofas, armchairs, and designer pieces using ergonomic high-density foam and luxury performance fabrics.'
+        },
+        {
+          q: 'Where are your showroom and production facilities located?',
+          a: 'Our main office and curated showroom are in Caniço (Freitas Building, Shop C). Our production, joinery, and upholstery atelier is situated in the Camacha Business Park.'
+        }
+      ]
     }
   }
 }

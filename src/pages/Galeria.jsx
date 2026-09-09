@@ -4,6 +4,7 @@ import { useLanguage } from '../hooks/useLanguage'
 import { images, categories } from '../data/gallery'
 import { assetUrl } from '../utils/assetUrl'
 import { galleryImageSources } from '../utils/galleryImage'
+import { useSeo } from '../hooks/useSeo'
 import './Galeria.css'
 
 function getValidCategory(value) {
@@ -12,6 +13,16 @@ function getValidCategory(value) {
 
 export default function Galeria() {
   const { t, language } = useLanguage()
+
+  useSeo({
+    title: language === 'en'
+      ? 'Portfolio & Projects Gallery | Violets — Interior Design Madeira'
+      : 'Portfólio & Galeria de Projetos | Violets — Design e Decoração Madeira',
+    description: language === 'en'
+      ? 'Explore our bespoke curtains, custom headboards, fine upholstery and hospitality interior projects in Madeira.'
+      : 'Explore o nosso portfólio de cortinados por medida, cabeceiras de cama estofadas, estofos de autor e hotelaria na Madeira.',
+    canonicalPath: '/galeria'
+  })
   const [searchParams, setSearchParams] = useSearchParams()
   const categoryParam = searchParams.get('category')
   const [active, setActive] = useState(() => getValidCategory(categoryParam))
