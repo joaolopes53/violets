@@ -412,23 +412,34 @@ export default function Home() {
             <span className="section-label">{t('home.portfolioLabel')}</span>
             <h2>{t('home.portfolioTitlePre')} <em>{t('home.portfolioTitleEm')}</em></h2>
           </div>
-          <div className="preview__grid">
-            {preview.map((img, i) => {
-              const source = galleryImageSources(img.src)
+          <Link to="/galeria" className="preview__showcase" aria-label={t('home.portfolioCta')}>
+            <div className="preview__grid">
+              {preview.map((img, i) => {
+                const source = galleryImageSources(img.src)
 
-              return (
-                <div className="preview__item" key={i}>
-                  <img
-                    {...source}
-                    alt={t(`gallery.alts.${img.alt}`)}
-                    sizes="(max-width: 960px) 50vw, 33vw"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              )
-            })}
-          </div>
+                return (
+                  <div className="preview__item" key={i}>
+                    <img
+                      {...source}
+                      alt={t(`gallery.alts.${img.alt}`)}
+                      sizes="(max-width: 960px) 50vw, 33vw"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                )
+              })}
+            </div>
+            <div className="preview__overlay" aria-hidden="true">
+              <span className="preview__overlay-btn">
+                {t('home.portfolioCta')}
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </Link>
           <div className="preview__cta">
             <Link to="/galeria" className="btn btn--outline">{t('home.portfolioCta')}</Link>
           </div>

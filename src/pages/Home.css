@@ -519,11 +519,22 @@
   margin: 0 auto;
 }
 
+.preview__showcase {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 48px;
+  cursor: pointer;
+}
+
 .preview__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  margin-bottom: 48px;
+  margin-bottom: 0;
+  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .preview__item {
@@ -539,8 +550,97 @@
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.preview__item:hover img {
-  transform: scale(1.06);
+.preview__overlay {
+  display: none;
+}
+
+/* Hover effects on pointer devices */
+@media (hover: hover) and (pointer: fine) {
+  .preview__showcase {
+    margin-bottom: 0;
+  }
+
+  .preview__cta {
+    display: none;
+  }
+
+  .preview__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(30, 20, 8, 0.3);
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .preview__overlay-btn {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--gold);
+    box-shadow: 0 16px 40px rgba(30, 20, 8, 0.25);
+    padding: 16px 36px;
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: var(--radius);
+    transform: translateY(12px) scale(0.96);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      background 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .preview__overlay-btn svg {
+    transition: transform 0.3s ease;
+  }
+
+  .preview__showcase:hover .preview__grid {
+    filter: blur(5px) brightness(0.75);
+  }
+
+  .preview__showcase:hover .preview__item img {
+    transform: scale(1.04);
+  }
+
+  .preview__showcase:hover .preview__overlay {
+    opacity: 1;
+  }
+
+  .preview__showcase:hover .preview__overlay-btn {
+    transform: translateY(0) scale(1);
+    background: #ffffff;
+    color: var(--gold-dim);
+  }
+
+  .preview__showcase:hover .preview__overlay-btn svg {
+    transform: translateX(4px);
+  }
+
+  .preview__showcase:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+  }
+
+  .preview__showcase:focus-visible .preview__grid {
+    filter: blur(5px) brightness(0.75);
+  }
+
+  .preview__showcase:focus-visible .preview__overlay {
+    opacity: 1;
+  }
+
+  .preview__showcase:focus-visible .preview__overlay-btn {
+    transform: translateY(0) scale(1);
+  }
 }
 
 .preview__cta {
