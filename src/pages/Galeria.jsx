@@ -7,8 +7,17 @@ import { galleryImageSources } from '../utils/galleryImage'
 import { useSeo } from '../hooks/useSeo'
 import './Galeria.css'
 
+const ITEMS_PER_PAGE = 12
+
 function getValidCategory(value) {
   return categories.some(category => category.id === value) ? value : 'todos'
+}
+
+function parsePage(value, maxPages) {
+  const parsed = parseInt(value, 10)
+  if (Number.isNaN(parsed) || parsed < 1) return 1
+  if (maxPages && parsed > maxPages) return maxPages
+  return parsed
 }
 
 export default function Galeria() {
@@ -25,11 +34,14 @@ export default function Galeria() {
   })
   const [searchParams, setSearchParams] = useSearchParams()
   const categoryParam = searchParams.get('category')
+  const pageParam = searchParams.get('page')
+
   const [active, setActive] = useState(() => getValidCategory(categoryParam))
   const [lightbox, setLightbox] = useState(null)
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 })
   
   const buttonsRef = useRef({})
+  const galleryWrapRef = useRef(null)
   const lightboxRef = useRef(null)
   const closeButtonRef = useRef(null)
   const triggerRef = useRef(null)
@@ -40,6 +52,12 @@ export default function Galeria() {
   const touchEnd = useRef(0)
 
   const filtered = active === 'todos' ? images : images.filter(i => i.cat === active)
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE) || 1
+  const currentPage = parsePage(pageParam, totalPages)
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const paginatedImages = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+
   const isLightboxOpen = lightbox !== null && Boolean(filtered[lightbox])
 
   // Center active thumbnail in strip without scrolling the entire window
@@ -77,10 +95,35 @@ export default function Galeria() {
       nextSearchParams.set('category', nextCategory)
     }
 
+    // Reset to page 1 when switching category
+    nextSearchParams.delete('page')
+
     setActive(nextCategory)
     setLightbox(null)
     setSearchParams(nextSearchParams, { replace: true })
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const selectPage = (newPage) => {
+    if (newPage < 1 || newPage > totalPages || newPage === currentPage) return
+
+    const nextSearchParams = new URLSearchParams(searchParams)
+    if (newPage === 1) {
+      nextSearchParams.delete('page')
+    } else {
+      nextSearchParams.set('page', String(newPage))
+    }
+
+    setSearchParams(nextSearchParams, { replace: true })
+
+    if (galleryWrapRef.current) {
+      const navOffset = 90
+      const elementPosition = galleryWrapRef.current.getBoundingClientRect().top + window.scrollY
+      window.scrollTo({
+        top: Math.max(0, elementPosition - navOffset),
+        behavior: 'smooth'
+      })
+    }
   }
 
   // Keep the selected filter in sync with browser navigation and shared URLs.
@@ -89,10 +132,10 @@ export default function Galeria() {
     setActive(current => current === nextCategory ? current : nextCategory)
   }, [categoryParam])
 
-  // Reset lightbox on filter change
+  // Reset lightbox on filter or page change
   useEffect(() => {
     setLightbox(null)
-  }, [active])
+  }, [active, currentPage])
 
   // Background Scroll Locking
   useEffect(() => {
@@ -244,9 +287,10 @@ export default function Galeria() {
       </div>
 
       {/* Organic Masonry Grid (Preserving Natural Proportions) */}
-      <div className="galeria__wrap">
+      <div className="galeria__wrap" ref={galleryWrapRef}>
         <div className="masonry">
-          {filtered.map((img, idx) => {
+          {paginatedImages.map((img, localIdx) => {
+            const globalIdx = startIndex + localIdx
             const source = galleryImageSources(img.src)
 
             return (
@@ -254,7 +298,7 @@ export default function Galeria() {
                 type="button"
                 className="masonry__item"
                 key={img.src}
-                onClick={event => openLightbox(idx, event.currentTarget)}
+                onClick={event => openLightbox(globalIdx, event.currentTarget)}
                 aria-label={language === 'pt' ? `Ver imagem: ${img.alt}` : `View image: ${t(`gallery.alts.${img.alt}`)}`}
               >
                 <div className="masonry__img-box">
@@ -280,6 +324,43 @@ export default function Galeria() {
             )
           })}
         </div>
+
+        {/* Atelier Strip Pagination Controls */}
+        {totalPages > 1 && (
+          <nav className="galeria__pagination" aria-label={t('gallery.pagination.ariaLabel')}>
+            <button
+              type="button"
+              className="pagination__arrow-btn"
+              onClick={() => selectPage(currentPage - 1)}
+              disabled={currentPage <= 1}
+              aria-label={t('gallery.pagination.prev')}
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </button>
+
+            <div className="pagination__counter" aria-live="polite">
+              <span className="pagination__counter-current">{String(currentPage).padStart(2, '0')}</span>
+              <span className="pagination__counter-divider">/</span>
+              <span className="pagination__counter-total">{String(totalPages).padStart(2, '0')}</span>
+            </div>
+
+            <button
+              type="button"
+              className="pagination__arrow-btn"
+              onClick={() => selectPage(currentPage + 1)}
+              disabled={currentPage >= totalPages}
+              aria-label={t('gallery.pagination.next')}
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </nav>
+        )}
       </div>
 
       {/* Lightbox */}

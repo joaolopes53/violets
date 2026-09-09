@@ -699,7 +699,7 @@
 /* ─── Contact Section (Option 3: Tríptico Nobre & Showroom) ─── */
 .home-contact {
   padding: 88px clamp(20px, 5vw, 48px) 100px;
-  background: var(--bg);
+  background: var(--bg-2);
   border-top: 1px solid var(--border);
   scroll-margin-top: var(--nav-h);
 }

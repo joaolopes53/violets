@@ -40,22 +40,32 @@ test('opens the gallery on the category provided in the URL', async ({ page }) =
   await page.goto('/galeria?category=cortinados')
 
   await expect(page.locator('.filter-btn--active .filter-btn__text')).toHaveText(/^(Cortinados|Curtains & Drapes)$/)
-  await expect(page.locator('.masonry__item')).toHaveCount(17)
+  // Cortinados has 17 images, so page 1 renders 12 items and pagination is visible
+  await expect(page.locator('.masonry__item')).toHaveCount(12)
+  await expect(page.locator('.galeria__pagination')).toBeVisible()
 })
 
-test('falls back to all images for an unknown category', async ({ page }) => {
+test('falls back to all images for an unknown category with pagination', async ({ page }) => {
   await page.goto('/galeria?category=unknown')
 
   await expect(page.locator('.filter-btn--active .filter-btn__text')).toHaveText(/^(Todos|All)$/)
-  await expect(page.locator('.masonry__item')).toHaveCount(111)
+  // 111 total images divided by 12 per page = 12 on first page
+  await expect(page.locator('.masonry__item')).toHaveCount(12)
+  await expect(page.locator('.galeria__pagination')).toBeVisible()
 })
 
-test('keeps the selected gallery category in the URL', async ({ page }) => {
+test('keeps the selected gallery category in the URL and paginates', async ({ page }) => {
   await page.goto('/galeria')
 
   await page.getByRole('button', { name: /(Cortinados|Curtains & Drapes)\s+\d+/ }).click()
   await expect(page).toHaveURL(/\/galeria\?category=cortinados$/)
-  await expect(page.locator('.masonry__item')).toHaveCount(17)
+  await expect(page.locator('.masonry__item')).toHaveCount(12)
+
+  // Navigate to page 2 of Cortinados (remaining 5 items) via next button
+  await page.locator('.pagination__arrow-btn').last().click()
+  await expect(page).toHaveURL(/\/galeria\?category=cortinados&page=2$/)
+  await expect(page.locator('.masonry__item')).toHaveCount(5)
+  await expect(page.locator('.pagination__counter-current')).toHaveText('02')
 })
 
 test('renders gallery images with responsive loading attributes', async ({ page }) => {

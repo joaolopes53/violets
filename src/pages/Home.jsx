@@ -6,7 +6,6 @@ import { images } from '../data/gallery'
 import { assetUrl } from '../utils/assetUrl'
 import { galleryImageSources } from '../utils/galleryImage'
 import { useSeo } from '../hooks/useSeo'
-import FaqSection from '../components/FaqSection'
 import './Home.css'
 
 const preview = images.slice(0, 6)
@@ -346,9 +345,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* FAQ Section (AEO & Voice Search / Rich Snippets) */}
-      <FaqSection />
 
       {/* Contact Section (Option 3: Cartões em Tríptico Nobre + Showroom) */}
       <section id="contacto" ref={ctaRef} className={`home-contact reveal ${ctaVisible ? 'reveal--visible' : ''}`}>
