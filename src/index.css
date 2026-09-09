@@ -20,7 +20,7 @@
   --nav-h: 72px;
   --max-w: 1280px;
   --gap: clamp(24px, 4vw, 48px);
-  --font-sans: "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
 }
 
 html {
@@ -37,6 +37,8 @@ body {
   font-size: 15px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
 
