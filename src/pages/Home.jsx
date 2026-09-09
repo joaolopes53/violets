@@ -542,7 +542,7 @@ export default function Home() {
           <div className="home-contact__map">
             <iframe
               title="Violets Showroom - Sede Caniço"
-              src="https://maps.google.com/maps?q=Rua+Francisco+Peres+Canico+Edificio+Freitas&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=32.6518,-16.8407&t=&z=17&ie=UTF8&iwloc=&output=embed"
               className="home-contact__map-frame"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
