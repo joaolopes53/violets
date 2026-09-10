@@ -79,6 +79,7 @@ export default function Navbar() {
 
           <nav className="navbar__nav-desktop" aria-label={t('nav.mainNav')}>
             <NavLink to="/" end className={({ isActive }) => `navbar__link${isActive && !location.hash ? ' active' : ''}`} onClick={handleHomeNav}>{t('nav.home')}</NavLink>
+            <NavLink to="/vinil" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>{t('nav.vinil')}</NavLink>
             <NavLink to="/galeria" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>{t('nav.gallery')}</NavLink>
             <Link
               to="/#contacto"
@@ -202,6 +203,7 @@ export default function Navbar() {
 
         <nav className="navbar__drawer-nav">
           <NavLink to="/" end onClick={handleHomeNav}>{t('nav.home')}</NavLink>
+          <NavLink to="/vinil" onClick={() => setOpen(false)}>{t('nav.vinil')}</NavLink>
           <NavLink to="/galeria" onClick={() => setOpen(false)}>{t('nav.gallery')}</NavLink>
           <Link
             to="/#contacto"

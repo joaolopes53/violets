@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import { assetUrl } from '../utils/assetUrl'
 import './Footer.css'
@@ -6,15 +6,21 @@ import './Footer.css'
 export default function Footer() {
   const { t } = useLanguage()
   const location = useLocation()
-  const navigate = useNavigate()
   const isHome = location.pathname === '/'
+
+  const handleBrandClick = (e) => {
+    if (isHome) {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
 
   return (
     <footer className="footer">
       <div className="footer__inner">
         {/* Brand & Studio Statement */}
         <div className="footer__brand-col">
-          <Link to="/" className="footer__brand" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <Link to="/" className="footer__brand" onClick={handleBrandClick}>
             <img src={assetUrl('/logo.svg')} alt="Violets Logo" className="footer__brand-logo" />
             <span className="footer__brand-text">
               <span className="footer__brand-name">VIOLETS</span>
@@ -68,6 +74,7 @@ export default function Footer() {
           <p className="footer__col-label">{t('footer.quickLinks')}</p>
           <nav className="footer__nav-list" aria-label="Footer Navigation">
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>{t('nav.home')}</Link>
+            <Link to="/vinil">{t('nav.vinil')}</Link>
             <Link to="/galeria">{t('nav.gallery')}</Link>
             <Link
               to="/#contacto"
