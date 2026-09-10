@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import { useSeo } from '../hooks/useSeo'
 import { assetUrl } from '../utils/assetUrl'
+import { vinilImageSources } from '../utils/vinilImage'
 import {
   thicknesses,
   catalogProducts,
@@ -635,8 +636,9 @@ export default function Vinil() {
                         <div className="vinil-product-card__thumb">
                           {prod.image ? (
                             <img
-                              src={assetUrl(prod.image)}
+                              {...vinilImageSources(prod.image)}
                               alt={`${prod.name} ${prod.thickness}`}
+                              sizes="(max-width: 680px) 50vw, (max-width: 1024px) 33vw, 240px"
                               loading="lazy"
                               decoding="async"
                             />
@@ -756,8 +758,9 @@ export default function Vinil() {
                 >
                   <div className="vinil-work-card__media">
                     <img
-                      src={assetUrl(work.image)}
+                      {...vinilImageSources(work.image)}
                       alt={language === 'en' ? work.titleEn : work.titlePt}
+                      sizes="(max-width: 680px) 50vw, (max-width: 1024px) 33vw, 300px"
                       loading="lazy"
                       decoding="async"
                     />
@@ -816,8 +819,9 @@ export default function Vinil() {
                   >
                     <div className="vinil-wood-card__img">
                       <img
-                        src={assetUrl(wood.image)}
+                        {...vinilImageSources(wood.image)}
                         alt={wood.name}
+                        sizes="(max-width: 680px) 50vw, (max-width: 1024px) 33vw, 240px"
                         loading="lazy"
                         decoding="async"
                       />
@@ -1039,7 +1043,7 @@ export default function Vinil() {
                   aria-label={`${t('vinil.lightbox.thumbnail')} ${index + 1}`}
                   aria-selected={index === lightboxIndex}
                 >
-                  <img src={assetUrl(work.image)} alt="" aria-hidden="true" loading="lazy" />
+                  <img {...vinilImageSources(work.image)} alt="" aria-hidden="true" sizes="64px" loading="lazy" />
                 </button>
               ))}
             </div>

@@ -1,15 +1,44 @@
+import { Component, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import LoadingScreen from './components/LoadingScreen'
-import Home from './pages/Home'
-import Galeria from './pages/Galeria'
-import Vinil from './pages/Vinil'
-import Privacidade from './pages/Privacidade'
 import { LanguageProvider } from './context/LanguageProvider'
 import { getDeploymentBasePath } from './utils/assetUrl'
 import './App.css'
+
+const Home = lazy(() => import('./pages/Home'))
+const Galeria = lazy(() => import('./pages/Galeria'))
+const Vinil = lazy(() => import('./pages/Vinil'))
+const Privacidade = lazy(() => import('./pages/Privacidade'))
+
+class RouteErrorBoundary extends Component {
+  state = { hasError: false }
+
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Failed to load a website route.', error, errorInfo)
+  }
+
+  handleReload = () => {
+    window.location.reload()
+  }
+
+  render() {
+    if (!this.state.hasError) return this.props.children
+
+    return (
+      <div className="route-error" role="alert">
+        <p>Não foi possível carregar esta página. / This page could not be loaded.</p>
+        <button type="button" onClick={this.handleReload}>Recarregar / Reload</button>
+      </div>
+    )
+  }
+}
 
 export default function App() {
   return (
@@ -19,14 +48,18 @@ export default function App() {
         <ScrollToTop />
         <Navbar />
         <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/vinil" element={<Vinil />} />
-            <Route path="/galeria" element={<Galeria />} />
-            <Route path="/privacidade" element={<Privacidade />} />
-            <Route path="/contacto" element={<Navigate to="/#contacto" replace />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <RouteErrorBoundary>
+            <Suspense fallback={<div className="route-loading" role="status" aria-label="A carregar / Loading" />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/vinil" element={<Vinil />} />
+                <Route path="/galeria" element={<Galeria />} />
+                <Route path="/privacidade" element={<Privacidade />} />
+                <Route path="/contacto" element={<Navigate to="/#contacto" replace />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Suspense>
+          </RouteErrorBoundary>
         </main>
         <Footer />
       </BrowserRouter>

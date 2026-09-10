@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './LoadingScreen.css'
 
 export default function LoadingScreen() {
   const [fadingOut, setFadingOut] = useState(false)
   const [mounted, setMounted] = useState(true)
+  const pageReadyRef = useRef(typeof document === 'undefined' || document.readyState === 'complete')
+  const animationCompleteRef = useRef(false)
 
   useEffect(() => {
     // Skip loading animation if user requested reduced motion
@@ -12,21 +14,37 @@ export default function LoadingScreen() {
       return
     }
 
-    // Trigger subtle fade-out after the 1px golden line finishes (~1.15s)
-    const fadeTimer = setTimeout(() => {
-      setFadingOut(true)
-    }, 1150)
+    const tryFadeOut = () => {
+      if (pageReadyRef.current && animationCompleteRef.current) {
+        setFadingOut(true)
+      }
+    }
 
-    // Unmount completely from DOM after fade-out transition finishes (~1.75s)
-    const removeTimer = setTimeout(() => {
-      setMounted(false)
-    }, 1750)
+    const handlePageReady = () => {
+      pageReadyRef.current = true
+      tryFadeOut()
+    }
+
+    window.addEventListener('load', handlePageReady, { once: true })
+    const loadingFallbackTimer = window.setTimeout(() => setFadingOut(true), 3000)
+    tryFadeOut()
 
     return () => {
-      clearTimeout(fadeTimer)
-      clearTimeout(removeTimer)
+      window.removeEventListener('load', handlePageReady)
+      window.clearTimeout(loadingFallbackTimer)
     }
   }, [])
+
+  const handleLineAnimationEnd = () => {
+    animationCompleteRef.current = true
+    if (pageReadyRef.current) setFadingOut(true)
+  }
+
+  const handleFadeTransitionEnd = event => {
+    if (event.target === event.currentTarget && event.propertyName === 'opacity') {
+      setMounted(false)
+    }
+  }
 
   if (!mounted) return null
 
@@ -36,11 +54,12 @@ export default function LoadingScreen() {
       role="status"
       aria-live="polite"
       aria-label="Violets"
+      onTransitionEnd={handleFadeTransitionEnd}
     >
       <div className="loading-screen__inner">
         <div className="loading-screen__title">V I O L E T S</div>
         <div className="loading-screen__track" aria-hidden="true">
-          <div className="loading-screen__line" />
+          <div className="loading-screen__line" onAnimationEnd={handleLineAnimationEnd} />
         </div>
         <p className="loading-screen__sub">Madeira &bull; 2011</p>
       </div>
