@@ -99,11 +99,31 @@ test('Vinil hero uses a themed background image with a readability overlay', () 
   assert.match(css, /rgba\(242,\s*235,\s*224,\s*0\.8/)
 })
 
+test('Vinil price callout uses the official Euro symbol', () => {
+  const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Vinil.jsx'), 'utf8')
+
+  assert.match(
+    source,
+    /<span className="vinil-price-callout__icon" aria-hidden="true">€<\/span>/,
+    'Price callout must display the Euro symbol'
+  )
+})
+
 test('Vinil FAQ uses the editorial two-column layout', () => {
   const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Vinil.jsx'), 'utf8')
 
   assert.match(source, /className="vinil-faq-layout"/)
   assert.match(source, /className="vinil-faq-intro"/)
+})
+
+test('Deck availability badge has deliberate spacing before its title', () => {
+  const css = fs.readFileSync(path.join(projectRoot, 'src/pages/Vinil.css'), 'utf8')
+
+  assert.match(
+    css,
+    /\.vinil-deck-header\s*>\s*\.vinil-badge\s*\{[\s\S]*margin-bottom:\s*24px;/,
+    'Deck availability badge must be separated from the title'
+  )
 })
 
 test('Vinil page does not render the standalone final CTA banner', () => {

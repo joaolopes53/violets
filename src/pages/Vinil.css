@@ -333,7 +333,15 @@
 }
 
 .vinil-price-callout__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  min-height: 22px;
   color: var(--gold);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
   flex-shrink: 0;
 }
 
@@ -1170,6 +1178,10 @@
   text-align: center;
   max-width: 700px;
   margin: 0 auto 36px;
+}
+
+.vinil-deck-header > .vinil-badge {
+  margin-bottom: 24px;
 }
 
 .vinil-deck-cards {
