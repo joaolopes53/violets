@@ -32,7 +32,7 @@ export default function Footer() {
           </p>
           <div className="footer__socials">
             <a
-              href="https://www.instagram.com/violets_decor?igsh=MWNyNnZyMml1NGdwMQ=="
+              href="https://www.instagram.com/violets_carpintaria"
               target="_blank"
               rel="noopener noreferrer"
               className="footer__social-link"
