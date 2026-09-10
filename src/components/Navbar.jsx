@@ -11,6 +11,7 @@ export default function Navbar() {
   const location = useLocation()
   const navigate = useNavigate()
   const isHome = location.pathname === '/'
+  const isOverlayPage = isHome || ['/vinil', '/galeria'].includes(location.pathname)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -67,7 +68,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}${open ? ' navbar--open' : ''}${isHome ? ' navbar--home' : ''}`}>
+      <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}${open ? ' navbar--open' : ''}${isOverlayPage ? ' navbar--overlay' : ''}${isHome ? ' navbar--home' : ''}`}>
         <div className="navbar__inner">
           <Link to="/" className="navbar__brand" onClick={handleHomeNav}>
             <img src={assetUrl('/logo.svg')} alt="Violets Logo" className="navbar__brand-logo" />

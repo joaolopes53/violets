@@ -82,6 +82,39 @@ test('gallery category menu follows the Vinil navigation pattern', () => {
   assert.match(css, /\.filter-btn__count\s*\{[\s\S]*border-radius:\s*20px/)
 })
 
+test('Gallery hero uses a themed background image with a readability overlay', () => {
+  const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.jsx'), 'utf8')
+  const css = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.css'), 'utf8')
+
+  assert.match(source, /className="galeria__hero-bg"/)
+  assert.match(source, /assetUrl\('\/gallery\/cortinados\/cortinados10\.jpeg'\)/)
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'public', 'gallery', 'cortinados', 'cortinados10.jpeg')),
+    true,
+    'Gallery hero background asset must exist in public'
+  )
+  assert.match(css, /\.galeria__hero-bg\s*\{[\s\S]*background:/)
+  assert.match(css, /rgba\(242,\s*235,\s*224,\s*0\.8/)
+})
+
+test('Vinil and Gallery share the home overlay navbar and hero height', () => {
+  const navbarSource = fs.readFileSync(path.join(projectRoot, 'src/components/Navbar.jsx'), 'utf8')
+  const navbarCss = fs.readFileSync(path.join(projectRoot, 'src/components/Navbar.css'), 'utf8')
+  const rootCss = fs.readFileSync(path.join(projectRoot, 'src/index.css'), 'utf8')
+  const vinilCss = fs.readFileSync(path.join(projectRoot, 'src/pages/Vinil.css'), 'utf8')
+  const galleryCss = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.css'), 'utf8')
+
+  assert.match(navbarSource, /\['\/vinil', '\/galeria'\]/)
+  assert.match(navbarSource, /navbar--overlay/)
+  assert.match(navbarCss, /\.navbar--overlay:not\(\.navbar--scrolled\):not\(\.navbar--open\)\s*\{[\s\S]*background:\s*transparent/)
+
+  assert.match(rootCss, /--page-hero-min-height:\s*clamp\(/)
+  assert.match(vinilCss, /\.vinil-hero\s*\{[\s\S]*min-height:\s*var\(--page-hero-min-height\)/)
+  assert.match(galleryCss, /\.galeria__header\s*\{[\s\S]*min-height:\s*var\(--page-hero-min-height\)/)
+  assert.doesNotMatch(vinilCss.match(/\.vinil-page\s*\{[\s\S]*?\n\}/)?.[0] ?? '', /padding-top:\s*var\(--nav-h\)/)
+  assert.doesNotMatch(galleryCss.match(/\.galeria\s*\{[\s\S]*?\n\}/)?.[0] ?? '', /padding-top:\s*var\(--nav-h\)/)
+})
+
 test('gallery views use the shared responsive image source helper', () => {
   const gallerySource = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.jsx'), 'utf8')
   const homeSource = fs.readFileSync(path.join(projectRoot, 'src/pages/Home.jsx'), 'utf8')

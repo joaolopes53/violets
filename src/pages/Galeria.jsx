@@ -252,11 +252,18 @@ export default function Galeria() {
     <div className="galeria">
       {/* Editorial Header */}
       <header className="galeria__header">
-        <span className="galeria__hero-tag">{t('gallery.heroTag')}</span>
-        <h1 className="galeria__hero-title">
-          {t('gallery.heroTitlePre')} <em>{t('gallery.heroTitleEm')}</em> {t('gallery.heroTitlePost')}
-        </h1>
-        <p className="galeria__hero-desc">{t('gallery.heroDesc')}</p>
+        <div
+          className="galeria__hero-bg"
+          style={{ '--galeria-hero-image': `url("${assetUrl('/gallery/cortinados/cortinados10.jpeg')}")` }}
+          aria-hidden="true"
+        />
+        <div className="galeria__hero-content">
+          <span className="galeria__hero-tag">{t('gallery.heroTag')}</span>
+          <h1 className="galeria__hero-title">
+            {t('gallery.heroTitlePre')} <em>{t('gallery.heroTitleEm')}</em> {t('gallery.heroTitlePost')}
+          </h1>
+          <p className="galeria__hero-desc">{t('gallery.heroDesc')}</p>
+        </div>
       </header>
 
       {/* Filters */}

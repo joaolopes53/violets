@@ -10,7 +10,13 @@
   border-bottom: 1px solid transparent;
 }
 
-/* Transparent Top Navigation State — only on Home page */
+/* Transparent top navigation state for image-led page heroes. */
+.navbar--overlay:not(.navbar--scrolled):not(.navbar--open) {
+  background: transparent;
+  border-bottom: 1px solid transparent;
+}
+
+/* Home-specific contrast treatment keeps the hero navigation readable. */
 .navbar--home:not(.navbar--scrolled):not(.navbar--open) {
   background: transparent;
   border-bottom: 1px solid transparent;
