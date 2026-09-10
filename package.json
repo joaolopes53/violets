@@ -8,7 +8,7 @@
     "build": "vite build",
     "images:gallery": "node scripts/generate-gallery-variants.mjs",
     "lint": "oxlint",
-    "test": "node --test scripts/validate-gallery-assets.test.mjs scripts/validate-vinil-assets.test.mjs scripts/validate-social-links.test.mjs",
+    "test": "node --test scripts/validate-gallery-assets.test.mjs scripts/validate-vinil-assets.test.mjs scripts/validate-social-links.test.mjs scripts/validate-privacy-policy.test.mjs",
     "test:gallery": "node --test scripts/validate-gallery-assets.test.mjs",
     "test:vinil": "node --test scripts/validate-vinil-assets.test.mjs",
     "test:e2e:gallery": "playwright test scripts/gallery-accessibility.e2e.mjs",

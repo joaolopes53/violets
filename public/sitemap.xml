@@ -17,4 +17,12 @@
     <xhtml:link rel="alternate" hreflang="pt" href="https://violetsdesign.com/galeria" />
     <xhtml:link rel="alternate" hreflang="en" href="https://violetsdesign.com/galeria" />
   </url>
+  <url>
+    <loc>https://violetsdesign.com/privacidade</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://violetsdesign.com/privacidade" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://violetsdesign.com/privacidade" />
+  </url>
 </urlset>

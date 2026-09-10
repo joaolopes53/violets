@@ -79,6 +79,10 @@
   gap: 12px;
 }
 
+.footer__mobile-privacy {
+  display: none;
+}
+
 .footer__social-link {
   display: inline-flex;
   align-items: center;
@@ -277,6 +281,15 @@
     line-height: 1.65;
     margin-bottom: 28px;
     color: rgba(244, 240, 233, 0.7);
+  }
+
+  .footer__mobile-privacy {
+    display: inline-flex;
+    margin-top: 24px;
+    color: rgba(244, 240, 233, 0.78);
+    font-size: 13px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .footer__nav-col,

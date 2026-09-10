@@ -67,6 +67,9 @@ export default function Footer() {
               </svg>
             </a>
           </div>
+          <Link to="/privacidade" className="footer__mobile-privacy">
+            {t('footer.privacy')}
+          </Link>
         </div>
 
         {/* Studio Navigation */}
@@ -76,6 +79,7 @@ export default function Footer() {
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>{t('nav.home')}</Link>
             <Link to="/vinil">{t('nav.vinil')}</Link>
             <Link to="/galeria">{t('nav.gallery')}</Link>
+            <Link to="/privacidade">{t('footer.privacy')}</Link>
             <Link
               to="/#contacto"
               onClick={(e) => {

@@ -15,6 +15,7 @@ export const translations = {
       desc: 'Desde 2011, transformamos espaços com paixão, elegância e atenção ao detalhe. Especialistas em design de interiores e mobiliário por medida na Madeira.',
       quickLinks: 'Links Rápidos',
       contact: 'Contacto',
+      privacy: 'Política de Privacidade',
       rights: 'Todos os direitos reservados.',
     },
     home: {
@@ -388,6 +389,7 @@ export const translations = {
       desc: 'Since 2011, we transform spaces with passion, elegance, and attention to detail. Specialists in interior and bespoke furniture design in Madeira.',
       quickLinks: 'Quick Links',
       contact: 'Contact',
+      privacy: 'Privacy Policy',
       rights: 'All rights reserved.',
     },
     home: {
