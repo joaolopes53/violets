@@ -2,6 +2,7 @@ export const translations = {
   pt: {
     nav: {
       home: 'Início',
+      vinil: 'Vinil',
       gallery: 'Galeria',
       contact: 'Contacto',
       cta: 'Contactar',
@@ -221,11 +222,149 @@ export const translations = {
       emailLabel: 'Endereço Institucional',
       emailText: 'geral@violets.pt',
       emailSub: 'Resposta célere e personalizada',
-    }
+    },
+    vinil: {
+      heroTag: 'Trevo Vinyl SPC & Madeiras',
+      heroTitlePre: 'Pavimentos que',
+      heroTitleEm: 'acompanham a vida.',
+      heroDesc: 'Conforto, resistência e design numa solução pensada para transformar cada espaço. Selecionamos os pavimentos Trevo Vinyl pelo equilíbrio perfeito entre estética contemporânea, durabilidade e desempenho acústico.',
+      priceOnDemand: 'Preços sob consulta',
+      priceCustomNote: 'Orçamentos personalizados consoante área e acabamento escolhido.',
+      askQuote: 'Pedir Orçamento',
+      exploreCatalog: 'Ver Catálogo',
+      partnerBadge: 'Parceiro Oficial Trevo Vinyl',
+      tabsAriaLabel: 'Separadores de Pavimentos',
+
+      tabs: {
+        vinilSpc: 'Pavimento Vinílico SPC',
+        completedWorks: 'Trabalhos Concluídos',
+        woods: 'Madeiras',
+        deck: 'Deck Compósito',
+      },
+
+      spcTitle: 'Vinil SPC',
+      spcSubtitle: 'Resistência com aparência natural',
+      spcDesc1: 'O SPC – Stone Plastic Composite é um pavimento vinílico de núcleo rígido, composto essencialmente por uma combinação de componente mineral e PVC. Esta construção proporciona elevada rigidez e estabilidade dimensional, tornando o SPC numa solução particularmente versátil para interiores.',
+      spcDesc2: 'A camada decorativa reproduz os veios, tonalidades e detalhes característicos da madeira, permitindo obter um ambiente acolhedor e natural com as vantagens práticas de um pavimento vinílico.',
+
+      advantagesTitle: 'Porquê escolher SPC?',
+      advWaterTitle: 'Resistente à água e humidade',
+      advWaterDesc: 'Uma solução adequada para diferentes espaços da casa, permitindo maior liberdade na continuidade visual do pavimento.',
+      advDurableTitle: 'Resistente e durável',
+      advDurableDesc: 'O núcleo rígido e a camada de desgaste ajudam a proteger o pavimento das exigências da utilização quotidiana.',
+      advAcousticTitle: 'Conforto acústico',
+      advAcousticDesc: 'A tela acústica integrada contribui para reduzir o ruído de impacto e proporciona uma utilização mais confortável.',
+      advClickTitle: 'Instalação Click',
+      advClickDesc: 'O sistema de encaixe permite uma instalação flutuante, sem necessidade de colagem, tornando a aplicação mais rápida e eficiente.',
+      advMaintenanceTitle: 'Fácil manutenção',
+      advMaintenanceDesc: 'Uma superfície prática para o dia a dia, simples de limpar e manter.',
+      advDesignTitle: 'Design realista',
+      advDesignDesc: 'Diferentes tonalidades e acabamentos permitem recriar a aparência natural da madeira e adaptar o pavimento ao estilo de cada projeto.',
+
+      spcVsWpcTitle: 'SPC ou WPC?',
+      spcVsWpcSubtitle: 'Duas tecnologias, diferentes sensações.',
+      spcVsWpcDesc1: 'O SPC privilegia a rigidez, estabilidade e resistência, sendo uma excelente escolha para projetos onde a durabilidade e a facilidade de utilização são prioritárias.',
+      spcVsWpcDesc2: 'O WPC – Wood Plastic Composite apresenta uma composição diferente e uma estrutura menos rígida, privilegiando sobretudo o conforto térmico e acústico e uma sensação mais confortável ao caminhar.',
+      spcVsWpcConsult: 'A escolha depende do espaço, utilização e resultado pretendido. Na Violets ajudamos a encontrar a solução mais adequada a cada projeto.',
+
+      catalogTitlePre: 'Coleção',
+      catalogTitleEm: 'Trevo Vinyl',
+      catalogSubtitle: 'Dos tons mais claros e naturais às madeiras mais intensas, com diferentes espessuras e formatos de régua.',
+      thicknessFilter: 'Espessuras',
+      allThicknesses: 'Todas as Espessuras',
+      technicalSheet: 'Ficha Técnica',
+      downloadPdf: 'Ver PDF',
+      modelCode: 'Ref.',
+      thicknessPrefix: 'Gama',
+      requestQuote: 'Pedir Cotação',
+      sheetOnDemand: 'Ficha técnica sob consulta',
+      emptyFilter: 'Nenhum produto encontrado para a seleção.',
+
+      thicknessDescriptions: {
+        '5-5mm': 'Versatilidade para o quotidiano. A espessura reduzida torna esta gama particularmente interessante em projetos de renovação, permitindo combinar uma solução prática com a resistência característica do SPC.',
+        '6-5mm': 'Equilíbrio entre estrutura e estética. Uma solução com maior presença e sensação de solidez, disponível em diferentes larguras de régua para criar ambientes mais tradicionais ou contemporâneos.',
+        '8mm': 'Maior robustez e estabilidade. A solução SPC de maior espessura da coleção, indicada para projetos onde se procura uma maior estabilidade estrutural e uma sensação mais sólida sob os pés.',
+        '9mm': 'Conforto e estabilidade acrescidos. Gama com réguas dimensionadas para projetos residenciais e comerciais de alta exigência.',
+        '12mm': 'A gama de máxima espessura da coleção, oferecendo presença marcante e sensação autêntica de pavimento maciço com tecnologia de núcleo rígido.',
+      },
+
+      worksTag: 'Projetos Executados',
+      worksTitlePre: 'Projetos &',
+      worksTitleEm: 'Trabalhos Concluídos',
+      worksSubtitle: 'Exemplos reais de pavimentos aplicados com rigor, elegância e acabamento impecável.',
+      worksZoom: 'Clique para ver em pormenor',
+
+      woodsSectionTag: 'Madeiras Nobres',
+      woodsTitlePre: 'Madeiras',
+      woodsTitleEm: 'Naturais',
+      woodsSubtitle: 'Carvalho, Riga e Nogueira com acabamentos escovados, lisos e verniz invisível.',
+      woodsBadge: 'Madeiras sob consulta',
+      woodsCta: 'Consultar preços e acabamentos',
+      woodsCustomTitle: 'Projetos Sob Medida',
+      woodsCustomDesc: 'Disponibilizamos aconselhamento no showroom para seleção de acabamentos, vernizes e amostras físicas.',
+
+      deckTag: 'Soluções para Exterior',
+      deckTitlePre: 'Deck',
+      deckTitleEm: 'Compósito',
+      deckSubtitle: 'Soluções de pavimento exterior concebidas para elevada resistência aos elementos e conforto de lazer.',
+      deckBadge: 'Deck sob consulta',
+      deckCta: 'Pedir cotação para exterior',
+      deckItemTitle: 'Deck Compósito Premium',
+      deckItemDesc: 'Solução de exterior duradoura, resistente aos raios UV, intempéries e humidade marítima da Madeira. Textura antiderrapante com toque natural e manutenção mínima.',
+      deckFeatures: [
+        '100% Resistente à água',
+        'Sem necessidade de vernizes',
+        'Fixação oculta',
+        'Garantia de durabilidade'
+      ],
+
+      faqTag: 'Dúvidas Técnicas',
+      faqTitlePre: 'Perguntas',
+      faqTitleEm: 'Frequentes',
+      faqItems: [
+        {
+          q: 'O pavimento SPC é resistente à água?',
+          a: 'Sim. A construção SPC apresenta elevada resistência à água e à humidade. A correta instalação do pavimento continua, contudo, a ser fundamental para garantir o seu desempenho.'
+        },
+        {
+          q: 'Pode ser utilizado numa cozinha?',
+          a: 'Sim. A resistência à humidade e a facilidade de manutenção tornam o SPC numa solução particularmente interessante para cozinhas e outras áreas de utilização diária.'
+        },
+        {
+          q: 'É necessário colar o pavimento?',
+          a: 'Não. Os pavimentos SPC Trevo Vinyl utilizam um sistema de encaixe Click, permitindo uma instalação flutuante.'
+        },
+        {
+          q: 'O SPC faz muito ruído ao caminhar?',
+          a: 'As soluções Trevo Vinyl SPC incluem tela acústica, desenvolvida para contribuir para a redução do ruído de impacto e melhorar o conforto acústico do espaço.'
+        },
+        {
+          q: 'SPC e WPC são iguais?',
+          a: 'Não. Embora ambos sejam pavimentos vinílicos rígidos, apresentam construções e comportamentos diferentes. O SPC é mais rígido e privilegia a estabilidade, enquanto o WPC proporciona uma sensação mais confortável e maior desempenho térmico e acústico.'
+        },
+        {
+          q: 'Qual é a melhor espessura?',
+          a: 'Não existe uma única resposta. A escolha depende das características do espaço, da utilização, da base existente e das necessidades do projeto. A Violets poderá aconselhar a solução mais adequada.'
+        }
+      ],
+
+      ctaBannerTitle: 'Encontre o pavimento certo para o seu espaço',
+      ctaBannerText: 'Escolher um pavimento vai muito além da cor. Na Violets Decoração & Imobiliários acompanhamos todo o processo — desde a escolha da tonalidade e características técnicas até ao fornecimento e instalação.',
+      ctaBannerBtn: 'Pedir Orçamento',
+      whatsappDirect: 'WhatsApp Direto',
+
+      lightbox: {
+        dialogLabel: 'Visualizador de Fotografia de Obra',
+        close: 'Fechar visualizador',
+        prev: 'Imagem anterior',
+        next: 'Próxima imagem'
+      }
+    },
   },
   en: {
     nav: {
       home: 'Home',
+      vinil: 'Vinyl',
       gallery: 'Gallery',
       contact: 'Contact',
       cta: 'Contact Us',
@@ -445,6 +584,143 @@ export const translations = {
       emailLabel: 'Official Email',
       emailText: 'geral@violets.pt',
       emailSub: 'Prompt and personalized response',
-    }
+    },
+    vinil: {
+      heroTag: 'Trevo Vinyl SPC & Wood Collection',
+      heroTitlePre: 'Flooring designed for',
+      heroTitleEm: 'every stage of life.',
+      heroDesc: 'Comfort, durability and timeless design in a solution created to elevate every room. We select Trevo Vinyl flooring for its exceptional balance of aesthetics, acoustic performance and resilience.',
+      priceOnDemand: 'Prices on request',
+      priceCustomNote: 'Custom quotations based on room area and selected finish.',
+      askQuote: 'Request a Quote',
+      exploreCatalog: 'Explore Catalog',
+      partnerBadge: 'Trevo Vinyl Official Partner',
+      tabsAriaLabel: 'Flooring Sections',
+
+      tabs: {
+        vinilSpc: 'SPC Vinyl Flooring',
+        completedWorks: 'Completed Projects',
+        woods: 'Natural Woods',
+        deck: 'Composite Decking',
+      },
+
+      spcTitle: 'SPC Vinyl',
+      spcSubtitle: 'Resilience with natural aesthetics',
+      spcDesc1: 'SPC (Stone Plastic Composite) is a rigid core vinyl floor combining natural mineral components and PVC. This construction delivers remarkable dimensional stability and rigidity, making it versatile for any interior.',
+      spcDesc2: 'The decorative layer authentically captures the grains, hues and character of fine wood, creating a warm ambiance paired with the practical resilience of vinyl flooring.',
+
+      advantagesTitle: 'Why Choose SPC?',
+      advWaterTitle: 'Water & Moisture Resistant',
+      advWaterDesc: 'Ideal for any room including kitchens and bathrooms, enabling seamless visual continuity across living spaces.',
+      advDurableTitle: 'Durable & Tough',
+      advDurableDesc: 'The rigid core and high-density wear layer safeguard the floor against the demands of daily life.',
+      advAcousticTitle: 'Acoustic Comfort',
+      advAcousticDesc: 'Integrated underlay reduces impact noise and provides a cushioned, serene walking experience.',
+      advClickTitle: 'Click System Installation',
+      advClickDesc: 'Floating installation with precision click interlocking, avoiding adhesives for cleaner and faster fitting.',
+      advMaintenanceTitle: 'Low Maintenance',
+      advMaintenanceDesc: 'A practical, hygienic surface that is quick and effortless to clean day after day.',
+      advDesignTitle: 'Authentic Design',
+      advDesignDesc: 'Rich textures and natural grain patterns bring the timeless beauty of real wood to any architectural scheme.',
+
+      spcVsWpcTitle: 'SPC or WPC?',
+      spcVsWpcSubtitle: 'Two technologies, distinct sensations.',
+      spcVsWpcDesc1: 'SPC focuses on rigidity, high stability and impact resistance, making it the premier choice for renovations and high-traffic spaces.',
+      spcVsWpcDesc2: 'WPC (Wood Plastic Composite) features a less rigid core, delivering enhanced thermal cushioning and a softer footstep.',
+      spcVsWpcConsult: 'The optimal choice depends on your space and intended use. At Violets, we guide you to the perfect technical match.',
+
+      catalogTitlePre: 'Trevo Vinyl',
+      catalogTitleEm: 'Collection',
+      catalogSubtitle: 'From light Scandinavian tones to rich warm woods, available in multiple thicknesses and plank sizes.',
+      thicknessFilter: 'Thicknesses',
+      allThicknesses: 'All Thicknesses',
+      technicalSheet: 'Technical Sheet',
+      downloadPdf: 'View PDF',
+      modelCode: 'Ref.',
+      thicknessPrefix: 'Range',
+      requestQuote: 'Request Quote',
+      sheetOnDemand: 'Technical sheet on request',
+      emptyFilter: 'No products found for this selection.',
+
+      thicknessDescriptions: {
+        '5-5mm': 'Everyday versatility. The slim profile is particularly suited for renovation projects without altering threshold levels.',
+        '6-5mm': 'Balance between structure and elegance. Provides greater presence and solid feel underfoot in versatile plank widths.',
+        '8mm': 'Superior robustness and stability. The thickest SPC standard in the collection, ideal for high-traffic environments.',
+        '9mm': 'Enhanced acoustic cushioning and structural depth for high-end residential and commercial developments.',
+        '12mm': 'The pinnacle of the collection, matching the stature and feel of solid timber with rigid core durability.',
+      },
+
+      worksTag: 'Executed Projects',
+      worksTitlePre: 'Projects &',
+      worksTitleEm: 'Completed Works',
+      worksSubtitle: 'Real installations executed with craftsmanship, precision and attention to detail.',
+      worksZoom: 'Click to view full screen',
+
+      woodsSectionTag: 'Noble Wood Veneers',
+      woodsTitlePre: 'Natural',
+      woodsTitleEm: 'Wood Flooring',
+      woodsSubtitle: 'Oak, Riga and Walnut in brushed, smooth and invisible matte lacquer finishes.',
+      woodsBadge: 'Woods on request',
+      woodsCta: 'Inquire on Pricing & Options',
+      woodsCustomTitle: 'Bespoke Projects',
+      woodsCustomDesc: 'Personalized showroom consultation to select textures, custom finishes and physical samples.',
+
+      deckTag: 'Exterior Solutions',
+      deckTitlePre: 'Composite',
+      deckTitleEm: 'Decking',
+      deckSubtitle: 'High-performance exterior decking engineered to withstand Madeira coastal weather and sunlight.',
+      deckBadge: 'Decking on request',
+      deckCta: 'Request Exterior Quote',
+      deckItemTitle: 'Premium Composite Decking',
+      deckItemDesc: 'Durable exterior solution, resistant to UV rays, weathering and maritime humidity in Madeira. Anti-slip natural feel texture with minimal maintenance.',
+      deckFeatures: [
+        '100% Water resistant',
+        'No varnishing required',
+        'Concealed fastening',
+        'Durability guarantee'
+      ],
+
+      faqTag: 'Technical FAQ',
+      faqTitlePre: 'Frequently Asked',
+      faqTitleEm: 'Questions',
+      faqItems: [
+        {
+          q: 'Is SPC flooring waterproof?',
+          a: 'Yes. SPC construction is 100% resistant to water and direct moisture. Proper subfloor preparation and expert installation ensure optimal long-term durability.'
+        },
+        {
+          q: 'Can it be installed in kitchens and bathrooms?',
+          a: 'Yes. Its moisture resistance and easy maintenance make SPC ideal for kitchens and daily living areas, enabling unified flooring throughout.'
+        },
+        {
+          q: 'Does it require glue?',
+          a: 'No. Trevo Vinyl SPC floors utilize an advanced Click system for a floating installation over the built-in acoustic pad.'
+        },
+        {
+          q: 'Does SPC make noise when walking?',
+          a: 'No. The integrated acoustic underlay absorbs impact sound, delivering a quiet and comfortable experience.'
+        },
+        {
+          q: 'Are SPC and WPC the same?',
+          a: 'No. While both are rigid core vinyls, SPC offers higher rigidity and dimensional stability, whereas WPC prioritizes cushioning and acoustic dampening.'
+        },
+        {
+          q: 'Which thickness is best for my project?',
+          a: 'The right choice depends on the existing floor conditions, door clearances and expected traffic. Violets provides personalized guidance for each space.'
+        }
+      ],
+
+      ctaBannerTitle: 'Find the right floor for your home',
+      ctaBannerText: 'Choosing the perfect floor goes beyond color. At Violets, we accompany your project from technical selection to supply and installation.',
+      ctaBannerBtn: 'Request a Quote',
+      whatsappDirect: 'Direct WhatsApp',
+
+      lightbox: {
+        dialogLabel: 'Completed Project Photo Viewer',
+        close: 'Close photo viewer',
+        prev: 'Previous photo',
+        next: 'Next photo'
+      }
+    },
   }
 }
