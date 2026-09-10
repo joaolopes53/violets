@@ -65,6 +65,12 @@
   margin: 0 auto 28px;
 }
 
+@media (max-width: 767px) {
+  .vinil-hero {
+    padding-top: calc(var(--nav-h) + 28px);
+  }
+}
+
 .vinil-hero__badges {
   display: flex;
   align-items: center;

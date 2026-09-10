@@ -26,6 +26,23 @@ test.describe('Vinil Page Mobile Responsiveness', () => {
     })
   }
 
+  test('keeps the mobile hero clear of the overlay navbar', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
+    await page.goto('/vinil')
+    await page.waitForLoadState('networkidle')
+
+    const navbarBox = await page.locator('.navbar').boundingBox()
+    const tagBox = await page.locator('.vinil-hero__tag').boundingBox()
+
+    expect(navbarBox).not.toBeNull()
+    expect(tagBox).not.toBeNull()
+    expect(tagBox.y).toBeGreaterThan(navbarBox.y + navbarBox.height + 16)
+    await expect(page.locator('.vinil-hero__desc')).toHaveText(
+      'Conforto, resistência e design para transformar cada espaço. Pavimentos Trevo Vinyl que combinam estética, durabilidade e desempenho acústico.'
+    )
+  })
+
   test('allows horizontal scrolling of tabs and selecting all 4 tabs on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 })
     await page.goto('/vinil')
