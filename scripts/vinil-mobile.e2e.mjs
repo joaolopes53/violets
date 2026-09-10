@@ -144,6 +144,56 @@ test.describe('Vinil Page Mobile Responsiveness', () => {
     expect(await page.locator('.vinil-wood-card:visible').count()).toBe(8)
   })
 
+  test('presents the natural wood CTA as an editorial responsive close', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
+    await page.goto('/vinil?tab=madeiras')
+    await page.waitForLoadState('networkidle')
+
+    const cta = page.locator('.vinil-woods-cta')
+    await expect(cta).toContainText('Encontre o acabamento certo para o seu projeto')
+    await expect(cta).toContainText('Fale connosco para conhecer acabamentos, vernizes e amostras disponíveis.')
+    await expect(cta).toContainText('Pedir orçamento')
+
+    const mobileStyles = await cta.evaluate((element) => {
+      const styles = getComputedStyle(element)
+      return {
+        display: styles.display,
+        backgroundColor: styles.backgroundColor,
+        textAlign: styles.textAlign,
+        borderTopStyle: styles.borderTopStyle,
+      }
+    })
+
+    expect(mobileStyles.display).toBe('grid')
+    expect(mobileStyles.backgroundColor).toBe('rgba(0, 0, 0, 0)')
+    expect(mobileStyles.textAlign).toBe('left')
+    expect(mobileStyles.borderTopStyle).toBe('solid')
+
+    const mobileCtaWidth = (await cta.boundingBox()).width
+    const mobileActionWidth = (await cta.locator('.vinil-woods-cta__action').boundingBox()).width
+    expect(mobileActionWidth).toBeGreaterThan(mobileCtaWidth * 0.8)
+
+    await page.setViewportSize({ width: 1024, height: 768 })
+    await page.reload()
+    await page.waitForLoadState('networkidle')
+
+    const desktopStyles = await cta.evaluate((element) => {
+      const styles = getComputedStyle(element)
+      return {
+        display: styles.display,
+        textAlign: styles.textAlign,
+      }
+    })
+
+    expect(desktopStyles.display).toBe('grid')
+    expect(desktopStyles.textAlign).toBe('left')
+
+    const desktopCtaWidth = (await cta.boundingBox()).width
+    const desktopActionWidth = (await cta.locator('.vinil-woods-cta__action').boundingBox()).width
+    expect(desktopActionWidth).toBeLessThan(desktopCtaWidth * 0.5)
+  })
+
   test('allows horizontal scrolling of tabs and selecting all 4 tabs on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 })
     await page.goto('/vinil')

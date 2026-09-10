@@ -824,10 +824,12 @@ export default function Vinil() {
               />
             </div>
 
-            <div className="vinil-woods-cta-box">
-              <h3>{t('vinil.woodsTitlePre')} {t('vinil.woodsTitleEm')} — {t('vinil.woodsCustomTitle')}</h3>
-              <p>{t('vinil.woodsCustomDesc')}</p>
-              <Link to="/#contacto" className="vinil-btn vinil-btn--primary">
+            <div className="vinil-woods-cta">
+              <div className="vinil-woods-cta__content">
+                <h3>{t('vinil.woodsCustomTitle')}</h3>
+                <p>{t('vinil.woodsCustomDesc')}</p>
+              </div>
+              <Link to="/#contacto" className="vinil-woods-cta__action text-action text-action--next">
                 {t('vinil.woodsCta')}
               </Link>
             </div>
