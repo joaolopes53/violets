@@ -279,6 +279,8 @@ export const translations = {
       requestQuote: 'Pedir Cotação',
       sheetOnDemand: 'Ficha técnica sob consulta',
       emptyFilter: 'Nenhum produto encontrado para a seleção.',
+      productCount: 'produtos',
+      swipeHint: 'Deslize para ver mais',
       pagination: {
         ariaLabel: 'Navegação da coleção de pavimentos',
         prev: 'Página anterior',
@@ -649,6 +651,8 @@ export const translations = {
       requestQuote: 'Request Quote',
       sheetOnDemand: 'Technical sheet on request',
       emptyFilter: 'No products found for this selection.',
+      productCount: 'products',
+      swipeHint: 'Swipe to view more',
       pagination: {
         ariaLabel: 'Flooring collection pagination',
         prev: 'Previous page',

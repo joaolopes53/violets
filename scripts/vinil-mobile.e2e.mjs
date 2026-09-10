@@ -43,6 +43,107 @@ test.describe('Vinil Page Mobile Responsiveness', () => {
     )
   })
 
+  test('presents SPC advantages as a horizontal snap rail on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
+    await page.goto('/vinil')
+    await page.waitForLoadState('networkidle')
+
+    const rail = page.locator('.vinil-advantages-grid')
+    const metrics = await rail.evaluate((element) => ({
+      clientWidth: element.clientWidth,
+      cardWidth: element.querySelector('.vinil-adv-card').getBoundingClientRect().width,
+      scrollWidth: element.scrollWidth,
+      overflowX: getComputedStyle(element).overflowX,
+      scrollSnapType: getComputedStyle(element).scrollSnapType,
+    }))
+
+    expect(metrics.overflowX).toBe('auto')
+    expect(metrics.scrollSnapType).toContain('x')
+    expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth)
+    expect(metrics.cardWidth).toBeLessThan(metrics.clientWidth)
+  })
+
+  test('presents the Trevo Vinyl collection as a horizontal snap rail on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
+    await page.goto('/vinil')
+    await page.waitForLoadState('networkidle')
+
+    const rail = page.locator('.vinil-products-grid')
+    const metrics = await rail.evaluate((element) => ({
+      clientWidth: element.clientWidth,
+      cardWidth: element.querySelector('.vinil-product-card').getBoundingClientRect().width,
+      scrollWidth: element.scrollWidth,
+      overflowX: getComputedStyle(element).overflowX,
+      scrollSnapType: getComputedStyle(element).scrollSnapType,
+    }))
+
+    expect(metrics.overflowX).toBe('auto')
+    expect(metrics.scrollSnapType).toContain('x')
+    expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth)
+    expect(metrics.cardWidth).toBeLessThan(metrics.clientWidth)
+  })
+
+  test('shows the full collection without pagination on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
+    await page.goto('/vinil')
+    await page.waitForLoadState('networkidle')
+
+    await expect(page.locator('.vinil-products-meta:not(.vinil-woods-meta)')).toBeVisible()
+    await expect(page.locator('.vinil-product-pagination')).toBeHidden()
+    expect(await page.locator('.vinil-product-card:visible').count()).toBeGreaterThan(8)
+
+    await page.setViewportSize({ width: 1024, height: 768 })
+    await page.reload()
+    await page.waitForLoadState('networkidle')
+
+    await expect(page.locator('.vinil-products-meta:not(.vinil-woods-meta)')).toBeHidden()
+    await expect(page.locator('.vinil-product-pagination .vinil-pagination')).toBeVisible()
+    expect(await page.locator('.vinil-product-card:visible').count()).toBe(8)
+  })
+
+  test('presents the natural wood collection as a horizontal snap rail on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
+    await page.goto('/vinil?tab=madeiras')
+    await page.waitForLoadState('networkidle')
+
+    const rail = page.locator('.vinil-woods-grid')
+    const metrics = await rail.evaluate((element) => ({
+      clientWidth: element.clientWidth,
+      cardWidth: element.querySelector('.vinil-wood-card').getBoundingClientRect().width,
+      scrollWidth: element.scrollWidth,
+      overflowX: getComputedStyle(element).overflowX,
+      scrollSnapType: getComputedStyle(element).scrollSnapType,
+    }))
+
+    expect(metrics.overflowX).toBe('auto')
+    expect(metrics.scrollSnapType).toContain('x')
+    expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth)
+    expect(metrics.cardWidth).toBeLessThan(metrics.clientWidth)
+  })
+
+  test('shows the full natural wood collection without pagination on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
+    await page.goto('/vinil?tab=madeiras')
+    await page.waitForLoadState('networkidle')
+
+    await expect(page.locator('.vinil-woods-meta')).toBeVisible()
+    await expect(page.locator('.vinil-woods-pagination')).toBeHidden()
+    expect(await page.locator('.vinil-wood-card:visible').count()).toBeGreaterThan(8)
+
+    await page.setViewportSize({ width: 1024, height: 768 })
+    await page.reload()
+    await page.waitForLoadState('networkidle')
+
+    await expect(page.locator('.vinil-woods-meta')).toBeHidden()
+    await expect(page.locator('.vinil-woods-pagination .vinil-pagination')).toBeVisible()
+    expect(await page.locator('.vinil-wood-card:visible').count()).toBe(8)
+  })
+
   test('allows horizontal scrolling of tabs and selecting all 4 tabs on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 })
     await page.goto('/vinil')

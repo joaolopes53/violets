@@ -359,8 +359,26 @@
 
 @media (max-width: 600px) {
   .vinil-advantages-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: var(--gold) transparent;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
   }
+
+  .vinil-adv-card {
+    flex: 0 0 calc(100% - 32px);
+    scroll-snap-align: start;
+  }
+}
+
+.vinil-advantages-grid:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
 }
 
 .vinil-adv-card {
@@ -526,11 +544,36 @@
   color: var(--text-muted);
 }
 
+/* Product collection metadata */
+.vinil-products-meta {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.vinil-products-meta__hint {
+  display: none;
+}
+
+.vinil-product-pagination {
+  display: block;
+}
+
 /* Products Grid */
 .vinil-products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: clamp(16px, 3vw, 28px);
+}
+
+.vinil-products-grid:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
 }
 
 .vinil-pagination {
@@ -569,6 +612,10 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.vinil-product-card--paged-out {
+  display: none;
 }
 
 .vinil-product-card:hover {
@@ -731,6 +778,51 @@
     width: 100%;
     text-align: center;
   }
+}
+
+@media (max-width: 600px) {
+  .vinil-product-pagination {
+    display: none;
+  }
+
+  .vinil-woods-pagination {
+    display: none;
+  }
+
+  .vinil-products-meta__hint {
+    display: inline;
+    color: var(--gold-dim);
+  }
+
+  .vinil-products-meta {
+    display: flex;
+  }
+
+  .vinil-products-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: var(--gold) transparent;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vinil-product-card {
+    flex: 0 0 88%;
+    scroll-snap-align: start;
+  }
+
+  .vinil-product-card--paged-out {
+    display: flex;
+  }
+
+  .vinil-product-card__thumb {
+    aspect-ratio: 5 / 3;
+  }
+
 }
 
 /* SPC vs WPC Tech Note */
@@ -915,6 +1007,11 @@
   margin-bottom: 48px;
 }
 
+.vinil-woods-grid:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
 .vinil-wood-card {
   background: #ffffff;
   border: 1px solid rgba(200, 186, 166, 0.5);
@@ -922,6 +1019,10 @@
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
   transition: transform 0.25s ease;
+}
+
+.vinil-wood-card--paged-out {
+  display: none;
 }
 
 .vinil-wood-card:hover {
@@ -966,6 +1067,33 @@
   font-weight: 500;
   color: var(--gold);
   white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .vinil-woods-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: var(--gold) transparent;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vinil-wood-card {
+    flex: 0 0 88%;
+    scroll-snap-align: start;
+  }
+
+  .vinil-wood-card--paged-out {
+    display: block;
+  }
+
+  .vinil-wood-card__img {
+    aspect-ratio: 5 / 3;
+  }
 }
 
 .vinil-woods-cta-box {

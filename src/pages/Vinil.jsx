@@ -207,10 +207,8 @@ export default function Vinil() {
     : catalogProducts.filter(p => p.thicknessSlug === selectedThickness)
   const totalProductPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE) || 1
   const currentProductPage = parsePage(searchParams.get('page'), totalProductPages)
-  const paginatedProducts = filteredProducts.slice(
-    (currentProductPage - 1) * PRODUCTS_PER_PAGE,
-    currentProductPage * PRODUCTS_PER_PAGE
-  )
+  const productPageStart = (currentProductPage - 1) * PRODUCTS_PER_PAGE
+  const productPageEnd = currentProductPage * PRODUCTS_PER_PAGE
 
   const selectProductPage = (newPage) => {
     if (newPage < 1 || newPage > totalProductPages || newPage === currentProductPage) return
@@ -228,10 +226,8 @@ export default function Vinil() {
 
   const totalWoodPages = Math.ceil(woodProducts.length / PRODUCTS_PER_PAGE) || 1
   const currentWoodPage = parsePage(searchParams.get('page'), totalWoodPages)
-  const paginatedWoodProducts = woodProducts.slice(
-    (currentWoodPage - 1) * PRODUCTS_PER_PAGE,
-    currentWoodPage * PRODUCTS_PER_PAGE
-  )
+  const woodPageStart = (currentWoodPage - 1) * PRODUCTS_PER_PAGE
+  const woodPageEnd = currentWoodPage * PRODUCTS_PER_PAGE
 
   const selectWoodPage = (newPage) => {
     if (newPage < 1 || newPage > totalWoodPages || newPage === currentWoodPage) return
@@ -477,7 +473,12 @@ export default function Vinil() {
                 </div>
 
                 {/* SPC Features Grid */}
-                <div className="vinil-advantages-grid" aria-label={t('vinil.advantagesTitle')}>
+                <div
+                  className="vinil-advantages-grid"
+                  role="region"
+                  tabIndex={0}
+                  aria-label={t('vinil.advantagesTitle')}
+                >
                 <div className="vinil-adv-card">
                   <div className="vinil-adv-card__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -598,73 +599,93 @@ export default function Vinil() {
                   <p>{t('vinil.emptyFilter')}</p>
                 </div>
               ) : (
-                <div className="vinil-products-grid">
-                  {paginatedProducts.map((prod) => (
-                    <article key={prod.id} className="vinil-product-card">
-                      <div className="vinil-product-card__thumb">
-                        {prod.image ? (
-                          <img
-                            src={assetUrl(prod.image)}
-                            alt={`${prod.name} ${prod.thickness}`}
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        ) : (
-                          <div className="vinil-product-card__placeholder">
-                            <span>{prod.name}</span>
-                          </div>
-                        )}
-                        <span className="vinil-product-card__badge">{prod.thickness}</span>
-                      </div>
+                <>
+                  <div className="vinil-products-meta" aria-live="polite">
+                    <span>{filteredProducts.length} {t('vinil.productCount')}</span>
+                    <span className="vinil-products-meta__hint">{t('vinil.swipeHint')}</span>
+                  </div>
+                  <div
+                    className="vinil-products-grid"
+                    role="region"
+                    tabIndex={0}
+                    aria-label={`${t('vinil.catalogTitlePre')} ${t('vinil.catalogTitleEm')}`}
+                  >
+                  {filteredProducts.map((prod, productIndex) => {
+                    const isOutsideCurrentPage = productIndex < productPageStart || productIndex >= productPageEnd
 
-                      <div className="vinil-product-card__info">
-                        <h3 className="vinil-product-card__name">{prod.name}</h3>
-                        <div className="vinil-product-card__meta">
-                          <span className="vinil-product-card__code">{t('vinil.modelCode')} Trevo SPC</span>
-                          <span className="vinil-product-card__price">{t('vinil.priceOnDemand')}</span>
-                        </div>
-
-                        <div className="vinil-product-card__footer">
-                          {prod.pdfUrl ? (
-                            <a
-                              href={assetUrl(prod.pdfUrl)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="vinil-pdf-btn"
-                              aria-label={`${t('vinil.technicalSheet')} (${t('vinil.downloadPdf')}) — ${prod.name} (${prod.thickness})`}
-                            >
-                              <TechnicalSheetIcon />
-                              <span>{t('vinil.technicalSheet')}</span>
-                            </a>
+                    return (
+                      <article
+                        key={prod.id}
+                        className={`vinil-product-card${isOutsideCurrentPage ? ' vinil-product-card--paged-out' : ''}`}
+                      >
+                        <div className="vinil-product-card__thumb">
+                          {prod.image ? (
+                            <img
+                              src={assetUrl(prod.image)}
+                              alt={`${prod.name} ${prod.thickness}`}
+                              loading="lazy"
+                              decoding="async"
+                            />
                           ) : (
-                            <button
-                              type="button"
-                              className="vinil-pdf-btn vinil-pdf-btn--disabled"
-                              disabled
-                              aria-label={`${t('vinil.sheetOnDemand')} — ${prod.name} (${prod.thickness})`}
-                              title={t('vinil.sheetOnDemand')}
-                            >
-                              <TechnicalSheetIcon />
-                              <span>{t('vinil.technicalSheet')}</span>
-                            </button>
+                            <div className="vinil-product-card__placeholder">
+                              <span>{prod.name}</span>
+                            </div>
                           )}
-
-                          <Link to="/#contacto" className="vinil-quote-link">
-                            {t('vinil.requestQuote')}
-                          </Link>
+                          <span className="vinil-product-card__badge">{prod.thickness}</span>
                         </div>
-                      </div>
-                    </article>
-                  ))}
-                </div>
+
+                        <div className="vinil-product-card__info">
+                          <h3 className="vinil-product-card__name">{prod.name}</h3>
+                          <div className="vinil-product-card__meta">
+                            <span className="vinil-product-card__code">{t('vinil.modelCode')} Trevo SPC</span>
+                            <span className="vinil-product-card__price">{t('vinil.priceOnDemand')}</span>
+                          </div>
+
+                          <div className="vinil-product-card__footer">
+                            {prod.pdfUrl ? (
+                              <a
+                                href={assetUrl(prod.pdfUrl)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="vinil-pdf-btn"
+                                aria-label={`${t('vinil.technicalSheet')} (${t('vinil.downloadPdf')}) — ${prod.name} (${prod.thickness})`}
+                              >
+                                <TechnicalSheetIcon />
+                                <span>{t('vinil.technicalSheet')}</span>
+                              </a>
+                            ) : (
+                              <button
+                                type="button"
+                                className="vinil-pdf-btn vinil-pdf-btn--disabled"
+                                disabled
+                                aria-label={`${t('vinil.sheetOnDemand')} — ${prod.name} (${prod.thickness})`}
+                                title={t('vinil.sheetOnDemand')}
+                              >
+                                <TechnicalSheetIcon />
+                                <span>{t('vinil.technicalSheet')}</span>
+                              </button>
+                            )}
+
+                            <Link to="/#contacto" className="vinil-quote-link">
+                              {t('vinil.requestQuote')}
+                            </Link>
+                          </div>
+                        </div>
+                      </article>
+                    )
+                  })}
+                  </div>
+                </>
               )}
 
-              <PaginationControls
-                currentPage={currentProductPage}
-                totalPages={totalProductPages}
-                labels={t('vinil.pagination')}
-                onPageChange={selectProductPage}
-              />
+              <div className="vinil-product-pagination">
+                <PaginationControls
+                  currentPage={currentProductPage}
+                  totalPages={totalProductPages}
+                  labels={t('vinil.pagination')}
+                  onPageChange={selectProductPage}
+                />
+              </div>
             </div>
 
             {/* SPC vs WPC Tech Note */}
@@ -758,31 +779,50 @@ export default function Vinil() {
               <p className="vinil-section-text">{t('vinil.woodsSubtitle')}</p>
             </div>
 
-            <div className="vinil-woods-grid">
-              {paginatedWoodProducts.map((wood) => (
-                <div key={wood.id} className="vinil-wood-card">
-                  <div className="vinil-wood-card__img">
-                    <img
-                      src={assetUrl(wood.image)}
-                      alt={wood.name}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                  <div className="vinil-wood-card__body">
-                    <h3 className="vinil-wood-card__title">{wood.name}</h3>
-                    <span className="vinil-wood-card__badge">{t('vinil.priceOnDemand')}</span>
-                  </div>
-                </div>
-              ))}
+            <div className="vinil-products-meta vinil-woods-meta" aria-live="polite">
+              <span>{woodProducts.length} {t('vinil.productCount')}</span>
+              <span className="vinil-products-meta__hint">{t('vinil.swipeHint')}</span>
             </div>
 
-            <PaginationControls
-              currentPage={currentWoodPage}
-              totalPages={totalWoodPages}
-              labels={t('vinil.pagination')}
-              onPageChange={selectWoodPage}
-            />
+            <div
+              className="vinil-woods-grid"
+              role="region"
+              tabIndex={0}
+              aria-label={`${t('vinil.woodsTitlePre')} ${t('vinil.woodsTitleEm')}`}
+            >
+              {woodProducts.map((wood, woodIndex) => {
+                const isOutsideCurrentPage = woodIndex < woodPageStart || woodIndex >= woodPageEnd
+
+                return (
+                  <div
+                    key={wood.id}
+                    className={`vinil-wood-card${isOutsideCurrentPage ? ' vinil-wood-card--paged-out' : ''}`}
+                  >
+                    <div className="vinil-wood-card__img">
+                      <img
+                        src={assetUrl(wood.image)}
+                        alt={wood.name}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                    <div className="vinil-wood-card__body">
+                      <h3 className="vinil-wood-card__title">{wood.name}</h3>
+                      <span className="vinil-wood-card__badge">{t('vinil.priceOnDemand')}</span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="vinil-woods-pagination">
+              <PaginationControls
+                currentPage={currentWoodPage}
+                totalPages={totalWoodPages}
+                labels={t('vinil.pagination')}
+                onPageChange={selectWoodPage}
+              />
+            </div>
 
             <div className="vinil-woods-cta-box">
               <h3>{t('vinil.woodsTitlePre')} {t('vinil.woodsTitleEm')} — {t('vinil.woodsCustomTitle')}</h3>
