@@ -85,6 +85,8 @@ export default function Vinil() {
   const lightboxRef = useRef(null)
   const closeBtnRef = useRef(null)
   const triggerRef = useRef(null)
+  const lightboxThumbsStripRef = useRef(null)
+  const lightboxThumbsRef = useRef({})
   const catalogWrapRef = useRef(null)
   const woodsSectionRef = useRef(null)
   const touchStartX = useRef(0)
@@ -260,6 +262,23 @@ export default function Vinil() {
   const prevLightbox = useCallback(() => {
     setLightboxIndex((prev) => (prev === null ? null : (prev - 1 + completedWorks.length) % completedWorks.length))
   }, [])
+
+  // Center the active thumbnail without scrolling the page behind the dialog.
+  useEffect(() => {
+    const strip = lightboxThumbsStripRef.current
+    const thumb = lightboxIndex !== null ? lightboxThumbsRef.current[lightboxIndex] : null
+
+    if (strip && thumb && strip.scrollWidth > strip.clientWidth) {
+      const stripRect = strip.getBoundingClientRect()
+      const thumbRect = thumb.getBoundingClientRect()
+      const targetScroll = strip.scrollLeft + (thumbRect.left - stripRect.left) - (strip.clientWidth - thumb.clientWidth) / 2
+
+      strip.scrollTo({
+        left: targetScroll,
+        behavior: 'smooth',
+      })
+    }
+  }, [lightboxIndex])
 
   // Lock body scroll and set initial focus on open; restore focus on close
   const isLightboxOpen = lightboxIndex !== null
@@ -726,7 +745,12 @@ export default function Vinil() {
               <p className="vinil-works-hint">{t('vinil.worksZoom')}</p>
             </div>
 
-            <div className="vinil-works-grid">
+            <div
+              className="vinil-works-grid"
+              role="region"
+              tabIndex={0}
+              aria-label={`${t('vinil.worksTitlePre')} ${t('vinil.worksTitleEm')}`}
+            >
               {completedWorks.map((work, idx) => (
                 <button
                   key={work.id}
@@ -750,9 +774,6 @@ export default function Vinil() {
                           <line x1="21" y1="3" x2="14" y2="10" />
                           <line x1="3" y1="21" x2="10" y2="14" />
                         </svg>
-                      </span>
-                      <span className="vinil-work-card__title">
-                        {language === 'en' ? work.titleEn : work.titlePt}
                       </span>
                     </div>
                   </div>
@@ -939,65 +960,95 @@ export default function Vinil() {
       </div>
 
       {/* Lightbox Modal for Completed Works */}
-      {lightboxIndex !== null && (
+      {lightboxIndex !== null && completedWorks[lightboxIndex] && (
         <div
           ref={lightboxRef}
           className="vinil-lightbox"
           role="dialog"
           aria-modal="true"
-          aria-label={t('vinil.lightbox.dialogLabel')}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-          onTouchCancel={handleTouchCancel}
+          aria-labelledby="vinil-lightbox-title"
+          onClick={closeLightbox}
         >
-          <div className="vinil-lightbox__backdrop" onClick={closeLightbox} aria-hidden="true" />
-          
-          <button
-            ref={closeBtnRef}
-            type="button"
-            className="vinil-lightbox__close"
-            onClick={closeLightbox}
-            aria-label={t('vinil.lightbox.close')}
-          >
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
+          <div
+            className="vinil-lightbox__ambient-glow"
+            style={{ backgroundImage: `url(${assetUrl(completedWorks[lightboxIndex].image)})` }}
+            aria-hidden="true"
+          />
 
-          <button
-            type="button"
-            className="vinil-lightbox__arrow vinil-lightbox__arrow--prev"
-            onClick={prevLightbox}
-            aria-label={t('vinil.lightbox.prev')}
-          >
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <h2 id="vinil-lightbox-title" className="visually-hidden">
+            {language === 'en' ? completedWorks[lightboxIndex].titleEn : completedWorks[lightboxIndex].titlePt}
+          </h2>
+
+          <div className="vinil-lightbox__header" onClick={e => e.stopPropagation()}>
+            <div className="vinil-lightbox__header-info">
+              <span className="vinil-lightbox__counter">
+                {String(lightboxIndex + 1).padStart(2, '0')} / {String(completedWorks.length).padStart(2, '0')}
+              </span>
+            </div>
+            <button
+              ref={closeBtnRef}
+              type="button"
+              className="vinil-lightbox__close"
+              onClick={closeLightbox}
+              aria-label={t('vinil.lightbox.close')}
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+
+          <button type="button" className="vinil-lightbox__arrow vinil-lightbox__arrow--prev" onClick={e => { e.stopPropagation(); prevLightbox() }} aria-label={t('vinil.lightbox.prev')}>
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <polyline points="15 18 9 12 15 6" />
             </svg>
           </button>
 
-          <div className="vinil-lightbox__figure">
-            <img
-              src={assetUrl(completedWorks[lightboxIndex].image)}
-              alt={language === 'en' ? completedWorks[lightboxIndex].titleEn : completedWorks[lightboxIndex].titlePt}
-              className="vinil-lightbox__img"
-            />
-            <div className="vinil-lightbox__caption">
-              <span>{language === 'en' ? completedWorks[lightboxIndex].titleEn : completedWorks[lightboxIndex].titlePt}</span>
-              <span className="vinil-lightbox__counter">{lightboxIndex + 1} / {completedWorks.length}</span>
+          <div
+            className="vinil-lightbox__stage"
+            onClick={e => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchCancel}
+          >
+            <div className="vinil-lightbox__img-wrap" key={lightboxIndex}>
+              <img
+                src={assetUrl(completedWorks[lightboxIndex].image)}
+                alt={language === 'en' ? completedWorks[lightboxIndex].titleEn : completedWorks[lightboxIndex].titlePt}
+              />
             </div>
           </div>
 
-          <button
-            type="button"
-            className="vinil-lightbox__arrow vinil-lightbox__arrow--next"
-            onClick={nextLightbox}
-            aria-label={t('vinil.lightbox.next')}
-          >
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <button type="button" className="vinil-lightbox__arrow vinil-lightbox__arrow--next" onClick={e => { e.stopPropagation(); nextLightbox() }} aria-label={t('vinil.lightbox.next')}>
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
+
+          <div className="vinil-lightbox__footer" onClick={e => e.stopPropagation()}>
+            <div
+              className="vinil-lightbox__thumbs-strip"
+              ref={lightboxThumbsStripRef}
+              role="tablist"
+              aria-label={t('vinil.worksTitleEm')}
+            >
+              {completedWorks.map((work, index) => (
+                <button
+                  type="button"
+                  role="tab"
+                  key={work.id}
+                  ref={element => { lightboxThumbsRef.current[index] = element }}
+                  className={`vinil-lightbox__thumb-btn ${index === lightboxIndex ? 'vinil-lightbox__thumb-btn--active' : ''}`}
+                  onClick={() => setLightboxIndex(index)}
+                  aria-label={`${t('vinil.lightbox.thumbnail')} ${index + 1}`}
+                  aria-selected={index === lightboxIndex}
+                >
+                  <img src={assetUrl(work.image)} alt="" aria-hidden="true" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>

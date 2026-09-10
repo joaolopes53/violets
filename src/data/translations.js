@@ -367,7 +367,8 @@ export const translations = {
         dialogLabel: 'Visualizador de Fotografia de Obra',
         close: 'Fechar visualizador',
         prev: 'Imagem anterior',
-        next: 'Próxima imagem'
+        next: 'Próxima imagem',
+        thumbnail: 'Ver imagem',
       }
     },
   },
@@ -739,7 +740,8 @@ export const translations = {
         dialogLabel: 'Completed Project Photo Viewer',
         close: 'Close photo viewer',
         prev: 'Previous photo',
-        next: 'Next photo'
+        next: 'Next photo',
+        thumbnail: 'View image',
       }
     },
   }

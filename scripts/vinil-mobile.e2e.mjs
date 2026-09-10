@@ -125,6 +125,27 @@ test.describe('Vinil Page Mobile Responsiveness', () => {
     expect(metrics.cardWidth).toBeLessThan(metrics.clientWidth)
   })
 
+  test('presents completed projects as a horizontal snap rail on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
+    await page.goto('/vinil?tab=obras')
+    await page.waitForLoadState('networkidle')
+
+    const rail = page.locator('.vinil-works-grid')
+    const metrics = await rail.evaluate((element) => ({
+      clientWidth: element.clientWidth,
+      cardWidth: element.querySelector('.vinil-work-card').getBoundingClientRect().width,
+      scrollWidth: element.scrollWidth,
+      overflowX: getComputedStyle(element).overflowX,
+      scrollSnapType: getComputedStyle(element).scrollSnapType,
+    }))
+
+    expect(metrics.overflowX).toBe('auto')
+    expect(metrics.scrollSnapType).toContain('x')
+    expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth)
+    expect(metrics.cardWidth).toBeLessThan(metrics.clientWidth)
+  })
+
   test('shows the full natural wood collection without pagination on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 })
     await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
@@ -247,6 +268,59 @@ test.describe('Vinil Page Mobile Responsiveness', () => {
     await closeBtn.click()
 
     await expect(lightbox).toHaveCount(0)
+  })
+
+  test('uses the gallery lightbox pattern for completed projects', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
+    await page.goto('/vinil?tab=obras')
+    await page.waitForLoadState('networkidle')
+
+    await page.locator('.vinil-work-card').first().click()
+
+    const lightbox = page.locator('.vinil-lightbox')
+    await expect(lightbox).toBeVisible()
+    await expect(lightbox.locator('.vinil-lightbox__ambient-glow')).toBeAttached()
+    await expect(lightbox.locator('.vinil-lightbox__header')).toBeVisible()
+    await expect(lightbox.locator('.vinil-lightbox__counter')).toHaveText('01 / 12')
+    await expect(lightbox.locator('.vinil-lightbox__footer')).toBeVisible()
+
+    const thumbnails = lightbox.locator('.vinil-lightbox__thumb-btn')
+    await expect(thumbnails).toHaveCount(12)
+    await thumbnails.nth(1).click()
+    await expect(lightbox.locator('.vinil-lightbox__counter')).toHaveText('02 / 12')
+    await expect(lightbox.locator('.vinil-lightbox__img-wrap img')).toHaveAttribute('alt', 'Projeto Concluído 2')
+
+    const thumbnailsStyles = await lightbox.locator('.vinil-lightbox__thumbs-strip').evaluate((element) => {
+      const styles = getComputedStyle(element)
+      return {
+        overflowX: styles.overflowX,
+        display: styles.display,
+      }
+    })
+
+    expect(thumbnailsStyles.display).toBe('flex')
+    expect(thumbnailsStyles.overflowX).toBe('auto')
+
+    await page.keyboard.press('Escape')
+    await expect(lightbox).toHaveCount(0)
+  })
+
+  test('keeps completed projects visual-only in cards and lightbox', async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 })
+    await page.addInitScript(() => localStorage.setItem('lang', 'pt'))
+    await page.goto('/vinil?tab=obras')
+    await page.waitForLoadState('networkidle')
+
+    await expect(page.locator('.vinil-work-card__title')).toHaveCount(0)
+
+    await page.locator('.vinil-work-card').first().click()
+
+    const lightbox = page.locator('.vinil-lightbox')
+    await expect(lightbox).toBeVisible()
+    await expect(lightbox.locator('.vinil-lightbox__cat-title')).toHaveCount(0)
+    await expect(lightbox.locator('.vinil-lightbox__caption-text')).toHaveCount(0)
+    await expect(lightbox.locator('.vinil-lightbox__counter')).toHaveText('01 / 12')
   })
 
   test('toggles FAQ items smoothly on mobile', async ({ page }) => {

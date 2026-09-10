@@ -927,6 +927,11 @@
   margin-bottom: 0;
 }
 
+.vinil-works-grid:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
 .vinil-work-card {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -984,10 +989,23 @@
   margin-bottom: 6px;
 }
 
-.vinil-work-card__title {
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
+@media (max-width: 600px) {
+  .vinil-works-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: var(--gold) transparent;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vinil-work-card {
+    flex: 0 0 88%;
+    scroll-snap-align: start;
+  }
 }
 
 /* Woods Section */
@@ -1362,120 +1380,258 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
+  background: #090604;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: clamp(12px, 3vw, 24px);
-  padding-bottom: max(clamp(12px, 3vw, 24px), env(safe-area-inset-bottom));
-  padding-left: max(clamp(12px, 3vw, 24px), env(safe-area-inset-left));
-  padding-right: max(clamp(12px, 3vw, 24px), env(safe-area-inset-right));
+  justify-content: space-between;
+  overflow: hidden;
+  animation: vinil-lightbox-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.vinil-lightbox__backdrop {
+@keyframes vinil-lightbox-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.vinil-lightbox__ambient-glow {
   position: absolute;
   inset: 0;
-  background: rgba(15, 10, 5, 0.94);
-  backdrop-filter: blur(8px);
+  background-size: cover;
+  background-position: center;
+  filter: blur(80px) saturate(1.8) opacity(0.32);
+  transform: scale(1.2);
+  pointer-events: none;
+  z-index: 0;
+  transition: background-image 0.5s ease-out;
+}
+
+.vinil-lightbox__header {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  padding: 0 max(clamp(20px, 5vw, 48px), env(safe-area-inset-left));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(9, 6, 4, 0.8) 0%, rgba(9, 6, 4, 0) 100%);
+  z-index: 210;
+}
+
+.vinil-lightbox__header-info {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
 }
 
 .vinil-lightbox__close {
-  position: absolute;
-  top: max(16px, env(safe-area-inset-top));
-  right: max(16px, env(safe-area-inset-right));
-  z-index: 1010;
   width: 44px;
   height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 50%;
-  transition: background 0.2s ease;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .vinil-lightbox__close:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: #ffffff;
+  border-color: #ffffff;
+  color: var(--text);
+  transform: scale(1.05);
 }
 
-.vinil-lightbox__close:focus-visible {
+.vinil-lightbox__close:focus-visible,
+.vinil-lightbox__arrow:focus-visible,
+.vinil-lightbox__thumb-btn:focus-visible {
   outline: 2px solid var(--gold);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 .vinil-lightbox__arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 1010;
-  width: 50px;
-  height: 50px;
+  width: 54px;
+  height: 54px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(15, 10, 6, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 50%;
-  transition: background 0.2s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 210;
 }
 
 .vinil-lightbox__arrow:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: #ffffff;
+  border-color: #ffffff;
+  color: var(--text);
 }
 
-.vinil-lightbox__arrow:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
+.vinil-lightbox__arrow--prev { left: clamp(16px, 3.5vw, 40px); }
+.vinil-lightbox__arrow--next { right: clamp(16px, 3.5vw, 40px); }
+
+.vinil-lightbox__arrow--prev:active,
+.vinil-lightbox__arrow--next:active {
+  transform: translateY(-50%) scale(0.92);
 }
 
-.vinil-lightbox__arrow--prev {
-  left: 24px;
+.vinil-lightbox__stage {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px clamp(20px, 4vw, 48px);
+  z-index: 10;
+  min-height: 0;
+  touch-action: pan-y;
 }
 
-.vinil-lightbox__arrow--next {
-  right: 24px;
+.vinil-lightbox__img-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: vinil-lightbox-zoom-in 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (max-width: 768px) {
+.vinil-lightbox__img-wrap img {
+  max-width: 90vw;
+  max-height: calc(100vh - 220px);
+  object-fit: contain;
+  border-radius: var(--radius);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@keyframes vinil-lightbox-zoom-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.vinil-lightbox__footer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px max(20px, env(safe-area-inset-bottom));
+  background: linear-gradient(0deg, rgba(9, 6, 4, 0.9) 0%, rgba(9, 6, 4, 0.6) 80%, rgba(9, 6, 4, 0) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 210;
+}
+
+.vinil-lightbox__counter {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+}
+
+.vinil-lightbox__thumbs-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  max-width: 92vw;
+  padding: 4px 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.vinil-lightbox__thumbs-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.vinil-lightbox__thumbs-strip::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.vinil-lightbox__thumb-btn {
+  flex: 0 0 60px;
+  height: 44px;
+  padding: 0;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0.42;
+  transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+
+.vinil-lightbox__thumb-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vinil-lightbox__thumb-btn:hover {
+  opacity: 0.85;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.vinil-lightbox__thumb-btn--active {
+  opacity: 1;
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 100, 32, 0.35);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 680px) {
+  .vinil-lightbox__header {
+    height: 60px;
+    padding-right: max(clamp(20px, 5vw, 48px), env(safe-area-inset-right));
+  }
+
+  .vinil-lightbox__footer {
+    padding: 8px 12px max(16px, env(safe-area-inset-bottom));
+  }
+
+  .vinil-lightbox__thumb-btn {
+    flex-basis: 48px;
+    height: 36px;
+  }
+
+  .vinil-lightbox__img-wrap img {
+    max-height: calc(100vh - 170px);
+  }
+
   .vinil-lightbox__arrow {
     display: none;
   }
 }
 
-.vinil-lightbox__figure {
-  position: relative;
-  z-index: 1005;
-  max-width: 90vw;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.vinil-lightbox__img {
-  max-width: 100%;
-  max-height: 78vh;
-  object-fit: contain;
-  border-radius: 4px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-}
-
-.vinil-lightbox__caption {
-  margin-top: 14px;
-  color: #ffffff;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.vinil-lightbox__counter {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 13px;
-}
-
 /* Reduced Motion Support (WCAG 2.1 SC 2.3.3) */
 @media (prefers-reduced-motion: reduce) {
+  .vinil-lightbox,
+  .vinil-lightbox__img-wrap,
   .vinil-btn,
   .vinil-tab-btn,
   .vinil-pill-btn,
