@@ -69,6 +69,68 @@ button {
   font-family: inherit;
 }
 
+/* Shared editorial text action used by primary navigation and pagination. */
+.text-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: normal;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+.text-action--next::after,
+.text-action--prev::before {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+}
+
+.text-action--next::after {
+  content: '→';
+}
+
+.text-action--prev::before {
+  content: '←';
+}
+
+.text-action:hover:not(:disabled) {
+  color: var(--gold);
+}
+
+.text-action--next:hover:not(:disabled)::after {
+  transform: translateX(4px);
+}
+
+.text-action--prev:hover:not(:disabled)::before {
+  transform: translateX(-4px);
+}
+
+.text-action:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.text-action:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.text-action:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
 ::selection {
   background: var(--gold-dim);
   color: #ffffff;

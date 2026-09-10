@@ -7,8 +7,24 @@
 
 /* Hero Section */
 .vinil-hero {
+  position: relative;
+  isolation: isolate;
   padding: clamp(48px, 6vw, 76px) clamp(20px, 5vw, 48px) clamp(32px, 4vw, 48px);
   text-align: center;
+  overflow: hidden;
+}
+
+.vinil-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(242, 235, 224, 0.8) 0%, rgba(242, 235, 224, 0.88) 100%),
+    var(--vinil-hero-image) center 62% / cover no-repeat;
+}
+
+.vinil-hero__inner {
+  position: relative;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -216,7 +232,7 @@
 .vinil-content-container {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: clamp(32px, 5vw, 64px) clamp(16px, 4vw, 32px);
+  padding: 0 clamp(16px, 4vw, 32px) 0;
 }
 
 /* Tabpanel focus state and hidden handling */
@@ -264,17 +280,25 @@
 
 /* SPC Intro Layout */
 .vinil-spc-intro {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: clamp(56px, 7vw, 88px) clamp(20px, 5vw, 48px) clamp(64px, 8vw, 96px);
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.vinil-spc-intro__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(32px, 5vw, 64px);
   align-items: start;
-  margin-bottom: clamp(48px, 6vw, 72px);
-  padding-bottom: clamp(36px, 5vw, 56px);
-  border-bottom: 1px solid rgba(139, 100, 32, 0.12);
 }
 
 @media (max-width: 900px) {
-  .vinil-spc-intro {
+  .vinil-spc-intro__inner {
     grid-template-columns: 1fr;
   }
 }
@@ -364,6 +388,8 @@
 
 /* Catalog Wrap */
 .vinil-catalog-wrap {
+  padding-top: clamp(48px, 6vw, 72px);
+  scroll-margin-top: calc(var(--nav-h) + 24px);
   margin-bottom: clamp(48px, 6vw, 72px);
 }
 
@@ -496,6 +522,33 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: clamp(16px, 3vw, 28px);
+}
+
+.vinil-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 5vw, 64px);
+  margin-top: clamp(48px, 6vw, 72px);
+  padding-top: 24px;
+  border-top: 1px solid rgba(200, 186, 166, 0.45);
+}
+
+.vinil-pagination-btn {
+  min-height: 38px;
+}
+
+@media (max-width: 540px) {
+  .vinil-pagination {
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .vinil-pagination .pagination__counter {
+    order: -1;
+    flex-basis: 100%;
+    justify-content: center;
+  }
 }
 
 .vinil-product-card {
@@ -672,17 +725,18 @@
 }
 
 /* SPC vs WPC Tech Note */
-.vinil-comparison-box {
-  background: #ffffff;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: clamp(28px, 4vw, 44px);
-  margin-bottom: clamp(48px, 6vw, 72px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+.vinil-comparison-section {
+  width: 100vw;
+  margin-top: clamp(48px, 6vw, 72px);
+  margin-left: calc(50% - 50vw);
+  padding: clamp(56px, 7vw, 88px) clamp(20px, 5vw, 48px) clamp(64px, 8vw, 96px);
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
-.vinil-comparison-box__inner {
-  max-width: 900px;
+.vinil-comparison-section__inner {
+  max-width: var(--max-w);
   margin: 0 auto;
 }
 
@@ -737,6 +791,16 @@
   margin: 0;
 }
 
+/* Secondary tab sections */
+.vinil-tab-section {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: clamp(56px, 7vw, 88px) clamp(20px, 5vw, 48px) clamp(64px, 8vw, 96px);
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
 /* Completed Works Section */
 .vinil-works-header {
   text-align: center;
@@ -753,10 +817,13 @@
 }
 
 .vinil-works-grid {
+  max-width: var(--max-w);
+  margin-right: auto;
+  margin-left: auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: 16px;
-  margin-bottom: clamp(48px, 6vw, 72px);
+  margin-bottom: 0;
 }
 
 .vinil-work-card {
@@ -830,6 +897,9 @@
 }
 
 .vinil-woods-grid {
+  max-width: var(--max-w);
+  margin-right: auto;
+  margin-left: auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
   gap: clamp(16px, 3vw, 24px);
@@ -896,7 +966,7 @@
   padding: clamp(32px, 4vw, 48px);
   text-align: center;
   max-width: 760px;
-  margin: 0 auto clamp(48px, 6vw, 72px);
+  margin: 0 auto;
 }
 
 .vinil-woods-cta-box h3 {
@@ -920,8 +990,8 @@
 }
 
 .vinil-deck-cards {
-  max-width: 800px;
-  margin: 0 auto clamp(48px, 6vw, 72px);
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .vinil-deck-card {
@@ -978,31 +1048,56 @@
 
 /* FAQ Section */
 .vinil-faq-section {
-  max-width: 840px;
-  margin: 0 auto clamp(48px, 6vw, 72px);
+  width: 100vw;
+  max-width: none;
+  margin: 0;
+  margin-left: calc(50% - 50vw);
+  padding: clamp(64px, 8vw, 96px) clamp(20px, 5vw, 48px);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.vinil-faq-layout {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
+  gap: clamp(40px, 8vw, 120px);
+  align-items: start;
+}
+
+.vinil-faq-intro {
+  padding-top: 8px;
 }
 
 .vinil-faq-header {
-  text-align: center;
-  margin-bottom: 36px;
+  text-align: left;
+}
+
+.vinil-faq-intro__text {
+  max-width: 320px;
+  margin-top: 24px;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
 }
 
 .vinil-faq-list {
+  max-width: none;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  border-top: 1px solid var(--border);
 }
 
 .vinil-faq-item {
-  background: #ffffff;
-  border: 1px solid rgba(200, 186, 166, 0.6);
-  border-radius: 3px;
+  border-bottom: 1px solid var(--border);
   overflow: hidden;
   transition: border-color 0.2s ease;
 }
 
 .vinil-faq-item.open {
-  border-color: var(--gold);
+  border-bottom-color: var(--gold);
 }
 
 .vinil-faq-heading {
@@ -1017,7 +1112,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 22px;
+  padding: 19px 0;
   text-align: left;
   font-size: 15px;
   font-weight: 500;
@@ -1028,13 +1123,13 @@
 
 @media (max-width: 480px) {
   .vinil-faq-question {
-    padding: 14px 16px;
+    padding: 15px 0;
     font-size: 14px;
     gap: 12px;
   }
 
   .vinil-faq-answer {
-    padding: 0 16px;
+    padding: 0;
   }
 
   .vinil-faq-item.open .vinil-faq-answer__inner {
@@ -1061,7 +1156,7 @@
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0 22px;
+  padding: 0;
 }
 
 .vinil-faq-item.open .vinil-faq-answer {
@@ -1086,76 +1181,15 @@
   margin: 0;
 }
 
-/* Final CTA Banner */
-.vinil-cta-banner {
-  background: var(--text);
-  color: var(--bg);
-  border-radius: 4px;
-  padding: clamp(40px, 6vw, 64px) clamp(24px, 5vw, 48px);
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.vinil-cta-banner__inner {
-  max-width: 680px;
-  margin: 0 auto;
-}
-
-.vinil-cta-banner__title {
-  font-size: clamp(24px, 4vw, 36px);
-  font-weight: 300;
-  line-height: 1.25;
-  color: #ffffff;
-  margin-bottom: 14px;
-}
-
-.vinil-cta-banner__desc {
-  font-size: 15px;
-  color: rgba(242, 235, 224, 0.8);
-  line-height: 1.7;
-  margin-bottom: 28px;
-}
-
-.vinil-cta-banner__actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-@media (max-width: 480px) {
-  .vinil-cta-banner__actions {
-    flex-direction: column;
-    width: 100%;
-    gap: 10px;
+@media (max-width: 760px) {
+  .vinil-faq-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 
-  .vinil-cta-banner__actions .vinil-btn {
-    width: 100%;
+  .vinil-faq-intro__text {
+    max-width: none;
   }
-}
-
-.vinil-cta-banner .vinil-btn--primary {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: #ffffff;
-}
-
-.vinil-cta-banner .vinil-btn--primary:hover {
-  background: var(--gold-dim);
-  border-color: var(--gold-dim);
-}
-
-.vinil-cta-banner .vinil-btn--secondary {
-  background: transparent;
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.vinil-cta-banner .vinil-btn--secondary:hover {
-  border-color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
 }
 
 /* Lightbox Modal */

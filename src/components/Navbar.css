@@ -196,24 +196,10 @@
   white-space: nowrap;
 }
 
-.navbar__cta-btn::after {
-  content: '→';
-  font-family: var(--font-sans);
-  font-size: 13px;
-  line-height: 1;
-  margin-top: -1px;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
-}
-
 .navbar__cta-btn:hover {
   color: var(--gold);
   transform: none;
   box-shadow: none;
-}
-
-.navbar__cta-btn:hover::after {
-  transform: translateX(4px);
-  color: var(--gold);
 }
 
 .navbar__cta-btn:active {

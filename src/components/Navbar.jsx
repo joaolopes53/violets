@@ -158,7 +158,7 @@ export default function Navbar() {
 
             <Link
               to="/#contacto"
-              className="navbar__cta-btn"
+              className="navbar__cta-btn text-action text-action--next"
               onClick={handleContactNav}
             >
               <span>{t('nav.cta')}</span>

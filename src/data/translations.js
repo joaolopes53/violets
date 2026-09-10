@@ -279,6 +279,13 @@ export const translations = {
       requestQuote: 'Pedir Cotação',
       sheetOnDemand: 'Ficha técnica sob consulta',
       emptyFilter: 'Nenhum produto encontrado para a seleção.',
+      pagination: {
+        ariaLabel: 'Navegação da coleção de pavimentos',
+        prev: 'Página anterior',
+        next: 'Página seguinte',
+        page: 'Página',
+        of: 'de',
+      },
 
       thicknessDescriptions: {
         '5-5mm': 'Versatilidade para o quotidiano. A espessura reduzida torna esta gama particularmente interessante em projetos de renovação, permitindo combinar uma solução prática com a resistência característica do SPC.',
@@ -321,6 +328,7 @@ export const translations = {
       faqTag: 'Dúvidas Técnicas',
       faqTitlePre: 'Perguntas',
       faqTitleEm: 'Frequentes',
+      faqIntro: 'Respostas às dúvidas mais comuns sobre instalação, resistência e escolha do pavimento.',
       faqItems: [
         {
           q: 'O pavimento SPC é resistente à água?',
@@ -641,6 +649,13 @@ export const translations = {
       requestQuote: 'Request Quote',
       sheetOnDemand: 'Technical sheet on request',
       emptyFilter: 'No products found for this selection.',
+      pagination: {
+        ariaLabel: 'Flooring collection pagination',
+        prev: 'Previous page',
+        next: 'Next page',
+        page: 'Page',
+        of: 'of',
+      },
 
       thicknessDescriptions: {
         '5-5mm': 'Everyday versatility. The slim profile is particularly suited for renovation projects without altering threshold levels.',
@@ -683,6 +698,7 @@ export const translations = {
       faqTag: 'Technical FAQ',
       faqTitlePre: 'Frequently Asked',
       faqTitleEm: 'Questions',
+      faqIntro: 'Answers to the most common questions about installation, resistance and choosing the right flooring.',
       faqItems: [
         {
           q: 'Is SPC flooring waterproof?',

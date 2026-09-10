@@ -72,6 +72,16 @@ test('gallery category state is driven by validated URL search parameters', () =
   assert.match(source, /getValidCategory/)
 })
 
+test('gallery category menu follows the Vinil navigation pattern', () => {
+  const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.jsx'), 'utf8')
+  const css = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.css'), 'utf8')
+
+  assert.match(source, /filter-btn__count/)
+  assert.match(css, /\.filter-btn\s*\{[\s\S]*font-size:\s*14px/)
+  assert.match(css, /\.filter-btn\s*\{[\s\S]*letter-spacing:\s*0\.02em/)
+  assert.match(css, /\.filter-btn__count\s*\{[\s\S]*border-radius:\s*20px/)
+})
+
 test('gallery views use the shared responsive image source helper', () => {
   const gallerySource = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.jsx'), 'utf8')
   const homeSource = fs.readFileSync(path.join(projectRoot, 'src/pages/Home.jsx'), 'utf8')
@@ -174,4 +184,3 @@ test('services carousel implements gesture resilience, pointer cancel, and touch
   assert.match(homeJsx, /onKeyDown=\{handleKeyDown\}/)
   assert.match(homeCss, /touch-action:\s*pan-y/)
 })
-

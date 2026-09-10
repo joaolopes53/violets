@@ -13,9 +13,16 @@ import {
 import './Vinil.css'
 
 const TAB_IDS = ['vinil', 'obras', 'madeiras', 'deck']
+const PRODUCTS_PER_PAGE = 8
 
 function getValidTab(tabParam) {
   return TAB_IDS.includes(tabParam) ? tabParam : 'vinil'
+}
+
+function parsePage(value, maxPages) {
+  const parsed = Number.parseInt(value, 10)
+  if (Number.isNaN(parsed) || parsed < 1) return 1
+  return Math.min(parsed, maxPages)
 }
 
 function TechnicalSheetIcon() {
@@ -27,6 +34,40 @@ function TechnicalSheetIcon() {
       <line x1="16" y1="17" x2="8" y2="17" />
       <polyline points="10 9 9 9 8 9" />
     </svg>
+  )
+}
+
+function PaginationControls({ currentPage, totalPages, labels, onPageChange }) {
+  if (totalPages <= 1) return null
+
+  return (
+    <nav className="vinil-pagination" aria-label={labels.ariaLabel}>
+      <button
+        type="button"
+        className="text-action text-action--prev vinil-pagination-btn"
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage <= 1}
+        aria-label={labels.prev}
+      >
+        {labels.prev}
+      </button>
+
+      <div className="pagination__counter" aria-live="polite">
+        <span className="pagination__counter-current">{String(currentPage).padStart(2, '0')}</span>
+        <span className="pagination__counter-divider">/</span>
+        <span className="pagination__counter-total">{String(totalPages).padStart(2, '0')}</span>
+      </div>
+
+      <button
+        type="button"
+        className="text-action text-action--next vinil-pagination-btn"
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage >= totalPages}
+        aria-label={labels.next}
+      >
+        {labels.next}
+      </button>
+    </nav>
   )
 }
 
@@ -44,6 +85,8 @@ export default function Vinil() {
   const lightboxRef = useRef(null)
   const closeBtnRef = useRef(null)
   const triggerRef = useRef(null)
+  const catalogWrapRef = useRef(null)
+  const woodsSectionRef = useRef(null)
   const touchStartX = useRef(0)
   const touchStartY = useRef(0)
 
@@ -59,6 +102,7 @@ export default function Vinil() {
 
   const setTab = useCallback((newTab) => {
     const nextParams = new URLSearchParams(searchParams)
+    nextParams.delete('page')
     if (newTab === 'vinil') {
       nextParams.delete('tab')
     } else {
@@ -67,6 +111,13 @@ export default function Vinil() {
     setSearchParams(nextParams, { replace: true })
     setLightboxIndex(null)
   }, [searchParams, setSearchParams])
+
+  const selectThickness = (thicknessId) => {
+    setSelectedThickness(thicknessId)
+    const nextParams = new URLSearchParams(searchParams)
+    nextParams.delete('page')
+    setSearchParams(nextParams, { replace: true })
+  }
 
   const handleHeroExplore = (e) => {
     e.preventDefault()
@@ -116,7 +167,7 @@ export default function Vinil() {
 
     if (nextIndex !== null) {
       e.preventDefault()
-      setSelectedThickness(thicknesses[nextIndex].id)
+      selectThickness(thicknesses[nextIndex].id)
       const pillButtons = pillsRef.current?.querySelectorAll('[role="radio"]')
       pillButtons?.[nextIndex]?.focus()
     }
@@ -154,6 +205,47 @@ export default function Vinil() {
   const filteredProducts = selectedThickness === 'all'
     ? catalogProducts
     : catalogProducts.filter(p => p.thicknessSlug === selectedThickness)
+  const totalProductPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE) || 1
+  const currentProductPage = parsePage(searchParams.get('page'), totalProductPages)
+  const paginatedProducts = filteredProducts.slice(
+    (currentProductPage - 1) * PRODUCTS_PER_PAGE,
+    currentProductPage * PRODUCTS_PER_PAGE
+  )
+
+  const selectProductPage = (newPage) => {
+    if (newPage < 1 || newPage > totalProductPages || newPage === currentProductPage) return
+
+    const nextParams = new URLSearchParams(searchParams)
+    if (newPage === 1) {
+      nextParams.delete('page')
+    } else {
+      nextParams.set('page', String(newPage))
+    }
+
+    setSearchParams(nextParams, { replace: true })
+    catalogWrapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  const totalWoodPages = Math.ceil(woodProducts.length / PRODUCTS_PER_PAGE) || 1
+  const currentWoodPage = parsePage(searchParams.get('page'), totalWoodPages)
+  const paginatedWoodProducts = woodProducts.slice(
+    (currentWoodPage - 1) * PRODUCTS_PER_PAGE,
+    currentWoodPage * PRODUCTS_PER_PAGE
+  )
+
+  const selectWoodPage = (newPage) => {
+    if (newPage < 1 || newPage > totalWoodPages || newPage === currentWoodPage) return
+
+    const nextParams = new URLSearchParams(searchParams)
+    if (newPage === 1) {
+      nextParams.delete('page')
+    } else {
+      nextParams.set('page', String(newPage))
+    }
+
+    setSearchParams(nextParams, { replace: true })
+    woodsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   // Lightbox handlers
   const openLightbox = (index, e) => {
@@ -249,6 +341,11 @@ export default function Vinil() {
     <div className="vinil-page">
       {/* Hero Section */}
       <header className="vinil-hero">
+        <div
+          className="vinil-hero__bg"
+          style={{ '--vinil-hero-image': `url("${assetUrl('/vinil/trabalhos/trabalho-07.webp')}")` }}
+          aria-hidden="true"
+        />
         <div className="vinil-hero__inner">
           <span className="vinil-hero__tag">{t('vinil.heroTag')}</span>
           <h1 className="vinil-hero__title">
@@ -356,7 +453,8 @@ export default function Vinil() {
         >
           {/* SPC Presentation */}
             <div className="vinil-spc-intro">
-              <div className="vinil-spc-intro__content">
+              <div className="vinil-spc-intro__inner">
+                <div className="vinil-spc-intro__content">
                 <span className="vinil-section-tag">{t('vinil.spcTitle')}</span>
                 <h2 id="spc-heading" className="vinil-section-title">
                   {t('vinil.spcSubtitle')}
@@ -376,10 +474,10 @@ export default function Vinil() {
                     <p>{t('vinil.priceCustomNote')}</p>
                   </div>
                 </div>
-              </div>
+                </div>
 
-              {/* SPC Features Grid */}
-              <div className="vinil-advantages-grid" aria-label={t('vinil.advantagesTitle')}>
+                {/* SPC Features Grid */}
+                <div className="vinil-advantages-grid" aria-label={t('vinil.advantagesTitle')}>
                 <div className="vinil-adv-card">
                   <div className="vinil-adv-card__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -443,11 +541,12 @@ export default function Vinil() {
                   <h3 className="vinil-adv-card__title">{t('vinil.advDesignTitle')}</h3>
                   <p className="vinil-adv-card__desc">{t('vinil.advDesignDesc')}</p>
                 </div>
+                </div>
               </div>
             </div>
 
             {/* Thickness Filter & Product Grid */}
-            <div className="vinil-catalog-wrap">
+            <div ref={catalogWrapRef} className="vinil-catalog-wrap">
               <div className="vinil-catalog-header">
                 <div>
                   <h2 className="vinil-section-title">
@@ -500,7 +599,7 @@ export default function Vinil() {
                 </div>
               ) : (
                 <div className="vinil-products-grid">
-                  {filteredProducts.map((prod) => (
+                  {paginatedProducts.map((prod) => (
                     <article key={prod.id} className="vinil-product-card">
                       <div className="vinil-product-card__thumb">
                         {prod.image ? (
@@ -559,11 +658,18 @@ export default function Vinil() {
                   ))}
                 </div>
               )}
+
+              <PaginationControls
+                currentPage={currentProductPage}
+                totalPages={totalProductPages}
+                labels={t('vinil.pagination')}
+                onPageChange={selectProductPage}
+              />
             </div>
 
             {/* SPC vs WPC Tech Note */}
-            <div className="vinil-comparison-box">
-              <div className="vinil-comparison-box__inner">
+            <div className="vinil-comparison-section">
+              <div className="vinil-comparison-section__inner">
                 <span className="vinil-section-tag">{t('vinil.spcVsWpcTitle')}</span>
                 <h3 className="vinil-comparison-box__title">{t('vinil.spcVsWpcSubtitle')}</h3>
                 <div className="vinil-comparison-grid">
@@ -588,7 +694,7 @@ export default function Vinil() {
           aria-labelledby="vinil-tab-obras"
           tabIndex={0}
           hidden={currentTab !== 'obras'}
-          className="vinil-works-section"
+          className="vinil-tab-section vinil-works-section"
         >
             <div className="vinil-works-header">
               <span className="vinil-section-tag">{t('vinil.worksTag')}</span>
@@ -641,7 +747,8 @@ export default function Vinil() {
           aria-labelledby="vinil-tab-madeiras"
           tabIndex={0}
           hidden={currentTab !== 'madeiras'}
-          className="vinil-woods-section"
+          ref={woodsSectionRef}
+          className="vinil-tab-section vinil-woods-section"
         >
             <div className="vinil-woods-header">
               <span className="vinil-section-tag">{t('vinil.woodsSectionTag')}</span>
@@ -652,7 +759,7 @@ export default function Vinil() {
             </div>
 
             <div className="vinil-woods-grid">
-              {woodProducts.map((wood) => (
+              {paginatedWoodProducts.map((wood) => (
                 <div key={wood.id} className="vinil-wood-card">
                   <div className="vinil-wood-card__img">
                     <img
@@ -670,6 +777,13 @@ export default function Vinil() {
               ))}
             </div>
 
+            <PaginationControls
+              currentPage={currentWoodPage}
+              totalPages={totalWoodPages}
+              labels={t('vinil.pagination')}
+              onPageChange={selectWoodPage}
+            />
+
             <div className="vinil-woods-cta-box">
               <h3>{t('vinil.woodsTitlePre')} {t('vinil.woodsTitleEm')} — {t('vinil.woodsCustomTitle')}</h3>
               <p>{t('vinil.woodsCustomDesc')}</p>
@@ -686,7 +800,7 @@ export default function Vinil() {
           aria-labelledby="vinil-tab-deck"
           tabIndex={0}
           hidden={currentTab !== 'deck'}
-          className="vinil-deck-section"
+          className="vinil-tab-section vinil-deck-section"
         >
             <div className="vinil-deck-header">
               <div className="vinil-badge vinil-badge--highlight">{t('vinil.deckBadge')}</div>
@@ -729,67 +843,57 @@ export default function Vinil() {
 
         {/* FAQ Section */}
         <section className="vinil-faq-section" aria-labelledby="faq-heading">
-          <div className="vinil-faq-header">
-            <span className="vinil-section-tag">{t('vinil.faqTag')}</span>
-            <h2 id="faq-heading" className="vinil-section-title">
-              {t('vinil.faqTitlePre')} <em>{t('vinil.faqTitleEm')}</em>
-            </h2>
-          </div>
+          <div className="vinil-faq-layout">
+            <div className="vinil-faq-intro">
+              <div className="vinil-faq-header">
+                <span className="vinil-section-tag">{t('vinil.faqTag')}</span>
+                <h2 id="faq-heading" className="vinil-section-title">
+                  {t('vinil.faqTitlePre')} <em>{t('vinil.faqTitleEm')}</em>
+                </h2>
+              </div>
+              <p className="vinil-faq-intro__text">{t('vinil.faqIntro')}</p>
+            </div>
 
-          <div className="vinil-faq-list">
-            {t('vinil.faqItems').map((item, idx) => {
-              const isOpen = openFaq === idx
-              const btnId = `faq-btn-${idx}`
-              const ansId = `faq-answer-${idx}`
-              return (
-                <div key={idx} className={`vinil-faq-item${isOpen ? ' open' : ''}`}>
-                  <h3 className="vinil-faq-heading">
-                    <button
-                      type="button"
-                      id={btnId}
-                      className="vinil-faq-question"
-                      onClick={() => setOpenFaq(isOpen ? null : idx)}
-                      aria-expanded={isOpen}
-                      aria-controls={ansId}
+            <div className="vinil-faq-list">
+              {t('vinil.faqItems').map((item, idx) => {
+                const isOpen = openFaq === idx
+                const btnId = `faq-btn-${idx}`
+                const ansId = `faq-answer-${idx}`
+                return (
+                  <div key={idx} className={`vinil-faq-item${isOpen ? ' open' : ''}`}>
+                    <h3 className="vinil-faq-heading">
+                      <button
+                        type="button"
+                        id={btnId}
+                        className="vinil-faq-question"
+                        onClick={() => setOpenFaq(isOpen ? null : idx)}
+                        aria-expanded={isOpen}
+                        aria-controls={ansId}
+                      >
+                        <span>{item.q}</span>
+                        <svg className="vinil-faq-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </button>
+                    </h3>
+                    <div
+                      id={ansId}
+                      className="vinil-faq-answer"
+                      role="region"
+                      aria-labelledby={btnId}
+                      aria-hidden={!isOpen}
                     >
-                      <span>{item.q}</span>
-                      <svg className="vinil-faq-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <polyline points="6 9 12 15 18 9" />
-                      </svg>
-                    </button>
-                  </h3>
-                  <div
-                    id={ansId}
-                    className="vinil-faq-answer"
-                    role="region"
-                    aria-labelledby={btnId}
-                    aria-hidden={!isOpen}
-                  >
-                    <div className="vinil-faq-answer__inner">
-                      <p>{item.a}</p>
+                      <div className="vinil-faq-answer__inner">
+                        <p>{item.a}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            })}
-          </div>
-        </section>
-
-        {/* Final CTA Banner */}
-        <section className="vinil-cta-banner">
-          <div className="vinil-cta-banner__inner">
-            <h2 className="vinil-cta-banner__title">{t('vinil.ctaBannerTitle')}</h2>
-            <p className="vinil-cta-banner__desc">{t('vinil.ctaBannerText')}</p>
-            <div className="vinil-cta-banner__actions">
-              <Link to="/#contacto" className="vinil-btn vinil-btn--primary">
-                {t('vinil.ctaBannerBtn')}
-              </Link>
-              <a href="https://wa.me/351910008669" target="_blank" rel="noopener noreferrer" className="vinil-btn vinil-btn--secondary">
-                {t('vinil.whatsappDirect')}
-              </a>
+                )
+              })}
             </div>
           </div>
         </section>
+
       </div>
 
       {/* Lightbox Modal for Completed Works */}

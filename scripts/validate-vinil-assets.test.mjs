@@ -84,6 +84,41 @@ test('Vinil component does not bypass shared public assetUrl helper', () => {
   )
 })
 
+test('Vinil hero uses a themed background image with a readability overlay', () => {
+  const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Vinil.jsx'), 'utf8')
+  const css = fs.readFileSync(path.join(projectRoot, 'src/pages/Vinil.css'), 'utf8')
+
+  assert.match(source, /className="vinil-hero__bg"/)
+  assert.match(source, /assetUrl\('\/vinil\/trabalhos\/trabalho-07\.webp'\)/)
+  assert.equal(
+    fs.existsSync(path.join(projectRoot, 'public', 'vinil', 'trabalhos', 'trabalho-07.webp')),
+    true,
+    'Vinil hero background asset must exist in public'
+  )
+  assert.match(css, /\.vinil-hero__bg\s*\{[\s\S]*background:/)
+  assert.match(css, /rgba\(242,\s*235,\s*224,\s*0\.8/)
+})
+
+test('Vinil FAQ uses the editorial two-column layout', () => {
+  const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Vinil.jsx'), 'utf8')
+
+  assert.match(source, /className="vinil-faq-layout"/)
+  assert.match(source, /className="vinil-faq-intro"/)
+})
+
+test('Vinil page does not render the standalone final CTA banner', () => {
+  const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Vinil.jsx'), 'utf8')
+
+  assert.doesNotMatch(source, /vinil-cta-banner/)
+})
+
+test('Vinil content ends without trailing page padding after the FAQ', () => {
+  const css = fs.readFileSync(path.join(projectRoot, 'src/pages/Vinil.css'), 'utf8')
+  const containerBlock = css.match(/\.vinil-content-container\s*\{[\s\S]*?\n\}/)?.[0] ?? ''
+
+  assert.match(containerBlock, /padding:\s*0 clamp\(16px, 4vw, 32px\) 0;/)
+})
+
 test('vinil translations have 100% key parity between PT and EN and include all consumed schema keys', () => {
   const ptVinil = translations.pt.vinil
   const enVinil = translations.en.vinil
@@ -164,6 +199,7 @@ test('vinil translations have 100% key parity between PT and EN and include all 
     'faqTag',
     'faqTitlePre',
     'faqTitleEm',
+    'faqIntro',
     'faqItems',
     'ctaBannerTitle',
     'ctaBannerText',

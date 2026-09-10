@@ -62,7 +62,7 @@ test('keeps the selected gallery category in the URL and paginates', async ({ pa
   await expect(page.locator('.masonry__item')).toHaveCount(12)
 
   // Navigate to page 2 of Cortinados (remaining 5 items) via next button
-  await page.locator('.pagination__arrow-btn').last().click()
+  await page.getByRole('button', { name: /Página seguinte|Next page/i }).click()
   await expect(page).toHaveURL(/\/galeria\?category=cortinados&page=2$/)
   await expect(page.locator('.masonry__item')).toHaveCount(5)
   await expect(page.locator('.pagination__counter-current')).toHaveText('02')

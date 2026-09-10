@@ -330,15 +330,12 @@ export default function Galeria() {
           <nav className="galeria__pagination" aria-label={t('gallery.pagination.ariaLabel')}>
             <button
               type="button"
-              className="pagination__arrow-btn"
+              className="text-action text-action--prev pagination__text-btn"
               onClick={() => selectPage(currentPage - 1)}
               disabled={currentPage <= 1}
               aria-label={t('gallery.pagination.prev')}
             >
-              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-              </svg>
+              {t('gallery.pagination.prev')}
             </button>
 
             <div className="pagination__counter" aria-live="polite">
@@ -349,15 +346,12 @@ export default function Galeria() {
 
             <button
               type="button"
-              className="pagination__arrow-btn"
+              className="text-action text-action--next pagination__text-btn"
               onClick={() => selectPage(currentPage + 1)}
               disabled={currentPage >= totalPages}
               aria-label={t('gallery.pagination.next')}
             >
-              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
+              {t('gallery.pagination.next')}
             </button>
           </nav>
         )}
