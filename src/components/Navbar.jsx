@@ -4,6 +4,15 @@ import { useLanguage } from '../hooks/useLanguage'
 import { assetUrl } from '../utils/assetUrl'
 import './Navbar.css'
 
+const OVERLAY_PATHS = new Set([
+  '/vinil',
+  '/galeria',
+  '/cozinhas',
+  '/carpintaria',
+  '/lacagem',
+  '/decoracao',
+])
+
 export default function Navbar() {
   const { language, setLanguage, t } = useLanguage()
   const [scrolled, setScrolled] = useState(false)
@@ -11,7 +20,7 @@ export default function Navbar() {
   const location = useLocation()
   const navigate = useNavigate()
   const isHome = location.pathname === '/'
-  const isOverlayPage = isHome || ['/vinil', '/galeria'].includes(location.pathname)
+  const isOverlayPage = isHome || OVERLAY_PATHS.has(location.pathname)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -81,7 +90,10 @@ export default function Navbar() {
           <nav className="navbar__nav-desktop" aria-label={t('nav.mainNav')}>
             <NavLink to="/" end className={({ isActive }) => `navbar__link${isActive && !location.hash ? ' active' : ''}`} onClick={handleHomeNav}>{t('nav.home')}</NavLink>
             <NavLink to="/vinil" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>{t('nav.vinil')}</NavLink>
-            <NavLink to="/galeria" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>{t('nav.gallery')}</NavLink>
+            <NavLink to="/cozinhas" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>{t('nav.cozinhas')}</NavLink>
+            <NavLink to="/carpintaria" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>{t('nav.carpintaria')}</NavLink>
+            <NavLink to="/lacagem" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>{t('nav.lacagem')}</NavLink>
+            <NavLink to="/decoracao" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>{t('nav.decoracao')}</NavLink>
             <Link
               to="/#contacto"
               className={`navbar__link${location.hash === '#contacto' ? ' active' : ''}`}
@@ -205,7 +217,10 @@ export default function Navbar() {
         <nav className="navbar__drawer-nav">
           <NavLink to="/" end onClick={handleHomeNav}>{t('nav.home')}</NavLink>
           <NavLink to="/vinil" onClick={() => setOpen(false)}>{t('nav.vinil')}</NavLink>
-          <NavLink to="/galeria" onClick={() => setOpen(false)}>{t('nav.gallery')}</NavLink>
+          <NavLink to="/cozinhas" onClick={() => setOpen(false)}>{t('nav.cozinhas')}</NavLink>
+          <NavLink to="/carpintaria" onClick={() => setOpen(false)}>{t('nav.carpintaria')}</NavLink>
+          <NavLink to="/lacagem" onClick={() => setOpen(false)}>{t('nav.lacagem')}</NavLink>
+          <NavLink to="/decoracao" onClick={() => setOpen(false)}>{t('nav.decoracao')}</NavLink>
           <Link
             to="/#contacto"
             onClick={(e) => {

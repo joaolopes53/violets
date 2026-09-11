@@ -2,7 +2,8 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 import test from 'node:test'
-import { images } from '../src/data/gallery.js'
+import { images, categories } from '../src/data/gallery.js'
+import { translations } from '../src/data/translations.js'
 
 const assetModule = await import('../src/utils/assetUrl.js').catch(() => ({}))
 const { assetUrl, getDeploymentBasePath } = assetModule
@@ -20,6 +21,11 @@ const sourceFiles = [
 
 const componentAssetSources = [
   'src/pages/Home.jsx',
+  'src/pages/Cozinhas.jsx',
+  'src/pages/Carpintaria.jsx',
+  'src/pages/Lacagem.jsx',
+  'src/pages/Decoracao.jsx',
+  'src/components/ServiceGalleryView.jsx',
   'src/components/Navbar.jsx',
   'src/components/Footer.jsx',
   'src/pages/Home.css',
@@ -65,16 +71,40 @@ test('useReveal disconnects its IntersectionObserver during cleanup', () => {
 })
 
 test('gallery category state is driven by validated URL search parameters', () => {
-  const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.jsx'), 'utf8')
+  const source = fs.readFileSync(path.join(projectRoot, 'src/components/ServiceGalleryView.jsx'), 'utf8')
 
   assert.match(source, /useSearchParams/)
   assert.match(source, /searchParams\.get\('category'\)/)
   assert.match(source, /getValidCategory/)
 })
 
+test('kitchen gallery category contains all imported images', () => {
+  const kitchenImages = images.filter(image => image.cat === 'cozinhas')
+  const translations = fs.readFileSync(path.join(projectRoot, 'src/data/translations.js'), 'utf8')
+
+  assert.equal(kitchenImages.length, 10)
+  assert.match(translations, /cozinhas: 'Cozinhas'/)
+  assert.match(translations, /cozinhas: 'Kitchens'/)
+})
+
+test('lacquer gallery category contains all imported images', () => {
+  const lacquerImages = images.filter(image => image.cat === 'lacagem')
+
+  assert.equal(lacquerImages.length, 28)
+  assert.equal(translations.pt.gallery.categories.lacagem, 'Lacagem')
+  assert.equal(translations.en.gallery.categories.lacagem, 'Lacquering')
+})
+
+test('every gallery category has translations in PT and EN', () => {
+  for (const cat of categories) {
+    assert.ok(translations.pt.gallery.categories[cat.id], `Missing PT gallery category: ${cat.id}`)
+    assert.ok(translations.en.gallery.categories[cat.id], `Missing EN gallery category: ${cat.id}`)
+  }
+})
+
 test('gallery category menu follows the Vinil navigation pattern', () => {
-  const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.jsx'), 'utf8')
-  const css = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.css'), 'utf8')
+  const source = fs.readFileSync(path.join(projectRoot, 'src/components/ServiceGalleryView.jsx'), 'utf8')
+  const css = fs.readFileSync(path.join(projectRoot, 'src/components/ServiceGalleryView.css'), 'utf8')
 
   assert.match(source, /filter-btn__count/)
   assert.match(css, /\.filter-btn\s*\{[\s\S]*font-size:\s*14px/)
@@ -83,11 +113,11 @@ test('gallery category menu follows the Vinil navigation pattern', () => {
 })
 
 test('Gallery hero uses a themed background image with a readability overlay', () => {
-  const source = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.jsx'), 'utf8')
-  const css = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.css'), 'utf8')
+  const source = fs.readFileSync(path.join(projectRoot, 'src/components/ServiceGalleryView.jsx'), 'utf8')
+  const css = fs.readFileSync(path.join(projectRoot, 'src/components/ServiceGalleryView.css'), 'utf8')
 
   assert.match(source, /className="galeria__hero-bg"/)
-  assert.match(source, /assetUrl\('\/gallery\/cortinados\/cortinados10\.jpeg'\)/)
+  assert.match(source, /assetUrl\(heroImage\)/)
   assert.equal(
     fs.existsSync(path.join(projectRoot, 'public', 'gallery', 'cortinados', 'cortinados10.jpeg')),
     true,
@@ -102,9 +132,11 @@ test('Vinil and Gallery share the home overlay navbar and hero height', () => {
   const navbarCss = fs.readFileSync(path.join(projectRoot, 'src/components/Navbar.css'), 'utf8')
   const rootCss = fs.readFileSync(path.join(projectRoot, 'src/index.css'), 'utf8')
   const vinilCss = fs.readFileSync(path.join(projectRoot, 'src/pages/Vinil.css'), 'utf8')
-  const galleryCss = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.css'), 'utf8')
+  const galleryCss = fs.readFileSync(path.join(projectRoot, 'src/components/ServiceGalleryView.css'), 'utf8')
 
-  assert.match(navbarSource, /\['\/vinil', '\/galeria'\]/)
+  assert.match(navbarSource, /OVERLAY_PATHS/)
+  assert.match(navbarSource, /'\/vinil'/)
+  assert.match(navbarSource, /'\/galeria'/)
   assert.match(navbarSource, /navbar--overlay/)
   assert.match(navbarCss, /\.navbar--overlay:not\(\.navbar--scrolled\):not\(\.navbar--open\)\s*\{[\s\S]*background:\s*transparent/)
 
@@ -116,7 +148,7 @@ test('Vinil and Gallery share the home overlay navbar and hero height', () => {
 })
 
 test('gallery views use the shared responsive image source helper', () => {
-  const gallerySource = fs.readFileSync(path.join(projectRoot, 'src/pages/Galeria.jsx'), 'utf8')
+  const gallerySource = fs.readFileSync(path.join(projectRoot, 'src/components/ServiceGalleryView.jsx'), 'utf8')
   const homeSource = fs.readFileSync(path.join(projectRoot, 'src/pages/Home.jsx'), 'utf8')
 
   for (const source of [gallerySource, homeSource]) {

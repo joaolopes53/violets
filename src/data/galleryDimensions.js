@@ -287,6 +287,46 @@ export const galleryDimensions = {
     "width": 1086,
     "height": 1448
   },
+  "/gallery/cozinhas/cozinhas1.png": {
+    "width": 1254,
+    "height": 1254
+  },
+  "/gallery/cozinhas/cozinhas10.png": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/cozinhas/cozinhas2.png": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/cozinhas/cozinhas3.png": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/cozinhas/cozinhas4.png": {
+    "width": 1122,
+    "height": 1402
+  },
+  "/gallery/cozinhas/cozinhas5.png": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/cozinhas/cozinhas6.png": {
+    "width": 1085,
+    "height": 1450
+  },
+  "/gallery/cozinhas/cozinhas7.png": {
+    "width": 1445,
+    "height": 1088
+  },
+  "/gallery/cozinhas/cozinhas8.png": {
+    "width": 1183,
+    "height": 1329
+  },
+  "/gallery/cozinhas/cozinhas9.png": {
+    "width": 1086,
+    "height": 1448
+  },
   "/gallery/estofamentos/estofamentos1.jpeg": {
     "width": 1448,
     "height": 1086
@@ -380,6 +420,118 @@ export const galleryDimensions = {
     "height": 1448
   },
   "/gallery/hotelaria/hotelaria9.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem1.jpeg": {
+    "width": 1445,
+    "height": 1088
+  },
+  "/gallery/lacagem/lacagem10.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem11.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem12.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem13.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem14.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem15.jpeg": {
+    "width": 1087,
+    "height": 1447
+  },
+  "/gallery/lacagem/lacagem16.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem17.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem18.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem19.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem2.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem20.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem21.jpeg": {
+    "width": 1200,
+    "height": 1600
+  },
+  "/gallery/lacagem/lacagem22.jpeg": {
+    "width": 1500,
+    "height": 2000
+  },
+  "/gallery/lacagem/lacagem23.jpeg": {
+    "width": 1200,
+    "height": 1600
+  },
+  "/gallery/lacagem/lacagem24.jpeg": {
+    "width": 1500,
+    "height": 2000
+  },
+  "/gallery/lacagem/lacagem25.jpeg": {
+    "width": 1200,
+    "height": 1600
+  },
+  "/gallery/lacagem/lacagem26.jpeg": {
+    "width": 945,
+    "height": 2048
+  },
+  "/gallery/lacagem/lacagem27.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem28.jpeg": {
+    "width": 1445,
+    "height": 1088
+  },
+  "/gallery/lacagem/lacagem3.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem4.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/lacagem/lacagem5.jpeg": {
+    "width": 1445,
+    "height": 1088
+  },
+  "/gallery/lacagem/lacagem6.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/lacagem/lacagem7.jpeg": {
+    "width": 1254,
+    "height": 1254
+  },
+  "/gallery/lacagem/lacagem8.jpeg": {
+    "width": 1122,
+    "height": 1402
+  },
+  "/gallery/lacagem/lacagem9.jpeg": {
     "width": 1086,
     "height": 1448
   },

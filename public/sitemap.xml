@@ -10,16 +10,48 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://violetsdesign.com/" />
   </url>
   <url>
-    <loc>https://violetsdesign.com/galeria</loc>
-    <lastmod>2026-09-09</lastmod>
+    <loc>https://violetsdesign.com/vinil</loc>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://violetsdesign.com/galeria" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://violetsdesign.com/galeria" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://violetsdesign.com/vinil" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://violetsdesign.com/vinil" />
+  </url>
+  <url>
+    <loc>https://violetsdesign.com/cozinhas</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://violetsdesign.com/cozinhas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://violetsdesign.com/cozinhas" />
+  </url>
+  <url>
+    <loc>https://violetsdesign.com/carpintaria</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://violetsdesign.com/carpintaria" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://violetsdesign.com/carpintaria" />
+  </url>
+  <url>
+    <loc>https://violetsdesign.com/lacagem</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://violetsdesign.com/lacagem" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://violetsdesign.com/lacagem" />
+  </url>
+  <url>
+    <loc>https://violetsdesign.com/decoracao</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://violetsdesign.com/decoracao" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://violetsdesign.com/decoracao" />
   </url>
   <url>
     <loc>https://violetsdesign.com/privacidade</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
     <xhtml:link rel="alternate" hreflang="pt" href="https://violetsdesign.com/privacidade" />

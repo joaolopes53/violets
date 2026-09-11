@@ -1,16 +1,17 @@
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import { images, categories } from '../data/gallery'
 import { assetUrl } from '../utils/assetUrl'
 import { galleryImageSources } from '../utils/galleryImage'
 import { useSeo } from '../hooks/useSeo'
-import './Galeria.css'
+import './ServiceGalleryView.css'
 
 const ITEMS_PER_PAGE = 12
+const DECOR_CATEGORY_IDS = ['cortinados', 'papel-de-parede', 'cabeceiras-de-cama', 'estofamentos', 'hotelaria']
 
-function getValidCategory(value) {
-  return categories.some(category => category.id === value) ? value : 'todos'
+function getValidCategory(value, validCategories = categories, fallback = 'todos') {
+  return validCategories.some(category => category.id === value) ? value : fallback
 }
 
 function parsePage(value, maxPages) {
@@ -20,23 +21,77 @@ function parsePage(value, maxPages) {
   return parsed
 }
 
-export default function Galeria() {
+export default function ServiceGalleryView({
+  mode = 'all',
+  fixedCategory = null,
+  allowedCategories = null,
+  defaultCategory = null,
+  canonicalPath = null
+} = {}) {
   const { t, language } = useLanguage()
 
+  const isDecorMode = mode === 'decoracao'
+  const isCozinhasMode = mode === 'cozinhas' || fixedCategory === 'cozinhas'
+  const isCarpintariaMode = mode === 'carpintaria' || fixedCategory === 'carpintaria'
+  const isLacagemMode = mode === 'lacagem' || fixedCategory === 'lacagem'
+
+  const effectiveFixedCategory = fixedCategory || (isCozinhasMode ? 'cozinhas' : isCarpintariaMode ? 'carpintaria' : isLacagemMode ? 'lacagem' : null)
+  const visibleCategories = useMemo(() => {
+    if (allowedCategories) return allowedCategories
+    if (isDecorMode) return categories.filter(c => DECOR_CATEGORY_IDS.includes(c.id))
+    if (effectiveFixedCategory) return []
+    return categories
+  }, [allowedCategories, isDecorMode, effectiveFixedCategory])
+  const effectiveDefaultCategory = defaultCategory || (isDecorMode ? 'cortinados' : (visibleCategories[0]?.id || 'todos'))
+  const effectiveCanonicalPath = canonicalPath || (isCozinhasMode ? '/cozinhas' : isCarpintariaMode ? '/carpintaria' : isLacagemMode ? '/lacagem' : isDecorMode ? '/decoracao' : '/galeria')
+
+  let seoTitle = language === 'en'
+    ? 'Portfolio & Projects Gallery | Violets — Interior Design Madeira'
+    : 'Portfólio & Galeria de Projetos | Violets — Design e Decoração Madeira'
+  let seoDesc = language === 'en'
+    ? 'Explore our bespoke curtains, custom headboards, fine upholstery and hospitality interior projects in Madeira.'
+    : 'Explore o nosso portfólio de cortinados por medida, cabeceiras de cama estofadas, estofos de autor e hotelaria na Madeira.'
+
+  if (isCozinhasMode) {
+    seoTitle = language === 'en'
+      ? 'Bespoke Kitchens | Violets — Interior Design Madeira'
+      : 'Cozinhas por Medida | Violets — Design e Decoração Madeira'
+    seoDesc = language === 'en'
+      ? 'Bespoke modern and functional kitchen cabinetry crafted in Madeira.'
+      : 'Cozinhas modernas e funcionais por medida com acabamento de excelência na Madeira.'
+  } else if (isCarpintariaMode) {
+    seoTitle = language === 'en'
+      ? 'Bespoke Carpentry & Millwork | Violets — Madeira'
+      : 'Carpintaria & Mobiliário por Medida | Violets — Madeira'
+    seoDesc = language === 'en'
+      ? 'Custom furniture, wardrobes and architectural millwork made in Madeira.'
+      : 'Mobiliário por medida, roupeiros embutidos e carpintaria de alta precisão na Madeira.'
+  } else if (isLacagemMode) {
+    seoTitle = language === 'en'
+      ? 'Professional Lacquering & Wood Finishes | Violets — Madeira'
+      : 'Lacagem & Acabamentos de Alta Qualidade | Violets — Madeira'
+    seoDesc = language === 'en'
+      ? 'Professional lacquering, varnishing, and premium finishes for custom furniture, doors, and woodwork in Madeira.'
+      : 'Serviço profissional de lacagem, pintura e acabamentos de alto padrão para mobiliário e madeiras na Madeira.'
+  } else if (isDecorMode) {
+    seoTitle = language === 'en'
+      ? 'Interior Decoration & Soft Furnishings | Violets — Madeira'
+      : 'Decoração de Interiores | Violets — Madeira'
+    seoDesc = language === 'en'
+      ? 'Bespoke curtains, designer wallpapers, upholstered headboards and hospitality projects in Madeira.'
+      : 'Cortinados por medida, papel de parede, cabeceiras estofadas, estofos e hotelaria na Madeira.'
+  }
+
   useSeo({
-    title: language === 'en'
-      ? 'Portfolio & Projects Gallery | Violets — Interior Design Madeira'
-      : 'Portfólio & Galeria de Projetos | Violets — Design e Decoração Madeira',
-    description: language === 'en'
-      ? 'Explore our bespoke curtains, custom headboards, fine upholstery and hospitality interior projects in Madeira.'
-      : 'Explore o nosso portfólio de cortinados por medida, cabeceiras de cama estofadas, estofos de autor e hotelaria na Madeira.',
-    canonicalPath: '/galeria'
+    title: seoTitle,
+    description: seoDesc,
+    canonicalPath: effectiveCanonicalPath
   })
   const [searchParams, setSearchParams] = useSearchParams()
   const categoryParam = searchParams.get('category')
   const pageParam = searchParams.get('page')
 
-  const [active, setActive] = useState(() => getValidCategory(categoryParam))
+  const [active, setActive] = useState(() => effectiveFixedCategory || getValidCategory(categoryParam, visibleCategories, effectiveDefaultCategory))
   const [lightbox, setLightbox] = useState(null)
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 })
   
@@ -51,7 +106,9 @@ export default function Galeria() {
   const touchStart = useRef(0)
   const touchEnd = useRef(0)
 
-  const filtered = active === 'todos' ? images : images.filter(i => i.cat === active)
+  const filtered = effectiveFixedCategory
+    ? images.filter(i => i.cat === effectiveFixedCategory)
+    : (active === 'todos' ? images : images.filter(i => i.cat === active))
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE) || 1
   const currentPage = parsePage(pageParam, totalPages)
 
@@ -86,10 +143,10 @@ export default function Galeria() {
   const next = useCallback(() => setLightbox(i => (i + 1) % filtered.length), [filtered.length])
 
   const selectCategory = (categoryId) => {
-    const nextCategory = getValidCategory(categoryId)
+    const nextCategory = effectiveFixedCategory || getValidCategory(categoryId, visibleCategories, effectiveDefaultCategory)
     const nextSearchParams = new URLSearchParams(searchParams)
 
-    if (nextCategory === 'todos') {
+    if (nextCategory === 'todos' || nextCategory === effectiveDefaultCategory) {
       nextSearchParams.delete('category')
     } else {
       nextSearchParams.set('category', nextCategory)
@@ -128,9 +185,10 @@ export default function Galeria() {
 
   // Keep the selected filter in sync with browser navigation and shared URLs.
   useEffect(() => {
-    const nextCategory = getValidCategory(categoryParam)
+    if (effectiveFixedCategory) return
+    const nextCategory = getValidCategory(categoryParam, visibleCategories, effectiveDefaultCategory)
     setActive(current => current === nextCategory ? current : nextCategory)
-  }, [categoryParam])
+  }, [categoryParam, effectiveFixedCategory, visibleCategories, effectiveDefaultCategory])
 
   // Reset lightbox on filter or page change
   useEffect(() => {
@@ -222,7 +280,7 @@ export default function Galeria() {
       clearTimeout(timer)
       window.removeEventListener('resize', updateIndicator)
     }
-  }, [active])
+  }, [active, language])
 
   // Swipe Gestures
   const handleTouchStart = (e) => {
@@ -248,50 +306,99 @@ export default function Galeria() {
     touchEnd.current = 0
   }
 
+  let heroImage = '/gallery/cortinados/cortinados10.jpeg'
+  let heroTag = t('gallery.heroTag')
+  let heroTitlePre = t('gallery.heroTitlePre')
+  let heroTitleEm = t('gallery.heroTitleEm')
+  let heroTitlePost = t('gallery.heroTitlePost')
+  let heroDesc = t('gallery.heroDesc')
+
+  if (isCozinhasMode) {
+    heroImage = '/gallery/cozinhas/cozinhas1.png'
+    heroTag = language === 'en' ? 'Cabinetry & Design' : 'Mobiliário e Design'
+    heroTitlePre = language === 'en' ? 'Bespoke' : 'Cozinhas'
+    heroTitleEm = language === 'en' ? 'Kitchens' : 'por Medida'
+    heroTitlePost = ''
+    heroDesc = language === 'en'
+      ? 'We design and produce modern, ergonomic and durable bespoke kitchens in Madeira.'
+      : 'Concebemos e produzimos cozinhas modernas, ergonómicas e duráveis, aliando materiais nobres e máxima funcionalidade.'
+  } else if (isCarpintariaMode) {
+    heroImage = '/gallery/carpintaria/carpintaria1.jpeg'
+    heroTag = language === 'en' ? 'Furniture & Millwork' : 'Oficina Própria & Fabrico'
+    heroTitlePre = language === 'en' ? 'High-Precision' : 'Carpintaria de'
+    heroTitleEm = language === 'en' ? 'Carpentry' : 'Alta Precisão'
+    heroTitlePost = ''
+    heroDesc = language === 'en'
+      ? 'Custom furniture, bespoke wardrobes, kitchens and integrated high-precision wood solutions in Madeira.'
+      : 'Mobiliário por medida, roupeiros embutidos, painéis ripados e soluções integradas de madeira de alta precisão.'
+  } else if (isLacagemMode) {
+    heroImage = '/gallery/lacagem/lacagem1.jpeg'
+    heroTag = language === 'en' ? 'Finishes & Lacquering' : 'Pintura & Acabamentos'
+    heroTitlePre = language === 'en' ? 'Professional' : 'Lacagem de'
+    heroTitleEm = language === 'en' ? 'Lacquering' : 'Alta Precisão'
+    heroTitlePost = ''
+    heroDesc = language === 'en'
+      ? 'Professional lacquering, varnishing, and premium finishes for custom furniture, doors, and interior woodwork in Madeira.'
+      : 'Serviço especializado de lacagem, envernizamento e acabamentos de alto padrão para mobiliário, portas e elementos em madeira na Madeira.'
+  } else if (isDecorMode) {
+    heroImage = '/gallery/cortinados/cortinados10.jpeg'
+    heroTag = language === 'en' ? 'Interior Decor' : 'Decoração de Interiores'
+    heroTitlePre = language === 'en' ? 'Interior' : 'Decoração de'
+    heroTitleEm = language === 'en' ? 'Decoration' : 'Interiores'
+    heroTitlePost = ''
+    heroDesc = language === 'en'
+      ? 'Explore our bespoke curtains, wallpapers, custom headboards, upholstery and hospitality projects in Madeira.'
+      : 'Explore o nosso portfólio de cortinados por medida, papel de parede, cabeceiras estofadas, estofos e hotelaria na Madeira.'
+  }
+
+  const resolvedHeroImageUrl = assetUrl(heroImage)
+
   return (
     <div className="galeria">
       {/* Editorial Header */}
       <header className="galeria__header">
         <div
           className="galeria__hero-bg"
-          style={{ '--galeria-hero-image': `url("${assetUrl('/gallery/cortinados/cortinados10.jpeg')}")` }}
+          style={{ '--galeria-hero-image': `url("${resolvedHeroImageUrl}")` }}
           aria-hidden="true"
         />
         <div className="galeria__hero-content">
-          <span className="galeria__hero-tag">{t('gallery.heroTag')}</span>
+          <span className="galeria__hero-tag">{heroTag}</span>
           <h1 className="galeria__hero-title">
-            {t('gallery.heroTitlePre')} <em>{t('gallery.heroTitleEm')}</em> {t('gallery.heroTitlePost')}
+            {heroTitlePre} <em>{heroTitleEm}</em> {heroTitlePost}
           </h1>
-          <p className="galeria__hero-desc">{t('gallery.heroDesc')}</p>
+          <p className="galeria__hero-desc">{heroDesc}</p>
         </div>
       </header>
 
       {/* Filters */}
-      <div className="galeria__filters">
-        <div className="galeria__filters-inner">
-          {categories.map(cat => (
-            <button
-              type="button"
-              key={cat.id}
-              ref={el => buttonsRef.current[cat.id] = el}
-              className={`filter-btn${active === cat.id ? ' filter-btn--active' : ''}`}
-              onClick={() => selectCategory(cat.id)}
-            >
-              <span className="filter-btn__text">{t(`gallery.categories.${cat.id}`)}</span>
-              <span className="filter-btn__count">
-                {cat.id === 'todos' ? images.length : images.filter(i => i.cat === cat.id).length}
-              </span>
-            </button>
-          ))}
-          <div 
-            className="filter-indicator" 
-            style={{
-              left: `${indicatorStyle.left}px`,
-              width: `${indicatorStyle.width}px`
-            }}
-          />
+      {visibleCategories.length > 1 && (
+        <div className="galeria__filters">
+          <div className="galeria__filters-inner">
+            {visibleCategories.map(cat => (
+              <button
+                type="button"
+                key={cat.id}
+                ref={el => buttonsRef.current[cat.id] = el}
+                className={`filter-btn${active === cat.id ? ' filter-btn--active' : ''}`}
+                onClick={() => selectCategory(cat.id)}
+              >
+                <span className="filter-btn__text">{t(`gallery.categories.${cat.id}`)}</span>
+                <span className="filter-btn__count">
+                  {cat.id === 'todos' ? images.length : images.filter(i => i.cat === cat.id).length}
+                </span>
+              </button>
+            ))}
+            <div 
+              className="filter-indicator" 
+              style={{
+                left: `${indicatorStyle.left}px`,
+                width: `${indicatorStyle.width}px`
+              }}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Organic Masonry Grid (Preserving Natural Proportions) */}
       <div className="galeria__wrap" ref={galleryWrapRef}>

@@ -11,8 +11,11 @@ test('routes are split into lazy-loaded page chunks', () => {
   const appSource = fs.readFileSync(path.join(projectRoot, 'src/App.jsx'), 'utf8')
 
   assert.match(appSource, /lazy\(\(\) => import\('\.\/pages\/Home'\)\)/)
-  assert.match(appSource, /lazy\(\(\) => import\('\.\/pages\/Galeria'\)\)/)
   assert.match(appSource, /lazy\(\(\) => import\('\.\/pages\/Vinil'\)\)/)
+  assert.match(appSource, /lazy\(\(\) => import\('\.\/pages\/Cozinhas'\)\)/)
+  assert.match(appSource, /lazy\(\(\) => import\('\.\/pages\/Carpintaria'\)\)/)
+  assert.match(appSource, /lazy\(\(\) => import\('\.\/pages\/Lacagem'\)\)/)
+  assert.match(appSource, /lazy\(\(\) => import\('\.\/pages\/Decoracao'\)\)/)
   assert.match(appSource, /lazy\(\(\) => import\('\.\/pages\/Privacidade'\)\)/)
   assert.match(appSource, /<Suspense fallback=/)
   assert.match(appSource, /className="route-loading"/)

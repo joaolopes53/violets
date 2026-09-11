@@ -242,7 +242,7 @@ export default function Home() {
             {t('home.heroDesc')}
           </p>
           <div className="hero__actions">
-            <Link to="/galeria" className="btn btn--primary">{t('home.heroBtnProjects')}</Link>
+            <Link to="/decoracao" className="btn btn--primary">{t('home.heroBtnProjects')}</Link>
             <a
               href="#contacto"
               className="btn btn--ghost"
@@ -439,7 +439,7 @@ export default function Home() {
             <span className="section-label">{t('home.portfolioLabel')}</span>
             <h2>{t('home.portfolioTitlePre')} <em>{t('home.portfolioTitleEm')}</em></h2>
           </div>
-          <Link to="/galeria" className="preview__showcase" aria-label={t('home.portfolioCta')}>
+          <Link to="/decoracao" className="preview__showcase" aria-label={t('home.portfolioCta')}>
             <div className="preview__grid">
               {preview.map((img, i) => {
                 const source = galleryImageSources(img.src)
@@ -468,7 +468,7 @@ export default function Home() {
             </div>
           </Link>
           <div className="preview__cta">
-            <Link to="/galeria" className="btn btn--outline">{t('home.portfolioCta')}</Link>
+            <Link to="/decoracao" className="btn btn--outline">{t('home.portfolioCta')}</Link>
           </div>
         </div>
       </section>

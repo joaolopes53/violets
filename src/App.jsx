@@ -9,8 +9,11 @@ import { getDeploymentBasePath } from './utils/assetUrl'
 import './App.css'
 
 const Home = lazy(() => import('./pages/Home'))
-const Galeria = lazy(() => import('./pages/Galeria'))
 const Vinil = lazy(() => import('./pages/Vinil'))
+const Cozinhas = lazy(() => import('./pages/Cozinhas'))
+const Carpintaria = lazy(() => import('./pages/Carpintaria'))
+const Lacagem = lazy(() => import('./pages/Lacagem'))
+const Decoracao = lazy(() => import('./pages/Decoracao'))
 const Privacidade = lazy(() => import('./pages/Privacidade'))
 
 class RouteErrorBoundary extends Component {
@@ -53,7 +56,11 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/vinil" element={<Vinil />} />
-                <Route path="/galeria" element={<Galeria />} />
+                <Route path="/cozinhas" element={<Cozinhas />} />
+                <Route path="/carpintaria" element={<Carpintaria />} />
+                <Route path="/lacagem" element={<Lacagem />} />
+                <Route path="/decoracao" element={<Decoracao />} />
+                <Route path="/galeria" element={<Navigate to="/decoracao" replace />} />
                 <Route path="/privacidade" element={<Privacidade />} />
                 <Route path="/contacto" element={<Navigate to="/#contacto" replace />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
