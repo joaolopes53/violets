@@ -242,10 +242,9 @@ export default function Home() {
             {t('home.heroDesc')}
           </p>
           <div className="hero__actions">
-            <Link to="/decoracao" className="btn btn--primary">{t('home.heroBtnProjects')}</Link>
             <a
               href="#contacto"
-              className="btn btn--ghost"
+              className="btn btn--primary"
               onClick={(e) => {
                 e.preventDefault()
                 const el = document.getElementById('contacto')
