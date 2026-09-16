@@ -295,6 +295,42 @@ export const galleryDimensions = {
     "width": 1086,
     "height": 1448
   },
+  "/gallery/cozinhas/cozinhas11.jpeg": {
+    "width": 1477,
+    "height": 1065
+  },
+  "/gallery/cozinhas/cozinhas12.jpeg": {
+    "width": 720,
+    "height": 1600
+  },
+  "/gallery/cozinhas/cozinhas13.jpeg": {
+    "width": 1600,
+    "height": 900
+  },
+  "/gallery/cozinhas/cozinhas14.jpeg": {
+    "width": 1254,
+    "height": 1254
+  },
+  "/gallery/cozinhas/cozinhas15.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/cozinhas/cozinhas16.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/cozinhas/cozinhas17.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/cozinhas/cozinhas18.jpeg": {
+    "width": 1600,
+    "height": 900
+  },
+  "/gallery/cozinhas/cozinhas19.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
   "/gallery/cozinhas/cozinhas2.png": {
     "width": 1448,
     "height": 1086

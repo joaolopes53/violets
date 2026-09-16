@@ -82,7 +82,7 @@ test('kitchen gallery category contains all imported images', () => {
   const kitchenImages = images.filter(image => image.cat === 'cozinhas')
   const translations = fs.readFileSync(path.join(projectRoot, 'src/data/translations.js'), 'utf8')
 
-  assert.equal(kitchenImages.length, 10)
+  assert.equal(kitchenImages.length, 19)
   assert.match(translations, /cozinhas: 'Cozinhas'/)
   assert.match(translations, /cozinhas: 'Kitchens'/)
 })
