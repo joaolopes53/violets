@@ -102,6 +102,13 @@ test('every gallery category has translations in PT and EN', () => {
   }
 })
 
+test('every catalogued image has alt translations in PT and EN', () => {
+  for (const image of images) {
+    assert.ok(translations.pt.gallery.alts[image.alt], `Missing PT alt translation for ${image.alt}`)
+    assert.ok(translations.en.gallery.alts[image.alt], `Missing EN alt translation for ${image.alt}`)
+  }
+})
+
 test('gallery category menu follows the Vinil navigation pattern', () => {
   const source = fs.readFileSync(path.join(projectRoot, 'src/components/ServiceGalleryView.jsx'), 'utf8')
   const css = fs.readFileSync(path.join(projectRoot, 'src/components/ServiceGalleryView.css'), 'utf8')
