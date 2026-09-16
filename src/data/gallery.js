@@ -128,6 +128,12 @@ export const images = [
   { src: '/gallery/carpintaria/carpintaria48.jpeg', cat: 'carpintaria', alt: 'Carpintaria 48' },
   { src: '/gallery/carpintaria/carpintaria49.jpeg', cat: 'carpintaria', alt: 'Carpintaria 49' },
   { src: '/gallery/carpintaria/carpintaria50.jpeg', cat: 'carpintaria', alt: 'Carpintaria 50' },
+  { src: '/gallery/carpintaria/carpintaria51.jpeg', cat: 'carpintaria', alt: 'Carpintaria 51' },
+  { src: '/gallery/carpintaria/carpintaria52.jpeg', cat: 'carpintaria', alt: 'Carpintaria 52' },
+  { src: '/gallery/carpintaria/carpintaria53.jpeg', cat: 'carpintaria', alt: 'Carpintaria 53' },
+  { src: '/gallery/carpintaria/carpintaria54.jpeg', cat: 'carpintaria', alt: 'Carpintaria 54' },
+  { src: '/gallery/carpintaria/carpintaria55.jpeg', cat: 'carpintaria', alt: 'Carpintaria 55' },
+  { src: '/gallery/carpintaria/carpintaria56.jpeg', cat: 'carpintaria', alt: 'Carpintaria 56' },
   // Cozinhas
   { src: '/gallery/cozinhas/cozinhas1.png', cat: 'cozinhas', alt: 'Cozinhas 1' },
   { src: '/gallery/cozinhas/cozinhas2.png', cat: 'cozinhas', alt: 'Cozinhas 2' },
@@ -148,6 +154,10 @@ export const images = [
   { src: '/gallery/cozinhas/cozinhas17.jpeg', cat: 'cozinhas', alt: 'Cozinhas 17' },
   { src: '/gallery/cozinhas/cozinhas18.jpeg', cat: 'cozinhas', alt: 'Cozinhas 18' },
   { src: '/gallery/cozinhas/cozinhas19.jpeg', cat: 'cozinhas', alt: 'Cozinhas 19' },
+  { src: '/gallery/cozinhas/cozinhas20.jpeg', cat: 'cozinhas', alt: 'Cozinhas 20' },
+  { src: '/gallery/cozinhas/cozinhas21.jpeg', cat: 'cozinhas', alt: 'Cozinhas 21' },
+  { src: '/gallery/cozinhas/cozinhas22.jpeg', cat: 'cozinhas', alt: 'Cozinhas 22' },
+  { src: '/gallery/cozinhas/cozinhas23.jpeg', cat: 'cozinhas', alt: 'Cozinhas 23' },
   // Lacagem
   { src: '/gallery/lacagem/lacagem1.jpeg', cat: 'lacagem', alt: 'Lacagem 1' },
   { src: '/gallery/lacagem/lacagem2.jpeg', cat: 'lacagem', alt: 'Lacagem 2' },

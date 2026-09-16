@@ -203,6 +203,30 @@ export const galleryDimensions = {
     "width": 1086,
     "height": 1448
   },
+  "/gallery/carpintaria/carpintaria51.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria52.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/carpintaria/carpintaria53.jpeg": {
+    "width": 1081,
+    "height": 1455
+  },
+  "/gallery/carpintaria/carpintaria54.jpeg": {
+    "width": 1081,
+    "height": 1455
+  },
+  "/gallery/carpintaria/carpintaria55.jpeg": {
+    "width": 1546,
+    "height": 1017
+  },
+  "/gallery/carpintaria/carpintaria56.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
   "/gallery/carpintaria/carpintaria6.jpeg": {
     "width": 1254,
     "height": 1254
@@ -334,6 +358,22 @@ export const galleryDimensions = {
   "/gallery/cozinhas/cozinhas2.png": {
     "width": 1448,
     "height": 1086
+  },
+  "/gallery/cozinhas/cozinhas20.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/cozinhas/cozinhas21.jpeg": {
+    "width": 1448,
+    "height": 1086
+  },
+  "/gallery/cozinhas/cozinhas22.jpeg": {
+    "width": 1086,
+    "height": 1448
+  },
+  "/gallery/cozinhas/cozinhas23.jpeg": {
+    "width": 1536,
+    "height": 1024
   },
   "/gallery/cozinhas/cozinhas3.png": {
     "width": 1086,

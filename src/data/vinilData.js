@@ -72,6 +72,18 @@ export const vinilData = {
       "image": "/vinil/trabalhos/trabalho-12.webp",
       "titlePt": "Projeto Concluído 12",
       "titleEn": "Completed Project 12"
+    },
+    {
+      "id": "obra-13",
+      "image": "/vinil/trabalhos/trabalho-13.webp",
+      "titlePt": "Projeto Concluído 13",
+      "titleEn": "Completed Project 13"
+    },
+    {
+      "id": "obra-14",
+      "image": "/vinil/trabalhos/trabalho-14.webp",
+      "titlePt": "Projeto Concluído 14",
+      "titleEn": "Completed Project 14"
     }
   ],
   "catalogProducts": [
